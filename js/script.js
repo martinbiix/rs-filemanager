@@ -1,3 +1,4 @@
+$(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
 
     var path = '';
@@ -399,14 +400,15 @@ $(document).ready(function() {
 
 function load_files(path){
 
-    message("Loading...");
+    //message("Loading...");
+    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000 });
 
     $.post("index.php?action=LOAD_FILES", { path: path }, function(data){
 
         $("#files-container").html(data);
 
     }).success(function(){
-        close_message();
+        //close_message();
     })
     .error(function(){
 

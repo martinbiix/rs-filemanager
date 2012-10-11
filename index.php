@@ -23,7 +23,7 @@
     
     <?php include('uploader.php'); ?>
     
-    <div id="message"></div>
+    <!--<div id="message"></div>-->
     <div id="error"></div> 
     
     <!-- CAN'T TOUCH THIS -->
@@ -40,6 +40,7 @@
     <script src="js/plupload.html4.js"></script>
     <script src="js/plupload.html5.js"></script>
     <script src="js/jquery.Jcrop.min.js"></script>
+    <script src="js/jquery.blockUI.js"></script>
     <script src="js/script.js"></script>
     <script>
     $(document).ready(function() {
