@@ -17,13 +17,22 @@ $(document).ready(function() {
 
         e.preventDefault();
 
+        $(".new-folder-modal").modal('show');
+        $("#new-folder-name").focus();
+
+    });
+    
+    
+    $("#add-new-folder-button").click(function(e){
+
+        e.preventDefault();
+
         var new_folder_name = $("#new-folder-name").val();
         var curr_location = $("#current-location").val();
         path = '/' + curr_location;
 
         if(new_folder_name.length < 1){ return false; }
 
-        message("Creating new folder...");
 
         $.post("index.php?action=CREATE_FOLDER", { path: path, new_folder: new_folder_name }, function(){
 
@@ -31,6 +40,7 @@ $(document).ready(function() {
         }).success(function(){
 
             $("#new-folder-name").val("");
+            $(".new-folder-modal").modal('hide');
             load_files(path);
 
         })
@@ -41,6 +51,15 @@ $(document).ready(function() {
 
         });
 
+    });
+    
+    $("#cancel-new-folder").click(function(e){
+        $("#new-folder-name").val("");
+        $(".new-folder-modal").modal('hide');
+    });
+    
+    $('.new-folder-modal').on('hidden', function () {
+        $("#new-folder-name").val("");
     });
 
 

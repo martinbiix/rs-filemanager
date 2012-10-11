@@ -1,4 +1,3 @@
-    <a href="#" id="upload-modal-button"><i class="icon-upload"></i> Upload</a>
         
     <div class="uploader-modal modal hide">
       <div class="modal-header">

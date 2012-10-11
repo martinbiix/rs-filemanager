@@ -14,11 +14,11 @@
 </head>
 <body>
 
-    <div id="create-folder-wrap">
-        <form>
-            <input type="text" name="" id="new-folder-name"> 
+    <div id="sticky-filemenu">
+        <a href="#" id="upload-modal-button"><i class="icon-upload"></i> Add File(s)</a>
+        <div id="create-folder-wrap">
             <button type="submit" id="new-folder-button" class="button primary small">New Folder</button>
-        </form>
+        </div>
     </div>
     
     <?php include('uploader.php'); ?>

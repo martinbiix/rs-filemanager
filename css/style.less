@@ -1,5 +1,17 @@
 @import "base";
 
+#sticky-filemenu{
+    width: 100%;
+    padding: 10px;
+    .box-sizing;
+    border-top: 1px solid #CCC;
+    background: #f5f5f5;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 2000;
+}
+
 .grid-item{
     width: 130px;
     text-align: center;
@@ -56,19 +68,18 @@
 }
 
 #create-folder-wrap{
-    width: 270px;
+    width: 85px;
     float: right;
-    margin: 10px 10px 10px 0;
 }
 
 #new-folder-name{
-    width: 170px;
+    width: 220px;
     height: 15px;
     padding: 4px;
     border: 1px solid #CCC;
     .border-radius(3px);
     vertical-align: middle;
-    margin-right: 5px;
+    margin: 10px;
     font-size: .75em;
 }
 
@@ -106,10 +117,10 @@
 
 #upload-modal-button{
     display: block;
-    font-size: 1.5em;
-    margin: 10px;
+    font-size: 1.3em;
+    margin: 0;
     float: left;
-    width: 110px;
+    width: 120px;
     line-height: 1;
 }
 #upload-modal-button:hover{
