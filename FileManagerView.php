@@ -210,6 +210,12 @@ private $FileManager;
                                             <span class="file-name">'.$file["name"].'</span>
                                         </a>';
                         
+                            $html .=  '      <div class="file-actions">
+                                        <a class="'.$class_edit.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-pencil"></i></a>
+                                        <a class="'.$class_delete.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-trash"></i></a>
+                                    </div>
+                            </div>';            
+                        
                         } else {
     
                             
@@ -226,14 +232,15 @@ private $FileManager;
                             $html .=  '       <br>
                                             <span class="file-name">'.$file["name"].'</span>
                                         </a>';
+                                        
+                            $html .=  '      <div class="file-actions">
+                                        <a class="'.$class_delete.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-trash"></i></a>
+                                    </div>
+                            </div>';            
                             
                         }
                         
-                        $html .=  '      <div class="file-actions">
-                                        <a class="'.$class_edit.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-pencil"></i></a>
-                                        <a class="'.$class_delete.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-trash"></i></a>
-                                    </div>
-                            </div>';
+                        
                      }   
                 }
         
