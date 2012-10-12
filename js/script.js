@@ -217,7 +217,7 @@ $(document).ready(function() {
    $('.uploader-modal').on('hidden', function () {
 
        $("#uploadfiles").hide();
-       $("#cancelfile").hide();
+       $("#custom-sizes").hide();
        $('#filelist').html('<span class="no-files-selected">No file selected</span>');
 
        $(".upload-error").hide();
@@ -272,10 +272,8 @@ $(document).ready(function() {
 
 	        });
 
-			//$("#pickfile").hide();
 			$("#uploadfiles").show();
 			$("#custom-sizes").show();
-			//$("#cancelfile").show();
 
 	});
 
@@ -364,9 +362,9 @@ $(document).ready(function() {
 	$("body").on("click", '#cancelfile', function(e) {
 
 		$("#uploadfiles").hide();
-		//$("#cancelfile").hide();
 		$(".upload-error").hide();
 	    $(".upload-error .notify-inner").html('');
+	    $("#custom-sizes").hide();
 
 	    $(".uploader-modal").modal('hide');
 
@@ -393,14 +391,34 @@ $(document).ready(function() {
         $(this).removeClass("hover");
       }
     );
-
+    
+    $("#filedrop").bind('dragover',function(event){
+        $(event.target).addClass("hover");
+        event.stopPropagation();
+        event.preventDefault();  
+    });
+    $("#filedrop").bind('dragleave',function(event){
+        $(event.target).removeClass("hover");
+        event.stopPropagation();
+        event.preventDefault();  
+    });
+    $("#filedrop").bind('drop',function(event){
+        $(event.target).removeClass("hover");
+        event.stopPropagation();
+        event.preventDefault();  
+    });
+    
+    if(!Modernizr.draganddrop){
+        $("#filedrop").hide();
+        $(".upload-or").hide();
+    }
 
 });
 
 
 function load_files(path){
 
-    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000 });
+    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
 
     $.post("index.php?action=LOAD_FILES", { path: path }, function(data){
 

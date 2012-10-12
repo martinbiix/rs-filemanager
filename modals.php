@@ -27,6 +27,12 @@
       </div>
       <div class="modal-body">
         
+        <div class="notify warning">
+            <div class="notify-inner">
+                <p><span class="bold">Warning.</span> When renaming folders, any links on your website that use files within this folder will no longer work.</p>    
+            </div>
+        </div>
+        
         <p>
         Enter your new folder name. Must be more than 2 characters long. Please no special characters, they will be removed.
         </p>
@@ -37,7 +43,7 @@
       
       </div>
       <div class="modal-footer">
-        <button id="rename-folder-button" class="button">Rename Folder</button>
+        <button id="rename-folder-button" class="button primary">Rename Folder</button>
         <button id="cancel-rename-folder" class="button">Close</button> 
       </div>
     </div>

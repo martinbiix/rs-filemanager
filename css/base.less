@@ -68,6 +68,9 @@ blockquote.blockquote.left {
     margin: 10px 35px 10px 0;
     padding: 20px 15px 0 10px;
 } 
+.bold{
+    font-family: "OpenSansBold", Helvetica, Arial, sans-serif;
+}
 
 
 /* ----- Links ----- */
@@ -288,7 +291,7 @@ a img.align-center {
   .row-fluid:after {
     clear: both;
   }
-  .row-fluid [class*="span"], [class*="col"] {
+  .row-fluid [class*="span"] {
     display: block;
     float: left;
     width: 100%;
@@ -299,7 +302,7 @@ a img.align-center {
        -moz-box-sizing: border-box;
             box-sizing: border-box;
   }
-  .row-fluid [class*="span"]:first-child, [class*="col"]:first-child {
+  .row-fluid [class*="span"]:first-child {
     margin-left: 0;
   }
 
@@ -447,77 +450,6 @@ a img.align-center {
   color: @input-placeholder;
   font-style: italic;
 }
-
-.search-form{
-    display: block;
-    clear: both;
-}
-.search-form.clear-left{
-    clear: left;
-    float: left;
-}
-.search-form.clear-right{
-    clear: right;
-}
-.search-form.align-left{
-    float: left;
-    clear: none;
-}
-.search-form.align-right{
-    float: right;
-    clear: none;
-}
-
-.search-form label{
-    display: none;
-}
-.search-form input[type="text"]{
-    display: inline-block;
-    float: left;
-    width: 234px;
-    line-height: 20px;
-    
-    -webkit-border-radius: 2px 0 0 2px;
-    -moz-border-radius: 2px 0 0 2px;
-    border-radius: 2px 0 0 2px;
-    
-    border-top: 1px solid @input-border-color;
-    border-right: 1px solid #bababa;
-    border-bottom: 1px solid @input-border-color;
-    border-left: 1px solid @input-border-color;
-    
-    height: 23px;
-    padding: 4px 0 4px 4px;
-}
-.search-form .search-button{
-    display: inline-block;
-    float: left;
-    color: #888;
-    font-size: 1.125em;
-    width: 39px;
-    height: 33px;
-    background-color: #e8e8e8;
-    padding: 4px 0 4px 0;
-    border-top: 1px solid @input-border-color;
-    border-right: 1px solid @input-border-color;
-    border-bottom: 1px solid @input-border-color;
-    border-left: none;
-    
-    -webkit-border-radius: 0 2px 2px 0;
-    -moz-border-radius: 0 2px 2px 0;
-    border-radius: 0 2px 2px 0;
-    
-    -moz-box-shadow: inset 0px 1px #ffffff, inset 1px 0px #ffffff;
-    -webkit-box-shadow: inset 0px 1px #ffffff, inset 1px 0px #ffffff;
-    box-shadow: inset 0px 1px #ffffff, inset 1px 0px #ffffff;
-}
-.search-form .search-button:hover{
-    background: #F2F2F2;
-}
-.search-form .search-button:active{
-    outline: none;
-}
-
 
 
 
@@ -1544,84 +1476,6 @@ button.close {
 }
 .collapse.in {
   height: auto;
-}
-
-
-
-
-/* ----- EMAIL TEMPLATE ---- */
-/*
-
-    If used you need to copy and paste in with the HTML email that goes out. Don't forget the html,head,body tags
-
-*/
-#email-template{
-    width: 90% !important;
-    background: #FFF;
-    margin: 30px auto;
-    line-height: 100% !important;
-    font-family: Helvetica, Arial, sans-serif;
-}
-#email-template a{
-    border: none;
-    text-decoration:  underline;
-}
-.email-header{
-    background: #FFF;
-    color: #c8150b;
-    font-size: 24px;
-    font-weight: 700;
-    padding: 20px;
-}
-.email-header h2, .email-header h1, .email-header h3{
-    margin: 0;
-    line-height: 100%;
-    color: #c8150b;
-    font-size: 28px;
-}
-.email-subject{
-    background: #e5e5e5;
-    font-size: 18px;
-    font-weight: 700;
-    color: #555;
-    text-align: left;
-    padding: 20px;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    border-bottom: 1px solid #CCC;
-}
-.email-body{
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    border-top: 1px solid #FFF;
-    padding: 20px 20px 10px 20px;
-    color: #666;
-}
-.email-body p{
-    font-size: 14px;
-    line-height: 20px;
-}
-.email-signature{
-    padding: 20px 10px 20px 20px;
-    border-bottom: 1px solid #CCC;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    font-size: 13px;
-    color: #666;
-    font-weight: 700;
-}
-.email-footer{
-    padding: 20px;
-    background: #f2f2f2;
-    color: #a3a3a3;
-    font-size: 11px;
-    line-height: 18px;
-    border-top: 1px solid #FFF;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-}
-.email-footer a{
-    color: #a3a3a3;
 }
 
 

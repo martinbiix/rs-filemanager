@@ -21,7 +21,7 @@
         
         <button type="button" id="pickfile" class="button success">Choose Files</button>
         <div class="upload-or">or</div>
-        <div id="filedrop">Drag files here</div>
+        <div id="filedrop">Drag files here<span id="html5-fileupload"></span></div>
         <!-- / #filedrop -->
                                
         <div id="allowed-files">Allowed: jpg, png, gif, doc, txt, rtf, xls, ppt, pages, numbers, pdf, exe, dmg, zip, mp3, mp4, ogg, ogv, flv, mpg<br>(Filesize 10MB max.)</div>
@@ -34,6 +34,6 @@
       <div class="modal-footer">
          
         <button type="button" id="uploadfiles" class="button primary" style="display: none">Upload File</button>
-        <button type="button" id="cancelfile" class="button">Cancel</button> 
+        <button type="button" id="cancelfile" class="button">Close</button> 
       </div>
     </div>
