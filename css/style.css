@@ -429,6 +429,7 @@ td.align-center{text-align:center;}
 .notify-icon{font-size:1.5em;margin:0 10px 5px 0;opacity:.5;line-height:1;float:left;}
 .notify .remove-notify a.icon-remove{font-size:.75em;border:none;text-decoration:none;position:absolute;top:3px;right:7px;}
 .remove-notify a:hover{color:#777777;}
+.core-notify{width:98%;margin:10px 1%;}
 .highlight-yellow,.highlight-blue{-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;}
 .highlight-yellow{background-color:#fdfee8;border:1px solid #f1f2dd;}
 .highlight-blue{background-color:#f5f5fc;border:1px solid #e0e0ec;}

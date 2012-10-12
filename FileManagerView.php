@@ -246,7 +246,11 @@ private $FileManager;
         
             } else {
     
-                $html .= 'No files or folders.';
+                $html .= '<div class="notify message core-notify">
+            <div class="notify-inner">
+                <p>No files or folders</p>    
+            </div>
+        </div>';
                 
             }
             
