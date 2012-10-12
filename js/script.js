@@ -346,6 +346,7 @@ $(document).ready(function() {
 		uploader.refresh();
 
 		$('#filelist').html('<strong>Upload complete.</strong>');
+		$("#upload-progress").css("width","0px");
 		$(".upload-error").hide();
 	    $(".upload-error .notify-inner").html('');
 		$("#uploadfiles").hide();
