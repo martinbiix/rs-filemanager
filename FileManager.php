@@ -38,44 +38,6 @@ private $_path;
     
     
     
-    /**
-     * route function.
-     * 
-     * @access public
-     * @return void
-     */
-    public function route(){
-        
-        $action = htmlentities($_REQUEST['action']);
-        
-        switch ($action) {
-            case "LOAD_FILES":
-                
-                break;
-            case "EDIT_IMAGE":
-                
-                break;
-            case "CROP_IMAGE":
-                
-                break;
-            case "IMAGE_OPTIONS":
-                
-                break;
-            case "CREATE_FOLDER":
-                
-                break;
-            case "DELETE_FOLDER":
-                
-                break;
-            case "UPLOAD_FILE":
-                
-                break;                        
-        }
-        
-        
-    }
-    
-    
     
     /**
      * dir_list function.
