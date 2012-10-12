@@ -47,6 +47,57 @@ private $FileManager;
     
     
     
+    
+    /**
+     * file_types function.
+     * 
+     * @access private
+     * @return array
+     */
+    private function icon_types(){
+        
+        $types = array("css"=>"css.png"
+                        , "less"=>"css.png"
+                        , "scss"=>"css.png"
+                        , "sass"=>"css.png"
+                        , "html"=>"html.png"
+                        , "txt"=>"text.png"
+                        , "rtf"=>"text.png"
+                        , "doc"=>"word.png"
+                        , "docx"=>"word.png"
+                        , "pages"=>"page.png"
+                        , "xls"=>"excel.png"
+                        , "xlsx"=>"excel.png"
+                        , "numbers"=>"number.png"
+                        , "pdf"=>"pdf.png"
+                        , "zip"=>"compressed.png"
+                        , "rar"=>"compressed.png"
+                        , "tar"=>"compressed.png"
+                        , "ai"=>"illustrator.png"
+                        , "psd"=>"photoshop.png"
+                        , "ppt"=>"powerpoint.png"
+                        , "pptx"=>"powerpoint.png"
+                        , "mp3"=>"music.png"
+                        , "m4a"=>"music.png"
+                        , "ogg"=>"music.png"
+                        , "oga"=>"music.png"
+                        , "webma"=>"music.png"
+                        , "wav"=>"music.png"
+                        , "avi"=>"movie.png"
+                        , "mp4"=>"movie.png"
+                        , "mpg"=>"movie.png"
+                        , "mpeg"=>"movie.png"
+                        , "flv"=>"movie.png"
+                        , "ogv"=>"movie.png"
+                        );
+        
+        return $types;
+        
+    }
+    
+    
+    
+    
     /**
      * load_files function.
      * 
@@ -111,7 +162,11 @@ private $FileManager;
             
                         
                         $html .=  '<div class="grid-item '.$class_item.'">
-                                    <a class="folder" href="#" data-path="'.$file["base_path"].'"><i class="icon-folder-close folder-thumb"></i><br><span class="file-name">'.$file["name"].'</span></a>
+                                    <a class="folder" href="#" data-path="'.$file["base_path"].'">
+                                        <img src="images/folder.png" width="64" height="64" alt="folder">
+                                        <br>
+                                        <span class="file-name">'.$file["name"].'</span>
+                                    </a>
                                     <div class="file-actions">
                                         <a class="'.$class_edit.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-pencil"></i></a>
                                         <a class="'.$class_delete.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-trash"></i></a>
@@ -155,8 +210,17 @@ private $FileManager;
                         } else {
     
                             
-                            $html .=  '      <a class="file" href="#" data-path="'.$file["base_path"].'">
-                                            <br>
+                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.MEDIA_LOCATION_URL.$file["url_path"].'">';
+                                    
+                                    $path_info = pathinfo($file['abs_path']);
+                                    $icon_types = $this->icon_types();
+                                    
+                                    $icon_type = (array_key_exists($path_info["extension"], $icon_types))? $icon_types[$path_info["extension"]] : 'fileicon_bg.png' ;
+                                    
+                            
+                                    $html .= '<img src="images/'.$icon_type.'" width="64" height="64" alt="'.$path_info["filename"].'.'.$path_info["extension"].'">';
+                            
+                            $html .=  '       <br>
                                             <span class="file-name">'.$file["name"].'</span>
                                         </a>';
                             

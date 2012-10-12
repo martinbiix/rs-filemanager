@@ -44,7 +44,7 @@
     <script src="js/script.js"></script>
     <script>
     $(document).ready(function() {
-        $("body").on("click", '.image-option-item', function(e){
+        $("body").on("click", '.image-option-item, .file-option-item', function(e){
             e.preventDefault();
             var url = $(this).attr("data-url");
             
