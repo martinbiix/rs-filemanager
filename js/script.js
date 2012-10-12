@@ -46,7 +46,7 @@ $(document).ready(function() {
 
         })
         .error(function(){
-
+            alert("Folder already exists in this location. Please try another name.");
         })
         .complete(function() {
 
@@ -164,7 +164,9 @@ $(document).ready(function() {
                 $( ".folder-name-modal" ).modal("hide");
 
             })
-            .error(function(){})
+            .error(function(xhr, status, error){
+                alert('Folder already exists in this location. Please try another name.');
+            })
             .complete(function() {});
 
         }
@@ -175,8 +177,7 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        var path = $(this).attr('data-path');
-
+        path = $(this).attr('data-path');
         $( ".folder-name-modal" ).modal("show");
 
     });

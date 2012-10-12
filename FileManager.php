@@ -38,6 +38,18 @@ private $_path;
     
     
     
+    private function return_header($type, $mess="Error"){
+        
+        if($type == "ERROR" ){
+            header("HTTP/1.0 409 ".$mess);
+            exit();
+        }
+        
+        
+    }
+    
+    
+    
     
     /**
      * dir_list function.
@@ -186,7 +198,13 @@ private $_path;
      */
     public function create_folder(){
         
-        $new_folder_name = htmlentities($_POST['new_folder']);
+        $new_folder_name = $this->clean_foldername($_POST['new_folder']);
+        
+        // Check if folder name already exists
+        if(is_dir(MEDIA_LOCATION.'/'.$new_folder_name)){
+            $this->return_header('ERROR', "Folder already exists");
+            return false;
+        }
         
         // Need to prevent creating thumbs and sizes folders and need to clean folder names
         
@@ -208,7 +226,16 @@ private $_path;
      */
     public function edit_folder(){
         
-        $new_folder_name = htmlentities($_POST['folder_name']);
+        $clean_name = $this->clean_foldername($_POST['folder_name']);
+        
+        // Check if folder name already exists
+        if(is_dir(MEDIA_LOCATION.'/'.$clean_name)){
+            $this->return_header('ERROR', "Folder already exists");
+            return false;
+        }
+        
+        // Rename folder new folder
+        rename(MEDIA_LOCATION.$this->_path, MEDIA_LOCATION.'/'.$clean_name); 
         
     }
     
@@ -591,6 +618,24 @@ private $_path;
 
     }
     
+    
+    
+    
+    /**
+     * clean_foldername function.
+     * 
+     * @access private
+     * @param mixed $foldername
+     * @return string
+     */
+    private function clean_foldername($filename){
+        
+        $filename = preg_replace('/^\W+|\W+$/', '', $filename);
+        $filename = preg_replace('/\s+/', '_', $filename);
+    
+        return strtolower(preg_replace('/\W-/', '', $filename));
+        
+    }
     
     
     
