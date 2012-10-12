@@ -276,7 +276,7 @@ $(document).ready(function() {
 
 			//$("#pickfile").hide();
 			$("#uploadfiles").show();
-			$("#cancelfile").show();
+			//$("#cancelfile").show();
 
 	});
 
@@ -351,7 +351,7 @@ $(document).ready(function() {
 		$(".upload-error").hide();
 	    $(".upload-error .notify-inner").html('');
 		$("#uploadfiles").hide();
-		$("#cancelfile").hide();
+		//$("#cancelfile").hide();
 	});
 
 	$('#uploadfiles').click(function(e) {
@@ -364,7 +364,7 @@ $(document).ready(function() {
 	$("body").on("click", '#cancelfile', function(e) {
 
 		$("#uploadfiles").hide();
-		$("#cancelfile").hide();
+		//$("#cancelfile").hide();
 		$(".upload-error").hide();
 	    $(".upload-error .notify-inner").html('');
 
