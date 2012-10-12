@@ -199,42 +199,28 @@ private $_path;
     
     
     
+    
+    /**
+     * edit_folder function.
+     * 
+     * @access public
+     * @return void
+     */
+    public function edit_folder(){
+        
+        $new_folder_name = htmlentities($_POST['folder_name']);
+        
+    }
+    
+    
+    
     /**
      * delete_folder function.
      * 
      * @access public
      * @return void
      */
-    public function delete_folder($dir){
-        
-        $file_type = htmlentities($_POST['file_type']);
-        
-        //if($file_type == 'dir'){
-            
-            $dh = opendir($dir);
-             if ($dh) {
-              while($file = readdir($dh)) {
-               if (!in_array($file, array('.', '..'))) {
-                if (is_file($dir.$file)) {
-                 unlink($dir.$file);
-                }
-                else if (is_dir($dir.$file)) {
-                 $this->delete_folder($dir.$file);
-                }
-               }
-              }
-              rmdir($dir);
-             }
-        /*     
-         } elseif ($file_type == "file") {
-         
-             unlink($dir);
-             
-         }
-        */
-    }
-    
-    public function delete_folder2($directory, $empty=FALSE){
+    public function delete_folder($directory, $empty=FALSE){
         
         $file_type = htmlentities($_POST['file_type']);
         

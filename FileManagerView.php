@@ -27,6 +27,9 @@ private $FileManager;
             case "CREATE_FOLDER":
                 $this->create_folder();
                 break;
+            case "EDIT_FOLDER":
+                $this->edit_folder();
+                break;
             case "DELETE_FOLDER":
                 $this->delete_folder();
                 break;
@@ -426,6 +429,14 @@ private $FileManager;
     
     
     
+    public function edit_folder(){
+        
+        $this->FileManager->edit_folder();
+        $this->results = '';
+        
+    }
+    
+    
     
     /**
      * delete_folder function.
@@ -436,7 +447,7 @@ private $FileManager;
     private function delete_folder(){
         
         $path = htmlentities($_POST['path']);
-        $this->FileManager->delete_folder2(MEDIA_LOCATION.$path);
+        $this->FileManager->delete_folder(MEDIA_LOCATION.$path);
         
         $this->results = '';
         

@@ -19,21 +19,21 @@
             </div>
         </div>
         
-        <button type="button" id="pickfile" class="button success">Choose File(s)</button>
+        <button type="button" id="pickfile" class="button success">Choose Files</button>
         <div class="upload-or">or</div>
-        <div id="filedrop">Drop files here</div>
+        <div id="filedrop">Drag files here</div>
         <!-- / #filedrop -->
                                
         <div id="allowed-files">Allowed: jpg, png, gif, doc, txt, rtf, xls, ppt, pages, numbers, pdf, exe, dmg, zip, mp3, mp4, ogg, ogv, flv, mpg<br>(Filesize 10MB max.)</div>
       
         <div id="custom-sizes">
-            Custom size: <input type="text" id="custom-width" maxlength="4"> px Width X <input type="text" id="custom-height" maxlength="4"> px Height
+            Custom image size: <input type="text" id="custom-width" maxlength="4"> px Width X <input type="text" id="custom-height" maxlength="4"> px Height
         </div>
       
       </div>
       <div class="modal-footer">
          
-        <button type="button" id="uploadfiles" class="button primary" style="display: none">Upload File(s)</button>
+        <button type="button" id="uploadfiles" class="button primary" style="display: none">Upload File</button>
         <button type="button" id="cancelfile" class="button">Cancel</button> 
       </div>
     </div>

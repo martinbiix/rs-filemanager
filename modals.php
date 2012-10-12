@@ -27,11 +27,17 @@
       </div>
       <div class="modal-body">
         
+        <p>
+        Enter your new folder name. Must be more than 2 characters long. Please no special characters, they will be removed.
+        </p>
+        
         <div id="folder-rename-wrap">
+            Rename Folder: <input type="text" id="folder-name">
         </div>
       
       </div>
       <div class="modal-footer">
+        <button id="rename-folder-button" class="button">Rename Folder</button>
         <button id="cancel-rename-folder" class="button">Close</button> 
       </div>
     </div>

@@ -55,6 +55,7 @@ $(document).ready(function() {
     });
     
     $("#cancel-new-folder").click(function(e){
+        e.preventDefault();
         $("#new-folder-name").val("");
         $(".new-folder-modal").modal('hide');
     });
@@ -144,35 +145,32 @@ $(document).ready(function() {
 
 
 
-   /*
-   var folder_name = $("#folder-name").val();
-					   var diag = this;
+   // RENAME FOLDERS
+   $("#rename-folder-button").click(function(e){
+       e.preventDefault();
+       
+       var folder_name = $("#folder-name").val();
+       
+       if(folder_name.length > 2){
 
-					   if(folder_name.length > 2){
+           $.post("index.php?action=EDIT_FOLDER", { path: path, folder_name: folder_name }, function(){
+           }).success(function(){
 
-    					   $.post("ajax/ajax.php?action=EDIT_FOLDER", { path: path, folder_name: folder_name }, function(data){
-                            }).success(function(){
+                $("#folder-name").val('');
+                var curr_location = $("#current-location").val();
+                curr_path = '/' + curr_location;
+                load_files(curr_path);
 
-                                $("#folder-name").val('');
-                                var curr_location = $("#current-location").val();
-                                curr_path = '/' + curr_location;
-                                load_files(curr_path);
+                $( ".folder-name-modal" ).modal("hide");
 
-                                $(diag).dialog( "close" );
+            })
+            .error(function(){})
+            .complete(function() {});
 
-                            })
-                            .error(function(){
+        }
+        
+   });
 
-                            })
-                            .complete(function() {
-
-                            });
-
-                        }
-   */
-
-
-    // EDIT FOLDER NAMES
     $("#files-container").on("click", '.edit-dir', function(e){
 
         e.preventDefault();
@@ -182,7 +180,15 @@ $(document).ready(function() {
         $( ".folder-name-modal" ).modal("show");
 
     });
-
+    $("#cancel-rename-folder").click(function(e){
+        e.preventDefault();
+        $("#folder-name").val("");
+        $(".folder-name-modal").modal('hide');
+    });
+    
+    $('.folder-name-modal').on('hidden', function () {
+        $("#folder-name").val("");
+    });
 
 
 
@@ -226,14 +232,6 @@ $(document).ready(function() {
        }
    });
 
-   /*
-   $( "#filedrop" ).droppable({
-            activeClass: "hover",
-            drop: function( event, ui ) {
-                //$( this ).addClass( "hover" );
-            }
-        });
-   */
 
     var uploader = new plupload.Uploader({
 		runtimes : 'html5,flash,silverlight',
@@ -276,6 +274,7 @@ $(document).ready(function() {
 
 			//$("#pickfile").hide();
 			$("#uploadfiles").show();
+			$("#custom-sizes").show();
 			//$("#cancelfile").show();
 
 	});
@@ -324,6 +323,7 @@ $(document).ready(function() {
 		$(".upload-error").hide();
 		$(".upload-error .notify-inner").html('');
 		$("#uploadfiles").hide();
+		$("#custom-sizes").hide();
 
 		uploader.refresh();
 
@@ -346,12 +346,12 @@ $(document).ready(function() {
 
 		uploader.refresh();
 
-		$('#filelist').html('Upload complete.');
-		$("#upload-progress").css("width", '5px');
+		$('#filelist').html('<strong>Upload complete.</strong>');
 		$(".upload-error").hide();
 	    $(".upload-error .notify-inner").html('');
 		$("#uploadfiles").hide();
-		//$("#cancelfile").hide();
+		$("#custom-sizes").hide();
+
 	});
 
 	$('#uploadfiles').click(function(e) {
@@ -400,7 +400,6 @@ $(document).ready(function() {
 
 function load_files(path){
 
-    //message("Loading...");
     $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000 });
 
     $.post("index.php?action=LOAD_FILES", { path: path }, function(data){
@@ -408,7 +407,6 @@ function load_files(path){
         $("#files-container").html(data);
 
     }).success(function(){
-        //close_message();
     })
     .error(function(){
 
@@ -416,20 +414,5 @@ function load_files(path){
     .complete(function() {
 
     });
-
-}
-
-
-function message(message){
-
-    //$("#message").show();
-    $("#message").html(message);
-
-}
-
-function close_message(){
-
-    //$("#message").hide();
-    $("#message").html('');
 
 }

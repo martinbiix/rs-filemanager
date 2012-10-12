@@ -585,14 +585,13 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 #upload-progress{height:7px;width:0;min-width:0;background:#bdbdbd;-webkit-border-radius:12px;-moz-border-radius:12px;border-radius:12px;overflow:hidden;}
 .upload-or{clear:both;text-align:center;width:100%;padding:3px 0 0 0;font-family:"OpenSansBold",Helvetica,Arial,sans-serif;}
 #pickfile{width:100%;}
-#uploadfiles{float:left;}
 #filedrop{width:100%;height:40px;border:1px dashed #999;background:#FFF;text-align:center;color:#777;line-height:40px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');margin:10px 0;}
 #filedrop.hover{background:#e4e4e4;}
 #filelist{margin:5px 0;overflow:hidden;}
 #filelist div{width:100%;float:left;padding:3px;border-bottom:1px dotted #f1ddf1;background:#faf3fa;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');}
 .upload-delete{float:right;}
 #filelist div:last-child{border-bottom:none;}
-#custom-sizes{font-size:.75em;margin:10px 0 0 0;text-align:right;}
+#custom-sizes{font-size:.75em;margin:10px 0 0 0;display:none;}
 #custom-sizes input{width:35px;height:16px;padding:4px;border:1px solid #CCC;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
 #allowed-files{font-size:.6875em;}
 .modal-footer button.button{margin-bottom:0;}
