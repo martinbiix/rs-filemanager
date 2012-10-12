@@ -266,7 +266,7 @@ private $_path;
         			if($item != '.' && $item != '..'){
         				$path = $directory.'/'.$item;
         				if(is_dir($path)) {
-        					$this->delete_folder2($path);
+        					$this->delete_folder($path);
         				}else{
         					unlink($path);
         				}
@@ -296,23 +296,29 @@ private $_path;
             // Remove root file
             unlink($directory);
             
-            // Remove thumbs
-            unlink($path.'_thumbs/'.$name.'.'.$ext);
+            $allowed_img = array("image/jpg"=>"jpg", "image/jpeg"=>"jpeg", "image/png"=>"png", "image/gif"=>"gif");
+            // If Image file type
+            if(in_array($ext, $allowed_img)){
             
-            // Remove sizes
-            $possibleFiles = glob($path.'_sizes/'.$name.'_*.'.$ext);
-            foreach ($possibleFiles as $file) {
-                if (file_exists($file)) {
-                    unlink($file);
+                // Remove thumbs
+                unlink($path.'_thumbs/'.$name.'.'.$ext);
+                
+                // Remove sizes
+                $possibleFiles = glob($path.'_sizes/'.$name.'_*.'.$ext);
+                foreach ($possibleFiles as $file) {
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
                 }
-            }
-            // Remove crops
-            $possibleFiles = glob($path.'_crops/'.$name.'_*.'.$ext);
-            foreach ($possibleFiles as $file) {
-                if (file_exists($file)) {
-                    unlink($file);
+                // Remove crops
+                $possibleFiles = glob($path.'_crops/'.$name.'_*.'.$ext);
+                foreach ($possibleFiles as $file) {
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
                 }
-            }
+            
+            } // END IF
             
              
         }
