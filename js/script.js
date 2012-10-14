@@ -308,8 +308,9 @@ $(document).ready(function() {
 		var obj = $.parseJSON(info.response);
 
 		if(obj.error){
-
-			$('#error').html("<div><strong>Error: "  + obj.error.message + "</strong></div>");
+    		
+    		$(".upload-error").show();
+			$(".upload-error .notify-inner").html("<p><span class='bold'>Error:</span> "  + obj.error.message + "</p>");
 
 	        up.refresh();
 

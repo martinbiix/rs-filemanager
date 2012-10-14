@@ -475,8 +475,11 @@ private $FileManager;
      */
     private function upload_file(){
         
-        $this->FileManager->upload_file();
-        $this->results = '{"success":"success"}';
+        if($this->FileManager->upload_file()){
+            $this->results = '{"success":"success"}';
+        } else {
+            $this->results = '{"error": {"message": "'.$this->FileManager->error[0].'"} }';
+        }
         
     }
     

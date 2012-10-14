@@ -207,11 +207,10 @@ private $_path;
         }
         
         // Need to prevent creating thumbs and sizes folders and need to clean folder names
-        
         mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name, 0775, false);
-        mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_thumbs', 0775, false);
+        /*mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_thumbs', 0775, false);
         mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_sizes', 0775, false);
-        mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_crops', 0775, false);
+        mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_crops', 0775, false);*/
         
     }
     
@@ -487,6 +486,11 @@ private $_path;
     			//return false;
 			}
 
+			if(file_exists(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName)){
+    			$this->error[] = $cleanName." already exists. Please delete current file or rename the file your are trying to upload and try again.";
+    			return false;
+			}
+
 			move_uploaded_file($tempFile, MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName);
 			
 			// Get extension
@@ -494,7 +498,14 @@ private $_path;
 			
 			// If file is an image file create the thumbnails and custom sizes
 			if(in_array($ext, $this->img_types)){
-			
+			     
+                if(!is_dir(MEDIA_LOCATION.'/'.$this->_path.'/_thumbs')){			     
+    			     mkdir(MEDIA_LOCATION.'/'.$this->_path.'/_thumbs', 0775, false);
+    			}
+    			if(!is_dir(MEDIA_LOCATION.'/'.$this->_path.'/_sizes')){
+    			     mkdir(MEDIA_LOCATION.'/'.$this->_path.'/_sizes', 0775, false);
+    			}
+    			
     			// Create thumbs
     			$this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
     			
@@ -515,6 +526,7 @@ private $_path;
 			
         }
         
+        return true;
         
     }
     
