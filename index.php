@@ -40,6 +40,23 @@
     <script src="js/plupload.html5.js"></script>
     <script src="js/jquery.Jcrop.min.js"></script>
     <script src="js/jquery.blockUI.js"></script>
+    <script>
+        var uploader = new plupload.Uploader({
+    		runtimes : 'html5,flash,silverlight',
+    		browse_button : 'pickfile',
+    		multipart : true,
+    		drop_element : 'filedrop',
+    		max_file_size : '<?php echo MAX_UPLOAD_SIZE ?>mb',
+    		unique_names : true,
+    		url : 'index.php',
+    		flash_swf_url : 'js/plupload.flash.swf',
+    		silverlight_xap_url : 'js/plupload.silverlight.xap',
+    		filters : [
+    			{title : "Image files", extensions : "<?php implode(",",$img_types); ?>"},
+    			{title : "Documents", extensions : "<?php implode(",",$doc_types); ?>"}
+    		]
+    	});
+    </script>
     <script src="js/script.js"></script>
     <script>
     $(document).ready(function() {

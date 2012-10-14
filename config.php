@@ -5,7 +5,10 @@ define("MEDIA_LOCATION", $_SERVER['DOCUMENT_ROOT']."/filemanager/media"); // No 
 // URL path to the media folder
 define("MEDIA_LOCATION_URL", "media"); // No trailing slashes
 
-// file manager's thumbnail size. Prob bset to leave alone.
+// MAX file upload size in MB
+define("MAX_UPLOAD_SIZE","10");
+
+// file manager's thumbnail size. Prob best to leave alone unless you are changing the file manger UI.
 define("THUMB_MAX_WIDTH", "80");
 define("THUMB_MAX_HEIGHT", "100");
 
@@ -13,7 +16,7 @@ define("THUMB_MAX_HEIGHT", "100");
 // For files like PSD or AI, list in the allowed documents below
 $img_types = array('jpg', 'jpeg', 'png', 'gif'); // Absolutely no BMP files
 // Allowed documents
-$doc_types = array('doc', 'pdf', 'txt', 'xls', 'pages', 'docx', 'xlsx', 'ppt', 'psd', 'ai');
+$doc_types = array('doc', 'pdf', 'txt', 'rtf', 'xls', 'pages', 'docx', 'xlsx', 'ppt', 'pptx', 'psd', 'ai', 'mp3', 'mp4', 'avi', 'numbers', 'keynote', 'mpg', 'mpeg', 'ogg', 'ogv', 'html', 'css', 'flv', 'wav', 'webma', 'oga', 'm4a', 'zip', 'rar', 'tar', 'php');
 
 
 // Max width and max height image sizes

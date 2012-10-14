@@ -468,7 +468,7 @@ private $_path;
 			$cleanName = $this->clean_filename($origName);
 			
 			// Get file size
-			$theDiv = $fileSize / 1000000;
+			$theDiv = $fileSize / (MAX_UPLOAD_SIZE * 100000);
 			// MB
 			$theFileSize = round($theDiv, 1);
 			// Get mime type
@@ -476,8 +476,8 @@ private $_path;
 			$mime = $attr['mime'];
 			
 			// Validate file upload
-			if($theFileSize > 10){ 
-    			$this->error[] = "The file uploaded is over 10MB.";
+			if($theFileSize > MAX_UPLOAD_SIZE){ 
+    			$this->error[] = "The file uploaded is over ".MAX_UPLOAD_SIZE."MB.";
     			return false;
 			}
 			
@@ -495,6 +495,8 @@ private $_path;
 			
 			// Get extension
 			$ext = $this->getExtension(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName);
+			// Get orig file dimensions
+			list($width, $height, $type, $attr) = getimagesize(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName);
 			
 			// If file is an image file create the thumbnails and custom sizes
 			if(in_array($ext, $this->img_types)){
@@ -507,7 +509,11 @@ private $_path;
     			}
     			
     			// Create thumbs
-    			$this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
+    			if($width > THUMB_MAX_WIDTH || $height > THUMB_MAX_HEIGHT){
+    			     $this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
+    			} else {
+        			copy(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName);
+    			}
     			
     			$i=1;
     			foreach($this->img_sizes as $size){
@@ -516,9 +522,11 @@ private $_path;
         			$coreName = str_replace('.'.$ext, "", $cleanName);
         			$newName = $coreName.'_'.$i.'.'.$ext;
         			
-        			$this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height']);
+        			if($width > $size['width'] || $height > $size['height']){
+        			     $this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height']);
+        			     $i++;
+        			}
         			
-        			$i++;
     			}
 			
 			}
@@ -553,8 +561,11 @@ private $_path;
 		if(!strcmp("gif",$ext))
 		$src_img=imagecreatefromgif($img_name);
 		
-		if(!strcmp("png",$ext))
+		if(!strcmp("png",$ext)){
 		$src_img=imagecreatefrompng($img_name);
+		imagealphablending($src_img, false);
+		imagesavealpha($src_img, true);
+		}
 		
 		//gets the dimmensions of the image
 		$old_x=imageSX($src_img);

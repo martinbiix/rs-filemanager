@@ -234,21 +234,7 @@ $(document).ready(function() {
    });
 
 
-    var uploader = new plupload.Uploader({
-		runtimes : 'html5,flash,silverlight',
-		browse_button : 'pickfile',
-		multipart : true,
-		drop_element : 'filedrop',
-		max_file_size : '10mb',
-		unique_names : true,
-		url : 'index.php',
-		flash_swf_url : 'js/plupload.flash.swf',
-		silverlight_xap_url : 'js/plupload.silverlight.xap',
-		filters : [
-			{title : "Image files", extensions : "jpg,jpeg,png,gif"},
-			{title : "Documents", extensions : "doc,docx,xls,xlsx,ppt,pages,numbers,rtf,txt,pdf,zip,tar,exe,dmg"}
-		]
-	});
+    
 
 	uploader.bind('Init', function(up, params) {
 		$('#filelist').html('<span class="no-files-selected">No file selected</span>');
