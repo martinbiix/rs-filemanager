@@ -558,13 +558,24 @@ private $_path;
 		if(!strcmp("jpg",strtolower($ext)) || !strcmp("jpeg",$ext))
 		$src_img=imagecreatefromjpeg($img_name);
 		
-		if(!strcmp("gif",$ext))
-		$src_img=imagecreatefromgif($img_name);
+		if(!strcmp("gif",$ext)){
+		  $src_img=imagecreatefromgif($img_name);
+		  
+		  $originaltransparentcolor = imagecolortransparent( $img_name );
+    		
+    		if($originaltransparentcolor >= 0 && $originaltransparentcolor < imagecolorstotal( $img_name )){
+    			$transparentcolor = imagecolorsforindex( $img_name, $originaltransparentcolor );
+    			$newtransparentcolor = imagecolorallocate($src_img,$transparentcolor['red'],$transparentcolor['green'],$transparentcolor['blue']);
+    			imagefill( $src_img, 0, 0, $newtransparentcolor );
+    			imagecolortransparent( $src_img, $newtransparentcolor );
+    			}
+		}
 		
 		if(!strcmp("png",$ext)){
-		$src_img=imagecreatefrompng($img_name);
-		imagealphablending($src_img, false);
-		imagesavealpha($src_img, true);
+		  //$src_img = imagecreatefrompng($img_name);
+		  $src_img = imagecreatetruecolor($new_w, $new_h);
+		  imagealphablending($src_img, false);
+		  imagesavealpha($src_img, true);
 		}
 		
 		//gets the dimmensions of the image
@@ -593,12 +604,15 @@ private $_path;
 		imagecopyresampled($dst_img,$src_img,0,0,0,0,$thumb_w,$thumb_h,$old_x,$old_y);
 		
 		// output the created image to the file. Now we will have the thumbnail into the file named by $filename
-		if(!strcmp("gif",$ext))
-		imagegif($dst_img,$filename);
-		elseif(!strcmp("jpg",strtolower($ext)) || !strcmp("jpeg",$ext))
-		imagejpeg($dst_img,$filename);
-		elseif(!strcmp("png",$ext))
-		imagepng($dst_img,$filename);
+		if(!strcmp("gif",$ext)){
+		  imagegif($dst_img,$filename);
+		}
+		elseif(!strcmp("jpg",strtolower($ext)) || !strcmp("jpeg",$ext)){
+		  imagejpeg($dst_img,$filename);
+		}
+		elseif(!strcmp("png",$ext)) {
+		  imagepng($dst_img,$filename);
+		}
 		
 		//destroys source and destination images.
 		imagedestroy($dst_img);
