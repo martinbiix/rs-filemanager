@@ -275,9 +275,12 @@ private $FileManager;
         
         $path = htmlentities($_POST['path']);
         
+        // Get image size
+        list($width, $height, $type, $attr) = getimagesize(MEDIA_LOCATION_URL.$path);
+        
         $html .= '
         <div id="edit-image-wrap">
-            <img src="'.MEDIA_LOCATION_URL.$path.'?t='.microtime().'" alt="" id="edit-image">
+            <img src="'.MEDIA_LOCATION_URL.$path.'?t='.microtime().'" width="'.$width.'" height="'.$height.'" alt="" id="edit-image">
             <input type="hidden" id="crop-path"  value="'.$path.'">
         </div>
         
