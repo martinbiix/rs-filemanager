@@ -490,16 +490,30 @@ private $_path;
     			$this->error[] = $cleanName." already exists. Please delete current file or rename the file your are trying to upload and try again.";
     			return false;
 			}
-
-			move_uploaded_file($tempFile, MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName);
+			
+			$urlandname = MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName;
+			
+			move_uploaded_file($tempFile, $urlandname);	
 			
 			// Get extension
-			$ext = $this->getExtension(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName);
-			// Get orig file dimensions
-			list($width, $height, $type, $attr) = getimagesize(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName);
+			$ext = $this->getExtension($urlandname);
 			
 			// If file is an image file create the thumbnails and custom sizes
 			if(in_array($ext, $this->img_types)){
+			     
+			     // Get orig file dimensions
+			     list($width, $height, $type, $attr) = getimagesize($urlandname);
+			
+			     $image = $this->convert_image($urlandname, $mime);
+
+    			
+    			if($mime == 'image/pjpeg' || $mime == 'image/jpeg'){
+                    imagejpeg ($image,$urlandname,90);
+                } elseif($mime == 'image/x-png' || $mime == 'image/png') {
+                    imagepng ($image,$urlandname);
+                }elseif($mime == 'image/gif'){
+                    imagegif ($image,$urlandname);
+                }
 			     
                 if(!is_dir(MEDIA_LOCATION.'/'.$this->_path.'/_thumbs')){			     
     			     mkdir(MEDIA_LOCATION.'/'.$this->_path.'/_thumbs', 0775, false);
@@ -507,12 +521,12 @@ private $_path;
     			if(!is_dir(MEDIA_LOCATION.'/'.$this->_path.'/_sizes')){
     			     mkdir(MEDIA_LOCATION.'/'.$this->_path.'/_sizes', 0775, false);
     			}
-    			
+    
     			// Create thumbs
     			if($width > THUMB_MAX_WIDTH || $height > THUMB_MAX_HEIGHT){
-    			     $this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
+    			     $this->make_thumb($image, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT, $mime);
     			} else {
-        			copy(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName);
+        			//copy($urlandname, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName);
     			}
     			
     			$i=1;
@@ -523,13 +537,16 @@ private $_path;
         			$newName = $coreName.'_'.$i.'.'.$ext;
         			
         			if($width > $size['width'] || $height > $size['height']){
-        			     $this->make_thumb(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName, MEDIA_LOCATION.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height']);
+        			     $this->make_thumb($image, MEDIA_LOCATION.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height'], $mime);
         			     $i++;
         			}
         			
     			}
-			
-			}
+    			
+    			imagedestroy($image);
+    			
+			} 
+
 			
 			
         }
@@ -550,74 +567,123 @@ private $_path;
      * @param mixed $new_h
      * @return void
      */
-    private function make_thumb($img_name,$filename,$new_w,$new_h){
+    private function make_thumb($im,$urlandname,$maxwidth,$maxheight, $imagetype){
+        
+        $width=imageSX($im);
+		$height=imageSY($im);
+        
+        if(($maxwidth && $width > $maxwidth) || ($maxheight && $height > $maxheight)){
+        	
+        	if($maxwidth && $width > $maxwidth){
+        		$widthratio = $maxwidth/$width;
+        		$resizewidth=true;
+        		} else $resizewidth=false;
 
-		//get image extension.
-		$ext = $this->getExtension($img_name);
-		//creates the new image using the appropriate function from gd library
-		if(!strcmp("jpg",strtolower($ext)) || !strcmp("jpeg",$ext))
-		$src_img=imagecreatefromjpeg($img_name);
-		
-		if(!strcmp("gif",$ext)){
-		  $src_img=imagecreatefromgif($img_name);
-		  
-		  $originaltransparentcolor = imagecolortransparent( $img_name );
-    		
-    		if($originaltransparentcolor >= 0 && $originaltransparentcolor < imagecolorstotal( $img_name )){
-    			$transparentcolor = imagecolorsforindex( $img_name, $originaltransparentcolor );
-    			$newtransparentcolor = imagecolorallocate($src_img,$transparentcolor['red'],$transparentcolor['green'],$transparentcolor['blue']);
-    			imagefill( $src_img, 0, 0, $newtransparentcolor );
-    			imagecolortransparent( $src_img, $newtransparentcolor );
-    			}
-		}
-		
-		if(!strcmp("png",$ext)){
-		  //$src_img = imagecreatefrompng($img_name);
-		  $src_img = imagecreatetruecolor($new_w, $new_h);
-		  imagealphablending($src_img, false);
-		  imagesavealpha($src_img, true);
-		}
-		
-		//gets the dimmensions of the image
-		$old_x=imageSX($src_img);
-		$old_y=imageSY($src_img);
+        	if($maxheight && $height > $maxheight)
+        		{
+        		$heightratio = $maxheight/$height;
+        		$resizeheight=true;
+        		} 
+        	else $resizeheight=false;
+
+         	if($resizewidth && $resizeheight)
+        		{
+        		if($widthratio < $heightratio) $ratio = $widthratio;
+        		else $ratio = $heightratio;
+        		}
+        	elseif($resizewidth)
+        		{
+        		$ratio = $widthratio;
+        		}
+        	elseif($resizeheight)
+        		{
+        		$ratio = $heightratio;
+        		}
+        	
+        	$newwidth = $width * $ratio;
+        	$newheight = $height * $ratio;
+        	
+        		if(function_exists('imagecopyresampled') && $imagetype !='image/gif'){
+        		  $newim = imagecreatetruecolor($newwidth, $newheight);
+        		}else{
+        		  $newim = imagecreate($newwidth, $newheight);
+        		}
+
+        	// additional processing for png / gif transparencies (credit to Dirk Bohl)
+        	if($imagetype == 'image/x-png' || $imagetype == 'image/png'){
+        	
+        		imagecolortransparent($newim, imagecolorallocatealpha($newim, 0, 0, 0, 127));
+        		imagealphablending($newim, false);
+        		imagesavealpha($newim, true);
+            
+            }elseif($imagetype == 'image/gif'){
+            
+        		$originaltransparentcolor = imagecolortransparent( $im );
+        		if($originaltransparentcolor >= 0 && $originaltransparentcolor < imagecolorstotal( $im ))
+        			{
+        			$transparentcolor = imagecolorsforindex( $im, $originaltransparentcolor );
+        			$newtransparentcolor = imagecolorallocate($newim,$transparentcolor['red'],$transparentcolor['green'],$transparentcolor['blue']);
+        			imagefill( $newim, 0, 0, $newtransparentcolor );
+        			imagecolortransparent( $newim, $newtransparentcolor );
+        			}
+        		}
+
+           imagecopyresampled($newim, $im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+           
+           if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg'){
+                imagejpeg ($newim,$urlandname);
+            }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
+           	    imagepng ($newim,$urlandname);
+           	}elseif($imagetype == 'image/gif'){
+           	    imagegif ($newim,$urlandname);
+           	}
+        
+           	imagedestroy ($newim);
+        
+        } else {
+            
+            if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg'){
+                imagejpeg ($im,$urlandname, 90);
+            }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
+                imagepng ($im,$urlandname);
+            }elseif($imagetype == 'image/gif'){
+                imagegif ($im,$urlandname);
+            }
+            
+            
+        }
 	
-		$ratio1=$old_x/$new_w;
-		$ratio2=$old_y/$new_h;
-		
-		if($ratio1>$ratio2) {
-		
-			$thumb_w=$new_w;
-			$thumb_h=$old_y/$ratio1;
-		
-		} else {
-		
-			$thumb_h=$new_h;
-			$thumb_w=$old_x/$ratio2;
-		
-		}
+	}
 	
-		// we create a new image with the new dimmensions
-		$dst_img = ImageCreateTrueColor($thumb_w,$thumb_h);
-		
-		// resize the big image to the new created one
-		imagecopyresampled($dst_img,$src_img,0,0,0,0,$thumb_w,$thumb_h,$old_x,$old_y);
-		
-		// output the created image to the file. Now we will have the thumbnail into the file named by $filename
-		if(!strcmp("gif",$ext)){
-		  imagegif($dst_img,$filename);
-		}
-		elseif(!strcmp("jpg",strtolower($ext)) || !strcmp("jpeg",$ext)){
-		  imagejpeg($dst_img,$filename);
-		}
-		elseif(!strcmp("png",$ext)) {
-		  imagepng($dst_img,$filename);
-		}
-		
-		//destroys source and destination images.
-		imagedestroy($dst_img);
-		imagedestroy($src_img);
 	
+	
+	
+	/**
+	 * convert_image function.
+	 * 
+	 * @access private
+	 * @return image
+	 */
+	private function convert_image($imagetemp, $imagetype){
+    	
+    	if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg'){
+        
+        	$im = imagecreatefromjpeg($imagetemp);
+        
+        }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
+        
+            $im = imagecreatefrompng($imagetemp);
+            //imagecolortransparent($im, imagecolorallocatealpha($im, 0, 0, 0, 127));
+            imagealphablending($im, false);
+            imagesavealpha($im, true);
+        
+        }elseif($imagetype == 'image/gif'){
+            
+            $im = imagecreatefromgif($imagetemp);
+        }
+        
+        return $im;
+    	
 	}
 	
 	

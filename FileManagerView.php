@@ -68,7 +68,7 @@ private $FileManager;
                         , "rtf"=>"text.png"
                         , "doc"=>"word.png"
                         , "docx"=>"word.png"
-                        , "pages"=>"page.png"
+                        , "pages"=>"pages.png"
                         , "xls"=>"excel.png"
                         , "xlsx"=>"excel.png"
                         , "numbers"=>"number.png"
@@ -165,7 +165,7 @@ private $FileManager;
             
                         
                         $html .=  '<div class="grid-item '.$class_item.'">
-                                    <a class="folder" href="#" data-path="'.$file["base_path"].'">
+                                    <a class="folder" href="#" data-path="'.$file["base_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">
                                         <img src="images/folder.png" width="64" height="64" alt="folder">
                                         <br>
                                         <span class="file-name">'.$file["name"].'</span>
@@ -204,7 +204,7 @@ private $FileManager;
                             $class_link = "view-img-sibs";
                             
                         
-                            $html .=  '      <a class="'.$class_link.'" href="#" data-path="'.$file["base_path"].'">
+                            $html .=  '      <a class="'.$class_link.'" href="#" data-path="'.$file["base_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">
                                             <img src="'.MEDIA_LOCATION_URL.$file["base_path_thumb"].'" '.$attr[3].' class="max-width">
                                             <br>
                                             <span class="file-name">'.$file["name"].'</span>
@@ -219,7 +219,7 @@ private $FileManager;
                         } else {
     
                             
-                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.MEDIA_LOCATION_URL.$file["url_path"].'">';
+                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.MEDIA_LOCATION_URL.$file["url_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">';
                                     
                                     $path_info = pathinfo($file['abs_path']);
                                     $icon_types = $this->icon_types();
