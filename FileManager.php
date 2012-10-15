@@ -695,22 +695,28 @@ private $_path;
 	 * @access private
 	 * @return void
 	 */
-	private function rotate_image(){
+	public function rotate_image(){
     	
     	$filename = MEDIA_LOCATION.$this->_path;
-    	
+    	//echo $filename;
     	$rotang = 90;
     	
     	// Get attrs
-    	list($width, $height, $type, $attr) = getimagesize($filename);
+    	$attr = getimagesize($filename);
+
     	$imagetype = $attr['mime'];
-    	
-        
+
         if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg'){
             
+            //echo 'Function check';
+            if(!function_exists(imagerotate)){
+                die('imagerotate does not exist');
+            }
+            
             $source = imagecreatefromjpeg($filename);
-            $rotation = imagerotate($source, $rotang, 0);
-            imagejpeg($rotation, $filename);
+            $rotation = imagerotate($source, $rotang, -1);
+            imagejpeg($rotation, $filename, 100);
+
             
         }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
            	
@@ -721,7 +727,7 @@ private $_path;
             $rotation = imagerotate($source, $rotang, imageColorAllocateAlpha($source, 0, 0, 0, 127));
             imagealphablending($rotation, false);
             imagesavealpha($rotation, true);
-            imagepng($rotation, $filename);
+            imagepng($rotation, $filename, 100);
            	
         }elseif($imagetype == 'image/gif'){
            	/*
@@ -742,7 +748,7 @@ private $_path;
             $rotation = imagerotate($timage, 45, $bg); 
             imagecolortransparent($rotation, $bg);
             
-            imagegif($rotation, $filename);
+            imagegif($rotation, $filename, 100);
            	
         }
         

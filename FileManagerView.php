@@ -24,6 +24,9 @@ private $FileManager;
             case "IMAGE_OPTIONS":
                 $this->image_options();
                 break;
+            case "ROTATE_IMAGE":
+                $this->rotate_image();
+                break;    
             case "CREATE_FOLDER":
                 $this->create_folder();
                 break;
@@ -274,7 +277,7 @@ private $FileManager;
         
         $html .= '
         <div id="edit-image-wrap">
-            <img src="'.MEDIA_LOCATION_URL.$path.'" alt="" id="edit-image">
+            <img src="'.MEDIA_LOCATION_URL.$path.'?t='.microtime().'" alt="" id="edit-image">
             <input type="hidden" id="crop-path"  value="'.$path.'">
         </div>
         
@@ -360,6 +363,21 @@ private $FileManager;
         
         $cropped_image = $this->FileManager->save_crop();
         $this->results = '{"success":"success", "cropped_image":"'.$cropped_image.'"}';
+        
+    }
+    
+    
+    
+    
+    /**
+     * rotate_image function.
+     * 
+     * @access private
+     * @return void
+     */
+    private function rotate_image(){
+        
+        $this->FileManager->rotate_image();
         
     }
     

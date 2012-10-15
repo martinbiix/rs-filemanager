@@ -193,6 +193,26 @@ $(document).ready(function() {
 
 
 
+    // ROTATE IMAGES
+    $("#rotate-image").click(function(e){
+        e.preventDefault();
+        
+        var crop_path = $("#crop-path").val();
+                
+        $("#file-to-edit").html('<p>Rotating image...</p>');        
+                
+         $.post("index.php?action=ROTATE_IMAGE", { path: crop_path }, function(){ 
+         }).success(function(){
+            reload_edit_image(crop_path);                   
+         }).error(function(){  
+         }).complete(function() { 
+         });
+            
+    });
+
+
+
+
     // Init load
     load_files(path);
 
@@ -422,4 +442,13 @@ function load_files(path){
 
     });
 
+}
+
+
+function reload_edit_image(path){
+    
+    //var path = $(this).attr('data-path');
+
+    $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
+    
 }

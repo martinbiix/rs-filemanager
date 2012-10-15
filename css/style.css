@@ -539,7 +539,11 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 .fade.in{opacity:1;}
 .collapse{position:relative;height:0;overflow:hidden;-webkit-transition:height 0.35s ease;-moz-transition:height 0.35s ease;-ms-transition:height 0.35s ease;-o-transition:height 0.35s ease;transition:height 0.35s ease;}
 .collapse.in{height:auto;}
-@media only screen and (max-width:959px){}@media only screen and (min-width:768px) and (max-width:959px){}@media only screen and (max-width:767px){}@media only screen and (min-width:480px) and (max-width:767px){}@media only screen and (max-width:479px){}#sticky-filemenu{width:100%;height:50px;padding:10px 15px 10px 10px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');border-top:1px solid #CCC;background:#f5f5f5;position:fixed;left:0;bottom:0;z-index:2000;}
+@media only screen and (max-width:959px){}@media only screen and (min-width:768px) and (max-width:959px){}@media only screen and (max-width:767px){}@media only screen and (min-width:480px) and (max-width:767px){}@media only screen and (max-width:479px){}a:focus,:focus,a:focus img{outline:none;}
+::-moz-focus-inner,::-moz-user-focus{border:0;outline:none;}
+a,a img{border-bottom:none;outline:none;}
+#sticky-filemenu{width:100%;height:50px;border-top:1px solid #CCC;background:#f5f5f5;position:fixed;left:0;bottom:0;z-index:2000;}
+.sticky-inner{padding:10px 10px 15px 10px;}
 .grid-item{width:120px;text-align:center;height:155px;margin:10px;background:#FFF;float:left;position:relative;border:1px solid #e4e4e4;padding:10px 5px 0 5px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
 .grid-item a{color:#333;}
 .grid-item a:hover{-webkit-opacity:0.6;-moz-opacity:0.6;opacity:0.6;}
@@ -551,13 +555,13 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 .file-actions a:hover{color:#888;}
 .delete-file,.delete-folder{display:block;float:right;width:12px;margin:0 10px 0 0;}
 .edit-file,.edit-dir{display:block;float:left;width:12px;margin:0 0 0 10px;}
-#create-folder-wrap{width:85px;float:right;}
-#new-folder-button{margin:0;}
+#create-folder-wrap{width:89px;float:right;}
+#new-folder-button{width:89px;margin:0;}
 #new-folder-name,#folder-name{width:220px;height:15px;padding:4px;border:1px solid #CCC;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;vertical-align:middle;margin:10px;font-size:.75em;}
-#bread-wrap{width:100%;padding:5px;margin:10px 10px 0 10px;clear:both;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');color:#555;font-size:.875em;}
+#bread-wrap{width:98%;padding:5px 0;margin:10px 1% 0 1%;clear:both;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');color:#555;font-size:.875em;}
 #bread-wrap a{color:#404cf5;}
 #bread-wrap a:hover{color:#888;}
-#upload-modal-button{display:block;font-size:1.3em;margin:0;float:left;width:120px;line-height:1.4;}
+#upload-modal-button{display:block;font-size:1.3em;margin:0;float:left;width:125px;line-height:1.4;}
 #upload-modal-button:hover{color:#888;}
 .modal-header h3{display:inline-block;zoom:1;*display:inline;}
 .modal-header .close{margin-top:10px;}
@@ -579,9 +583,9 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 #allowed-files{font-size:.6875em;}
 .modal-footer button.button{margin-bottom:0;}
 #html5-fileupload{font-size:.75em;}
-#message{width:100%;float:left;background:#f5f5fe;height:24px;font-size:.75em;font-weight:700;color:#0a09a6;line-height:20px;padding:4px 0 4px 10px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');}
 .file-edit-modal{width:800px;margin-left:-400px;margin-top:-300px;}
 .file-edit-modal .modal-body{max-width:800px;max-height:450px;}
+#file-to-edit{width:770px;height:522px;}
 #folder-name-dialog,#file-edit-dialog{display:none;}
 .image-option-item{display:block;width:100%;}
 .image-option-item:hover{background:#f5f5f5;}
