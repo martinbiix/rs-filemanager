@@ -24,7 +24,7 @@
         <div id="filedrop">Drag files here<span id="html5-fileupload"></span></div>
         <!-- / #filedrop -->
                                
-        <div id="allowed-files">Allowed: jpg, png, gif, doc, txt, rtf, xls, ppt, pages, numbers, pdf, exe, dmg, zip, mp3, mp4, ogg, ogv, flv, mpg<br>(Filesize 10MB max.)</div>
+        <div id="allowed-files">Allowed: jpg, png, gif, doc, txt, rtf, xls, ppt, pages, numbers, pdf, exe, dmg, zip, mp3, mp4, ogg, ogv, flv, mpg<br>(Filesize <?php echo MAX_UPLOAD_SIZE; ?>MB max.)</div>
       
         <div id="custom-sizes">
             Custom image size: <input type="text" id="custom-width" maxlength="4"> px Width X <input type="text" id="custom-height" maxlength="4"> px Height
