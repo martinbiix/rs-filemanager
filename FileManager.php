@@ -688,6 +688,67 @@ private $_path;
 	
 	
 	
+	private function rotate_image(){
+    	
+    	$filename = MEDIA_LOCATION.$this->_path;
+    	
+    	$rotang = 90;
+    	
+    	// Get attrs
+    	list($width, $height, $type, $attr) = getimagesize($filename);
+    	$imagetype = $attr['mime'];
+    	
+        
+        if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg'){
+            
+            $source = imagecreatefromjpeg($filename);
+            $rotation = imagerotate($source, $rotang, 0);
+            imagejpeg($rotation, $filename);
+            
+        }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
+           	
+           	$source = imagecreatefrompng($filename);
+            imagealphablending($source, false);
+            imagesavealpha($source, true);
+        
+            $rotation = imagerotate($source, $rotang, imageColorAllocateAlpha($source, 0, 0, 0, 127));
+            imagealphablending($rotation, false);
+            imagesavealpha($rotation, true);
+            imagepng($rotation, $filename);
+           	
+        }elseif($imagetype == 'image/gif'){
+           	/*
+           	$source = imagecreatefromgif($filename);
+            $rotation = imagerotate($source, $rotang, 1);
+            imagegif($rotation, $filename);
+            */
+            $source = imagecreatefromgif($filename); 
+
+            $w = imagesx($source); 
+            $h = imagesy($source); 
+            $bg = imagecolortransparent($source); 
+            
+            $timage = imagecreatetruecolor($w, $h); 
+            imagefill($timage, 0, 0, $bg); 
+            imagecopy($timage, $source, 0, 0, 0, 0, $w, $h); 
+            
+            $rotation = imagerotate($timage, 45, $bg); 
+            imagecolortransparent($rotation, $bg);
+            
+            imagegif($rotation, $filename);
+           	
+        }
+        
+        
+        imagedestroy($source);
+        imagedestroy($rotation);
+    	
+    	
+	}
+	
+	
+	
+	
 	/**
 	 * getExtension function.
 	 * 
