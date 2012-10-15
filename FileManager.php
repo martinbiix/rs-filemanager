@@ -688,6 +688,13 @@ private $_path;
 	
 	
 	
+	
+	/**
+	 * rotate_image function.
+	 * 
+	 * @access private
+	 * @return void
+	 */
 	private function rotate_image(){
     	
     	$filename = MEDIA_LOCATION.$this->_path;
