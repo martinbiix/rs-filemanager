@@ -78,21 +78,3 @@
         <button id="cancel-crop" class="button">Close</button> 
       </div>
     </div>
-    
-    
-    
-    <!-- IMAGE OPTIONS -->
-    <div class="image-options-modal modal hide">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Image Options</h3>
-      </div>
-      <div class="modal-body">
-        
-        
-      
-      </div>
-      <div class="modal-footer">
-        <button id="cancel-image-options" class="button">Close</button> 
-      </div>
-    </div>

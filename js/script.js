@@ -1,3 +1,95 @@
+var jcrop_api;
+var crop_x = "";
+var crop_y = "";
+var crop_x2 = "";
+var crop_y2 = "";
+var crop_width = "";
+var crop_height = "";
+
+function load_files(path){
+
+    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
+
+    $.post("index.php?action=LOAD_FILES", { path: path }, function(data){
+
+        $("#files-container").html(data);
+
+    }).success(function(){
+    })
+    .error(function(){
+
+    })
+    .complete(function() {
+
+    });
+
+}
+
+function reload_edit_image(path){
+
+    $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
+    
+}
+
+function showCoords(c){
+                    
+    crop_x = c.x;
+    crop_y = c.y;
+    crop_x2 = c.x2;
+    crop_y2 = c.y2;
+                    
+    crop_width = c.w;
+    crop_height = c.h;
+                    
+    $("#w").html(crop_width);
+    $("#h").html(crop_height);
+
+}
+
+function image_crop(){
+                            
+    jcrop_api=null;
+                
+    jcrop_api = $.Jcrop("#edit-image");
+                 
+    jcrop_api.setOptions({ onChange: showCoords,
+        onSelect: showCoords,
+        minSize: [ crop_minWidth, crop_minHeight ],
+        maxSize: [ crop_maxWidth, crop_maxHeight ]
+    });
+                
+    jcrop_api.enable();
+                
+                
+    $("#save-crop-image-button").click(function(e){
+        e.preventDefault();
+                    
+        var crop_path = $("#crop-path").val();
+        $( "#image-options" ).html("Reloading images...");
+                    
+        $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
+        }).success(function(data){
+                    
+            var obj = jQuery.parseJSON(data);
+                        
+            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="crop-path"  value="'+obj.path+'">');
+            $("#edit-image-message").html("Cropped Saved");
+                        
+                                                                 
+        })
+        .error(function(){  
+        })
+        .complete(function() { 
+            //var curr_location = $("#current-location").val();
+            //path = "/" + curr_location;
+            $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
+        });
+                 
+    }); // END #save-crop-image-button
+                
+    
+}
+
 $(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
 
@@ -71,12 +163,12 @@ $(document).ready(function() {
 
         path = $(this).attr("data-path");
         var file_type = $(this).attr("data-type");
+        var ok;
 
-
-        if(file_type == 'dir'){
-            var ok = confirm("Are you sure you want to delete this folder?\nAll files and folders inside this folder will be deleted too.");
+        if(file_type === 'dir'){
+            ok = confirm("Are you sure you want to delete this folder?\nAll files and folders inside this folder will be deleted too.");
         } else {
-            var ok = confirm("Are you sure you want to delete this file? All additional thumbnails and sizes associated with this image will be deleted too.");
+            ok = confirm("Are you sure you want to delete this file? All additional thumbnails and sizes associated with this image will be deleted too.");
         }
 
         if(ok === true){
@@ -141,7 +233,6 @@ $(document).ready(function() {
         $( ".file-edit-modal" ).modal("show");
         
         
-
     });
 
     $('.file-edit-modal').on('hidden', function () {
@@ -162,8 +253,6 @@ $(document).ready(function() {
     $("body").on("click", '.edit-file-option', function(e){
 
         e.preventDefault();
-        
-        //jcrop_api.destroy();
         
         $( "#file-to-edit" ).html("Loading image...");
         
@@ -266,7 +355,7 @@ $(document).ready(function() {
    $("#upload-modal-button").click(function(e){
        e.preventDefault();
        var cur_location = $("#current-location").val();
-       if(cur_location.length == 0){
+       if(cur_location.length === 0){
            cur_location = 'home';
        }
        $("#uploading-location").html('Uploading to: '+cur_location);
@@ -282,154 +371,154 @@ $(document).ready(function() {
        $(".upload-error .notify-inner").html('');
 
        if(uploader){
-		  $.each(uploader.files, function(i, file) {
+          $.each(uploader.files, function(i, file) {
             uploader.removeFile(file.id);
             });
-		  uploader.refresh();
-		  uploader.splice();
+          uploader.refresh();
+          uploader.splice();
        }
    });
 
 
     
 
-	uploader.bind('Init', function(up, params) {
-		$('#filelist').html('<span class="no-files-selected">No file selected</span>');
-	});
-
-	uploader.bind('FilesAdded', function(up, files) {
-
-		$.each(files, function(i, file) {
-
-	            $(".no-files-selected").remove();
-
-	            $('#filelist').append(
-	                '<div id="' + file.id + '">' +
-	                file.name + ' (' + plupload.formatSize(file.size) + ') <a href="#" class="upload-delete"><i class="icon-remove"></i></a>' +
-	            '</div>');
-
-            	$("#"+file.id+" .upload-delete").click(function(e){
-                	$("#"+file.id).remove();
-                	uploader.removeFile(file);
-                	e.preventDefault();
-                });
-
-	        });
-
-			$("#uploadfiles").show();
-			$("#custom-sizes").show();
-
-	});
-
-	uploader.bind('Error', function(up, err) {
-
-	        $(".upload-error").show();
-
-			$('.upload-error .notify-inner').append("<p>Error: " + err.code +
-	            ", Message: " + err.message +
-	            (err.file ? ", File: " + err.file.name : "") +
-	            "</p>"
-	        );
-
-	        up.refresh();
-	});
-
-	uploader.bind('UploadProgress', function(up, file) {
-		$("#upload-progress").css("width", file.percent+'%');
-	});
-
-	uploader.bind('BeforeUpload', function(up, file) {
-	   // Custom size
-	   var custom_width = $("#custom-width").val();
-	   var custom_height = $("#custom-height").val();
-
-    	uploader.settings.multipart_params = {path: $("#current-location").val(), action: "UPLOAD_FILE", custom_width: custom_width, custom_height: custom_height};
+    uploader.bind('Init', function(up, params) {
+        $('#filelist').html('<span class="no-files-selected">No file selected</span>');
     });
 
-	uploader.bind('FileUploaded', function(up, file, info) {
+    uploader.bind('FilesAdded', function(up, files) {
 
-		var obj = $.parseJSON(info.response);
+        $.each(files, function(i, file) {
 
-		if(obj.error){
-    		
-    		$(".upload-error").show();
-			$(".upload-error .notify-inner").html("<p><span class='bold'>Error:</span> "  + obj.error.message + "</p>");
+                $(".no-files-selected").remove();
 
-	        up.refresh();
+                $('#filelist').append(
+                    '<div id="' + file.id + '">' +
+                    file.name + ' (' + plupload.formatSize(file.size) + ') <a href="#" class="upload-delete"><i class="icon-remove"></i></a>' +
+                '</div>');
 
-			return false;
-		}
+                $("#"+file.id+" .upload-delete").click(function(e){
+                    $("#"+file.id).remove();
+                    uploader.removeFile(file);
+                    e.preventDefault();
+                });
+
+            });
+
+            $("#uploadfiles").show();
+            $("#custom-sizes").show();
+
+    });
+
+    uploader.bind('Error', function(up, err) {
+
+            $(".upload-error").show();
+
+            $('.upload-error .notify-inner').append("<p>Error: " + err.code +
+                ", Message: " + err.message +
+                (err.file ? ", File: " + err.file.name : "") +
+                "</p>"
+            );
+
+            up.refresh();
+    });
+
+    uploader.bind('UploadProgress', function(up, file) {
+        $("#upload-progress").css("width", file.percent+'%');
+    });
+
+    uploader.bind('BeforeUpload', function(up, file) {
+       // Custom size
+       var custom_width = $("#custom-width").val();
+       var custom_height = $("#custom-height").val();
+
+        uploader.settings.multipart_params = {path: $("#current-location").val(), action: "UPLOAD_FILE", custom_width: custom_width, custom_height: custom_height};
+    });
+
+    uploader.bind('FileUploaded', function(up, file, info) {
+
+        var obj = $.parseJSON(info.response);
+
+        if(obj.error){
+            
+            $(".upload-error").show();
+            $(".upload-error .notify-inner").html("<p><span class='bold'>Error:</span> "  + obj.error.message + "</p>");
+
+            up.refresh();
+
+            return false;
+        }
 
 
-		$("#upload-progress").css("width", '5px');
+        $("#upload-progress").css("width", '5px');
 
-		$(".upload-error").hide();
-		$(".upload-error .notify-inner").html('');
-		$("#uploadfiles").hide();
-		$("#custom-sizes").hide();
+        $(".upload-error").hide();
+        $(".upload-error .notify-inner").html('');
+        $("#uploadfiles").hide();
+        $("#custom-sizes").hide();
 
-		uploader.refresh();
+        uploader.refresh();
 
     });
 
     // UPLOADS COMPLETE
     uploader.bind('UploadComplete', function(up, files) {
 
-		var curr_location = $("#current-location").val();
+        var curr_location = $("#current-location").val();
         var path = '/' + curr_location;
 
         $("#custom-width").val('');
-	    $("#custom-height").val('');
+        $("#custom-height").val('');
 
-		load_files(path);
+        load_files(path);
 
-		$.each(uploader.files, function(i, file) {
+        $.each(uploader.files, function(i, file) {
             uploader.removeFile(file.id);
-       	});
+        });
 
-		uploader.refresh();
+        uploader.refresh();
 
-		$('#filelist').html('<strong>Upload complete.</strong>');
-		$("#upload-progress").css("width","0px");
-		$(".upload-error").hide();
-	    $(".upload-error .notify-inner").html('');
-		$("#uploadfiles").hide();
-		$("#custom-sizes").hide();
+        $('#filelist').html('<strong>Upload complete.</strong>');
+        $("#upload-progress").css("width","0px");
+        $(".upload-error").hide();
+        $(".upload-error .notify-inner").html('');
+        $("#uploadfiles").hide();
+        $("#custom-sizes").hide();
 
-	});
+    });
 
-	$('#uploadfiles').click(function(e) {
+    $('#uploadfiles').click(function(e) {
 
-		uploader.start();
-		e.preventDefault();
+        uploader.start();
+        e.preventDefault();
 
-	});
+    });
 
-	$("body").on("click", '#cancelfile', function(e) {
+    $("body").on("click", '#cancelfile', function(e) {
 
-		$("#uploadfiles").hide();
-		$(".upload-error").hide();
-	    $(".upload-error .notify-inner").html('');
-	    $("#custom-sizes").hide();
+        $("#uploadfiles").hide();
+        $(".upload-error").hide();
+        $(".upload-error .notify-inner").html('');
+        $("#custom-sizes").hide();
 
-	    $(".uploader-modal").modal('hide');
+        $(".uploader-modal").modal('hide');
 
-		$.each(uploader.files, function(i, file) {
+        $.each(uploader.files, function(i, file) {
             uploader.removeFile(file.id);
-       	});
+        });
 
-		$('#filelist').html('<span class="no-files-selected">No file selected</span>');
+        $('#filelist').html('<span class="no-files-selected">No file selected</span>');
 
-		uploader.refresh();
-		uploader.splice();
+        uploader.refresh();
+        uploader.splice();
 
-		e.preventDefault();
-	});
+        e.preventDefault();
+    });
 
-	uploader.init();
+    uploader.init();
 
 
-	$("#filedrop").hover(
+    $("#filedrop").hover(
       function () {
         $(this).addClass("hover");
       },
@@ -462,121 +551,3 @@ $(document).ready(function() {
 });
 
 
-function load_files(path){
-
-    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
-
-    $.post("index.php?action=LOAD_FILES", { path: path }, function(data){
-
-        $("#files-container").html(data);
-
-    }).success(function(){
-    })
-    .error(function(){
-
-    })
-    .complete(function() {
-
-    });
-
-}
-
-
-function reload_edit_image(path){
-    
-    //var path = $(this).attr('data-path');
-
-    $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
-    
-}
-
-var jcrop_api;
-var crop_x = "";
-var crop_y = "";
-var crop_x2 = "";
-var crop_y2 = "";
-var crop_width = "";
-var crop_height = "";
-
-function initJcrop(){
-            
-    jcrop_api = $.Jcrop("#edit-image");
-    jcrop_api.disable();
-};
-
-
-function showCoords(c){
-                	
-    crop_x = c.x;
-    crop_y = c.y;
-    crop_x2 = c.x2;
-    crop_y2 = c.y2;
-                	
-    crop_width = c.w;
-    crop_height = c.h;
-                	
-    $("#w").html(crop_width);
-    $("#h").html(crop_height);
-
-};
-
-function image_crop(){
-                            
-    jcrop_api=null;
-            
-    //initJcrop();
-            	
-    jcrop_api = $.Jcrop("#edit-image");
-    //jcrop_api.disable();
-            	            
-    //$("#crop-image-button").click(function(e){
-        //e.preventDefault();
-                 
-        jcrop_api.setOptions({ onChange: showCoords,
-            onSelect: showCoords,
-            minSize: [ 0, 0 ],
-            maxSize: [ 350, 350 ] });
-                
-        jcrop_api.enable();
-                
-                  /*
-                  $("#edit-image").Jcrop({
-            				onChange: showCoords,
-            				onSelect: showCoords,
-            				minSize: [ 0, 0 ],
-            				maxSize: [ 350, 350 ]
-                    });
-        */
-                
-                //});
-                
-            	
-            	$("#save-crop-image-button").click(function(e){
-                    e.preventDefault();
-                    
-                    var crop_path = $("#crop-path").val();
-                    $( "#image-options" ).html("Reloading images...");
-                    
-                    $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
-                    }).success(function(data){
-                    
-                        var obj = jQuery.parseJSON(data);
-                        
-                        $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="crop-path"  value="'+obj.path+'">');
-                        $("#edit-image-message").html("Cropped Saved");
-                        
-                                                                 
-                    })
-                    .error(function(){  
-                    })
-                    .complete(function() { 
-                        //var curr_location = $("#current-location").val();
-                        //path = "/" + curr_location;
-                        $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
-                    });
-                
-            
-                });
-                
-    
-}

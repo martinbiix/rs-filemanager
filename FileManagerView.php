@@ -121,7 +121,8 @@ private $FileManager;
         $current_folder = $this->FileManager->current_folder();
         $bread_crumb = $this->FileManager->bread_crumb();
         
-        $html =  '<div id="bread-wrap">';
+        $html =  '<div id="bread-wrap">
+                    <div class="bread-wrap-inner">';
         
         if(strlen($path)){
             $html .=  '&laquo; <a class="bread-path" href="#" data-path="'.$bread_path.'">Back</a> | <a href="#" class="bread-path" data-path="">Home</a> / '.$bread_crumb;
@@ -129,7 +130,8 @@ private $FileManager;
             $html .=  'Home';
         }
         
-        $html .=  '</div>';
+        $html .=  '</div>
+                </div>';
         
                 
         $html .=  '<input type="hidden" name="current_location" id="current-location" value="'.$path.'">';
@@ -341,15 +343,20 @@ private $FileManager;
         
         $html = '<table class="table images-options-list condensed">';
             $html .= '<thead>
-                    <tr><th>Size Type</th><th>Width</th><th>Height</th><th></th><th></th></tr>
+                    <tr><th>Size Type</th><th></th><th>Width</th><th>Height</th><th></th></tr>
                 </thead>
                 <tbody>';
             
             // Original image
             if(file_exists($image_options['orig']['path'])){
                 list($width, $height, $type, $attr) = getimagesize($image_options['orig']['path']);
-                $html .= '<tr><td><a href="#" class="edit-file-option" data-path="'.$image_options['orig']['local_path'].'"><i class="icon-eye-open"></i> Original</a></td><td>'.$width.'px</td><td>'.$height.'px</td>
-                    <td><a class="image-option-item" href="#" data-url="'.$image_options['orig']['url'].'"><i class="icon-external-link"></i></a></td><td></td></tr>';
+                $html .= '<tr>
+                        <td><a href="#" class="edit-file-option" data-path="'.$image_options['orig']['local_path'].'"><i class="icon-eye-open"></i> Original</a></td>
+                        <td><a class="image-option-item" href="#" data-url="'.$image_options['orig']['url'].'"><i class="icon-external-link"></i></a></td>
+                        <td>'.$width.'px</td>
+                        <td>'.$height.'px</td>
+                    <td></td>
+                    </tr>';
             }
             
             // Custom sizes
@@ -360,8 +367,13 @@ private $FileManager;
                     
                     if(file_exists($size['path'])){
                         list($width, $height, $type, $attr) = getimagesize($size['path']);
-                        $html .= '<tr><td><a href="#" class="edit-file-option" data-path="'.$size['local_path'].'"><i class="icon-eye-open"></i> Custom Size</a></td><td>'.$width.'px</td><td>'.$height.'px</td>
-                        <td><a class="image-option-item" href="#" data-url="'.$size['url'].'"><i class="icon-external-link"></i></a></td><td><a class="delete-custom-image" href="#" data-path="'.$size['local_path'].'"><i class="icon-trash"></i></a></td></tr>';
+                        $html .= '<tr>
+                                    <td><a href="#" class="edit-file-option" data-path="'.$size['local_path'].'"><i class="icon-eye-open"></i> Custom Size</a></td>
+                                    <td><a class="image-option-item" href="#" data-url="'.$size['url'].'"><i class="icon-external-link"></i></a></td>
+                                    <td>'.$width.'px</td>
+                                    <td>'.$height.'px</td>
+                                    <td><a class="delete-custom-image" href="#" data-path="'.$size['local_path'].'"><i class="icon-trash"></i></a></td>
+                                </tr>';
                     }
                     
                 }
@@ -376,8 +388,13 @@ private $FileManager;
                     
                     if(file_exists($crop['path'])){
                         list($width, $height, $type, $attr) = getimagesize($crop['path']);
-                        $html .= '<tr><td><a href="#" class="edit-file-option" data-path="'.$crop['local_path'].'"><i class="icon-eye-open"></i> Cropped</a></td><td>'.$width.'px</td><td>'.$height.'px</td>
-                        <td><a class="image-option-item" href="#" data-url="'.$crop['url'].'"><i class="icon-external-link"></i></a></td><td><a class="delete-custom-image" href="#" data-path="'.$crop['local_path'].'"><i class="icon-trash"></i></a></td></tr>';
+                        $html .= '<tr>
+                                    <td><a href="#" class="edit-file-option" data-path="'.$crop['local_path'].'"><i class="icon-eye-open"></i> Cropped</a></td>
+                                    <td><a class="image-option-item" href="#" data-url="'.$crop['url'].'"><i class="icon-external-link"></i></a></td>
+                                    <td>'.$width.'px</td>
+                                    <td>'.$height.'px</td>
+                                    <td><a class="delete-custom-image" href="#" data-path="'.$crop['local_path'].'"><i class="icon-trash"></i></a></td>
+                                </tr>';
                     }
                 }
                 

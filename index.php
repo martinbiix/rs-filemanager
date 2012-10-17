@@ -42,6 +42,13 @@
     <script src="js/jquery.Jcrop.min.js"></script>
     <script src="js/jquery.blockUI.js"></script>
     <script>
+
+        var crop_minWidth = parseInt(<?php echo $_GET['crop_minWidth']; ?>);
+        var crop_minHeight = parseInt(<?php echo $_GET['crop_minHeight']; ?>);
+
+        var crop_maxWidth = parseInt(<?php echo $_GET['crop_maxWidth']; ?>);
+        var crop_maxHeight = parseInt(<?php echo $_GET['crop_maxHeight']; ?>);
+        
         var uploader = new plupload.Uploader({
     		runtimes : 'html5,flash,silverlight',
     		browse_button : 'pickfile',
@@ -77,7 +84,13 @@
     		
     		
     		// Centrifuge CMS Standalone ////////////////////////
-    		$( ".image-options-modal" ).modal("hide");
+    		<?php if($_GET['editor']=="standalone"){ ?>
+    		$( ".file-edit-modal" ).modal("hide");
+    		
+    		return;
+    		<?php } ?>
+    		$( ".file-edit-modal" ).modal("hide");
+    		alert('This option will normally load the image or file into your content editor, such as CKEditor.');
     		/////////////////////////////////////////////////////
     		
     		
