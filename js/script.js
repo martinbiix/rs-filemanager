@@ -127,28 +127,10 @@ $(document).ready(function() {
     });
 
 
-    // IMAGE OPTIONS
-    /*
-    $("#files-container").on("click", '.view-img-sibs', function(e){
-        e.preventDefault();
-
-        path = $(this).attr("data-path");
-
-        // Load modal with all the image options to choose from
-        $( "#image-options" ).load('index.php?action=IMAGE_OPTIONS', { path: path } );
-        $( ".image-options-modal" ).modal("show");
-
-    });
-    $('#cancel-image-options').click(function (e) {
-        e.preventDefault();
-        $("#image-options").html('');
-        $( ".image-options-modal" ).modal("hide");
-    });
-*/
 
 
     // EDIT FILES
-    $("#files-container").on("click", '.edit-file', function(e){
+    $("#files-container").on("click", '.view-img-sibs, .edit-file', function(e){
 
         e.preventDefault();
 
