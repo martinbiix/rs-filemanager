@@ -328,6 +328,22 @@ private $_path;
     
     
     /**
+     * delete_custom_image function.
+     * 
+     * @access public
+     * @param mixed $file
+     * @return void
+     */
+    public function delete_custom_image($file){
+        
+        unlink($file);
+        
+    }
+    
+    
+    
+    
+    /**
      * save_crop function.
      * 
      * @access public
@@ -353,7 +369,9 @@ private $_path;
             mkdir(MEDIA_LOCATION.$path.'_crops', 0775, false);
         }
         
-        $output_filename = MEDIA_LOCATION.$path.'_crops/'.$name.'_'.$ran.'.'.$ext;
+        $cleaned_path = str_replace("/_crops","",MEDIA_LOCATION.$path);
+        $cleaned_path = str_replace("/_sizes","",$cleaned_path);
+        $output_filename = $cleaned_path.'_crops/'.$name.'_'.$ran.'.'.$ext;
         
         //echo $output_filename;
         
@@ -380,7 +398,14 @@ private $_path;
         
         imagejpeg($dst_r, $output_filename, $jpeg_quality);
         
-        return MEDIA_LOCATION_URL.$path.'_crops/'.$name.'_'.$ran.'.'.$ext;
+        $cleaned_urlpath = str_replace("/_crops","",MEDIA_LOCATION_URL.$path);
+        $cleaned_urlpath = str_replace("/_sizes","",$cleaned_urlpath);
+        
+        $cropped = array();
+        $cropped['url_path'] = $cleaned_urlpath.'_crops/'.$name.'_'.$ran.'.'.$ext;
+        $cropped['path'] = str_replace(MEDIA_LOCATION_URL,"",$cleaned_urlpath.'_crops/'.$name.'_'.$ran.'.'.$ext);
+        
+        return $cropped;
         
     }
     
@@ -410,6 +435,7 @@ private $_path;
         $arr['thumb']['path'] = MEDIA_LOCATION.$path.'_thumbs/'.$name.'.'.$ext;
         $arr['thumb']['url'] = MEDIA_LOCATION_URL.$path.'_thumbs/'.$name.'.'.$ext;
         $arr['orig']['path'] = MEDIA_LOCATION.$file;
+        $arr['orig']['local_path'] = $file;
         $arr['orig']['url'] = MEDIA_LOCATION_URL.$file; 
         
         $possibleSizes = glob(MEDIA_LOCATION.$path.'_sizes/'.$name.'_*.'.$ext);
@@ -417,6 +443,7 @@ private $_path;
             foreach ($possibleSizes as $file) {
                 if (file_exists($file)) {
                     $arr['sizes'][$i]['path'] = $file;
+                    $arr['sizes'][$i]['local_path'] = str_replace(MEDIA_LOCATION, '', $file);
                     $arr['sizes'][$i]['url'] = MEDIA_LOCATION_URL.str_replace(MEDIA_LOCATION, '', $file);
                     $i++;
                 }
@@ -427,6 +454,7 @@ private $_path;
             foreach ($possibleCrops as $file) {
                 if (file_exists($file)) {
                     $arr['crops'][$k]['path'] = $file;
+                    $arr['crops'][$k]['local_path'] = str_replace(MEDIA_LOCATION, '', $file);
                     $arr['crops'][$k]['url'] = MEDIA_LOCATION_URL.str_replace(MEDIA_LOCATION, '', $file);
                     $k++;
                 }

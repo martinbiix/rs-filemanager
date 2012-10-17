@@ -36,6 +36,9 @@ private $FileManager;
             case "DELETE_FOLDER":
                 $this->delete_folder();
                 break;
+            case "DELETE_CUSTOM_IMAGE":
+                $this->delete_custom_image();
+                break;
             case "UPLOAD_FILE":
                 $this->upload_file();
                 break;                        
@@ -282,71 +285,7 @@ private $FileManager;
         <div id="edit-image-wrap">
             <img src="'.MEDIA_LOCATION_URL.$path.'?t='.microtime().'" width="'.$width.'" height="'.$height.'" alt="" id="edit-image">
             <input type="hidden" id="crop-path"  value="'.$path.'">
-        </div>
-        
-        <script>
-        $(function() {
-        
-            var crop_x = "";
-            var crop_y = "";
-            var crop_x2 = "";
-            var crop_y2 = "";
-            var crop_width = "";
-            var crop_height = "";
-            
-            $("#crop-image-button").click(function(e){
-                e.preventDefault();
-                
-                $("#edit-image").Jcrop({
-        				onChange: showCoords,
-        				onSelect: showCoords,
-        				minSize: [ 0, 0 ],
-        				maxSize: [ 350, 350 ]
-                });
-    
-            
-            });
-            
-            function showCoords(c){
-            	
-            	crop_x = c.x;
-            	crop_y = c.y;
-            	crop_x2 = c.x2;
-            	crop_y2 = c.y2;
-            	
-            	crop_width = c.w;
-            	crop_height = c.h;
-            	
-            	$("#w").html(crop_width);
-            	$("#h").html(crop_height);
-        	};
-        	
-        	$("#save-crop-image-button").click(function(e){
-                e.preventDefault();
-                
-                var crop_path = $("#crop-path").val();
-                
-                $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(data){ 
-                }).success(function(data){
-                
-                    var obj = jQuery.parseJSON(data);
-                    
-                    $("#file-to-edit").html(\'Crop saved.<p><img src="\'+obj.cropped_image+\'"></p>\');
-                    var curr_location = $("#current-location").val();
-                    path = "/" + curr_location;
-                    load_files(path);
-                                                             
-                })
-                .error(function(){  
-                })
-                .complete(function() { 
-                });
-                
-            
-            });
-        
-        });
-        </script>';
+        </div>';
         
         $this->results = $html;
         
@@ -365,7 +304,7 @@ private $FileManager;
     private function crop_image(){
         
         $cropped_image = $this->FileManager->save_crop();
-        $this->results = '{"success":"success", "cropped_image":"'.$cropped_image.'"}';
+        $this->results = '{"success":"success", "cropped_image":"'.$cropped_image['url_path'].'", "path":"'.$cropped_image['path'].'"}';
         
     }
     
@@ -397,18 +336,21 @@ private $FileManager;
         
         $image_options = $this->FileManager->image_options();
     
-        list($width, $height, $type, $attr) = getimagesize($image_options['thumb']['path']);
-        $html = '<p><img src="'.$image_options['thumb']['url'].'" width="'.$width.'" height="'.$hieght.'" alt=""></p>';
+        //list($width, $height, $type, $attr) = getimagesize($image_options['thumb']['path']);
+        //$html = '<p><img src="'.$image_options['thumb']['url'].'" width="'.$width.'" height="'.$hieght.'" alt=""></p>';
         
-        $html .= '<table class="table images-options-list">';
+        $html = '<table class="table images-options-list condensed">';
             $html .= '<thead>
-                    <tr><th>Size Type</th><th>Width</th><th>Height</th><th></th></tr>
+                    <tr><th>Size Type</th><th>Width</th><th>Height</th><th></th><th></th></tr>
                 </thead>
                 <tbody>';
             
             // Original image
-            list($width, $height, $type, $attr) = getimagesize($image_options['orig']['path']);
-            $html .= '<tr><td><a class="image-option-item" href="#" data-url="'.$image_options['orig']['url'].'"><i class="icon-external-link"></i> Original</a></td><td>'.$width.'px</td><td>'.$height.'px</td><td></td></tr>';
+            if(file_exists($image_options['orig']['path'])){
+                list($width, $height, $type, $attr) = getimagesize($image_options['orig']['path']);
+                $html .= '<tr><td><a href="#" class="edit-file-option" data-path="'.$image_options['orig']['local_path'].'"><i class="icon-eye-open"></i> Original</a></td><td>'.$width.'px</td><td>'.$height.'px</td>
+                    <td><a class="image-option-item" href="#" data-url="'.$image_options['orig']['url'].'"><i class="icon-external-link"></i></a></td><td></td></tr>';
+            }
             
             // Custom sizes
             $sizes = $image_options['sizes'];
@@ -416,8 +358,11 @@ private $FileManager;
                 
                 foreach($sizes as $size){
                     
-                    list($width, $height, $type, $attr) = getimagesize($size['path']);
-                    $html .= '<tr><td><a class="image-option-item" href="#" data-url="'.$size['url'].'"><i class="icon-external-link"></i> Custom Size</a></td><td>'.$width.'px</td><td>'.$height.'px</td><td></td></tr>';
+                    if(file_exists($size['path'])){
+                        list($width, $height, $type, $attr) = getimagesize($size['path']);
+                        $html .= '<tr><td><a href="#" class="edit-file-option" data-path="'.$size['local_path'].'"><i class="icon-eye-open"></i> Custom Size</a></td><td>'.$width.'px</td><td>'.$height.'px</td>
+                        <td><a class="image-option-item" href="#" data-url="'.$size['url'].'"><i class="icon-external-link"></i></a></td><td><a class="delete-custom-image" href="#" data-path="'.$size['local_path'].'"><i class="icon-trash"></i></a></td></tr>';
+                    }
                     
                 }
                 
@@ -429,9 +374,11 @@ private $FileManager;
                 
                 foreach($crops as $crop){
                     
-                    list($width, $height, $type, $attr) = getimagesize($crop['path']);
-                    $html .= '<tr><td><a class="image-option-item" href="#" data-url="'.$crop['url'].'"><i class="icon-external-link"></i> Cropped</a></td><td>'.$width.'px</td><td>'.$height.'px</td><td></td></tr>';
-                    
+                    if(file_exists($crop['path'])){
+                        list($width, $height, $type, $attr) = getimagesize($crop['path']);
+                        $html .= '<tr><td><a href="#" class="edit-file-option" data-path="'.$crop['local_path'].'"><i class="icon-eye-open"></i> Cropped</a></td><td>'.$width.'px</td><td>'.$height.'px</td>
+                        <td><a class="image-option-item" href="#" data-url="'.$crop['url'].'"><i class="icon-external-link"></i></a></td><td><a class="delete-custom-image" href="#" data-path="'.$crop['local_path'].'"><i class="icon-trash"></i></a></td></tr>';
+                    }
                 }
                 
             }
@@ -481,6 +428,23 @@ private $FileManager;
         $path = htmlentities($_POST['path']);
         $this->FileManager->delete_folder(MEDIA_LOCATION.$path);
         
+        $this->results = '';
+        
+    }
+    
+    
+    
+    
+    /**
+     * delete_custom_image function.
+     * 
+     * @access private
+     * @return void
+     */
+    private function delete_custom_image(){
+        
+        $path = htmlentities($_POST['path']);
+        $this->FileManager->delete_custom_image(MEDIA_LOCATION.$path);
         $this->results = '';
         
     }

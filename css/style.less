@@ -119,6 +119,10 @@ a, a img{
     font-size: .75em;
 }
 
+#edit-image-message{
+    color: #00F;
+    margin: 0 0 0 30px;
+}
 
 
 
@@ -270,32 +274,43 @@ a, a img{
 
 
 .file-edit-modal{    
-    width: 800px;
-    margin-left: -400px;
-    margin-top: -300px;
+    width: 870px;
+    margin-left: -435px;
+    margin-top: -350px;
 }
 .file-edit-modal .modal-body {
-    max-width: 800px;
+    max-width: 870px;
     max-height: 450px;
+    overflow: hidden;
+}
+
+#file-options{
+    width: 850px;
+    height: 450px;
+    float: left;
 }
 
 #file-to-edit{
-    width: 770px;
-    height: 522px;
+    width: 570px;
+    height: 450px;
+    float: left;
+    overflow: auto;
 }
 
 #folder-name-dialog, #file-edit-dialog{
     display: none;
 }
 
+#image-options{
+    width: 280px;
+    height: 450px;
+    float: left;
+}
 
-.image-option-item{
-    display: block;
-    width: 100%;
+.edit-file-option:hover{
+    color: #999;
 }
-.image-option-item:hover{
-    background: #f5f5f5;
-}
+
 
 .jcrop-holder{direction:ltr;text-align:left;}
 .jcrop-vline,.jcrop-hline{background:#FFF url('images/Jcrop.gif') top left repeat;font-size:0;position:absolute;}

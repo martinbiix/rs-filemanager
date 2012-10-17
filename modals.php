@@ -56,11 +56,18 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Edit Image</h3> &nbsp;&nbsp; / &nbsp;&nbsp; <span id="crop-dim">Crop Width: <span id="w">0</span>px / Height: <span id="h">0</span>px</span>
+        <span id="edit-image-message"></span>
       </div>
       <div class="modal-body">
         
-        <div id="file-to-edit">
-        <p>Loading...</p>
+        <div id="file-options">
+            <div id="image-options">
+            <p>Loading...</p>
+            </div>
+            
+            <div id="file-to-edit">
+            <p>Loading...</p>
+            </div>
         </div>
       
       </div>
@@ -82,9 +89,7 @@
       </div>
       <div class="modal-body">
         
-        <div id="image-options">
-        <p>Loading...</p>
-        </div>
+        
       
       </div>
       <div class="modal-footer">

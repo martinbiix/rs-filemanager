@@ -81,7 +81,7 @@ $(document).ready(function() {
 
         if(ok === true){
 
-            $.post("index.php?action=DELETE_FOLDER", { path: path, file_type: file_type }, function(data){
+            $.post("index.php?action=DELETE_FOLDER", { path: path, file_type: file_type }, function(){
             }).success(function(){
 
                 $(e.target).parent().parent().parent().fadeOut('slow');
@@ -98,9 +98,37 @@ $(document).ready(function() {
 
 
     });
+    
+    // DELETE CUSTOM IMAGE SIZES AND CROPS
+    $("body").on("click", '.delete-custom-image', function(e){
+        e.preventDefault();
+        
+        path = $(this).attr("data-path");
+
+        var ok = confirm("Are you sure you want to delete this image?");
+        
+        if(ok === true){
+            
+            $.post("index.php?action=DELETE_CUSTOM_IMAGE", { path: path }, function(){
+            }).success(function(){
+
+                $(e.target).parent().parent().parent().fadeOut('slow');
+
+            })
+            .error(function(){
+
+            })
+            .complete(function() {
+
+            });
+            
+        }
+        
+    });
 
 
     // IMAGE OPTIONS
+    /*
     $("#files-container").on("click", '.view-img-sibs', function(e){
         e.preventDefault();
 
@@ -116,7 +144,7 @@ $(document).ready(function() {
         $("#image-options").html('');
         $( ".image-options-modal" ).modal("hide");
     });
-
+*/
 
 
     // EDIT FILES
@@ -125,24 +153,49 @@ $(document).ready(function() {
         e.preventDefault();
 
         var path = $(this).attr('data-path');
-
-        $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
+        
+        $( "#image-options" ).load('index.php?action=IMAGE_OPTIONS', { path: path } );
+        $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path });
         $( ".file-edit-modal" ).modal("show");
-
+        
+        
 
     });
 
     $('.file-edit-modal').on('hidden', function () {
         $("#file-to-edit").html('');
+        $( "#image-options" ).html('');
+        $("#edit-image-message").html('');
     });
 
 
     $('#cancel-crop').click(function (e) {
         e.preventDefault();
         $("#file-to-edit").html('');
+        $( "#image-options" ).html('');
         $( ".file-edit-modal" ).modal("hide");
+        $("#edit-image-message").html('');
     });
 
+    $("body").on("click", '.edit-file-option', function(e){
+
+        e.preventDefault();
+        
+        //jcrop_api.destroy();
+        
+        $( "#file-to-edit" ).html("Loading image...");
+        
+        var path = $(this).attr('data-path');
+
+        $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path });
+
+    });
+    
+    
+   $("body").on("click", '#crop-image-button', function(e){
+        e.preventDefault();
+        image_crop();
+   }); 
 
 
    // RENAME FOLDERS
@@ -197,13 +250,15 @@ $(document).ready(function() {
     $("#rotate-image").click(function(e){
         e.preventDefault();
         
+        $("#edit-image-message").html('');
+        
         var crop_path = $("#crop-path").val();
                 
         $("#file-to-edit").html('<p>Rotating image...</p>');        
                 
          $.post("index.php?action=ROTATE_IMAGE", { path: crop_path }, function(){ 
          }).success(function(){
-            reload_edit_image(crop_path);                   
+            reload_edit_image(crop_path);                  
          }).error(function(){  
          }).complete(function() { 
          });
@@ -450,5 +505,96 @@ function reload_edit_image(path){
     //var path = $(this).attr('data-path');
 
     $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
+    
+}
+
+var jcrop_api;
+var crop_x = "";
+var crop_y = "";
+var crop_x2 = "";
+var crop_y2 = "";
+var crop_width = "";
+var crop_height = "";
+
+function initJcrop(){
+            
+    jcrop_api = $.Jcrop("#edit-image");
+    jcrop_api.disable();
+};
+
+
+function showCoords(c){
+                	
+    crop_x = c.x;
+    crop_y = c.y;
+    crop_x2 = c.x2;
+    crop_y2 = c.y2;
+                	
+    crop_width = c.w;
+    crop_height = c.h;
+                	
+    $("#w").html(crop_width);
+    $("#h").html(crop_height);
+
+};
+
+function image_crop(){
+                            
+    jcrop_api=null;
+            
+    //initJcrop();
+            	
+    jcrop_api = $.Jcrop("#edit-image");
+    //jcrop_api.disable();
+            	            
+    //$("#crop-image-button").click(function(e){
+        //e.preventDefault();
+                 
+        jcrop_api.setOptions({ onChange: showCoords,
+            onSelect: showCoords,
+            minSize: [ 0, 0 ],
+            maxSize: [ 350, 350 ] });
+                
+        jcrop_api.enable();
+                
+                  /*
+                  $("#edit-image").Jcrop({
+            				onChange: showCoords,
+            				onSelect: showCoords,
+            				minSize: [ 0, 0 ],
+            				maxSize: [ 350, 350 ]
+                    });
+        */
+                
+                //});
+                
+            	
+            	$("#save-crop-image-button").click(function(e){
+                    e.preventDefault();
+                    
+                    var crop_path = $("#crop-path").val();
+                    $( "#image-options" ).html("Reloading images...");
+                    
+                    $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
+                    }).success(function(data){
+                    
+                        var obj = jQuery.parseJSON(data);
+                        
+                        $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="crop-path"  value="'+obj.path+'">');
+                        $("#edit-image-message").html("Cropped Saved");
+                        
+                                                                 
+                    })
+                    .error(function(){  
+                    })
+                    .complete(function() { 
+                        //var curr_location = $("#current-location").val();
+                        //path = "/" + curr_location;
+                        $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
+                    });
+                
+            
+                });
+                
     
 }
