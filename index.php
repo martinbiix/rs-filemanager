@@ -60,8 +60,14 @@
     		flash_swf_url : 'js/plupload.flash.swf',
     		silverlight_xap_url : 'js/plupload.silverlight.xap',
     		filters : [
-    			{title : "Image files", extensions : "<?php implode(",",$img_types); ?>"},
-    			{title : "Documents", extensions : "<?php implode(",",$doc_types); ?>"}
+    		  <?php if($_GET['file_type'] == "images"){ ?>
+    			{title : "Image files", extensions : "<?php echo implode(",",$img_types); ?>"}
+    			<?php } elseif ($_GET['file_type'] == "files"){ ?>
+    			{title : "Documents", extensions : "<?php echo implode(",",$doc_types); ?>"}
+    			<?php } else { ?>
+    			{title : "Image files", extensions : "<?php echo implode(",",$img_types); ?>"},
+    			{title : "Documents", extensions : "<?php echo implode(",",$doc_types); ?>"}
+    			<?php } ?>
     		]
     	});
     </script>
@@ -92,7 +98,6 @@
     		$( ".file-edit-modal" ).modal("hide");
     		alert('This option will normally load the image or file into your content editor, such as CKEditor.');
     		/////////////////////////////////////////////////////
-    		
     		
         });
     }); 

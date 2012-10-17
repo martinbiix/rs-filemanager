@@ -9,25 +9,33 @@ public $img_types = array();
 private $_location;
 private $_file_type;
 private $_path;
+private $_doc_root;
+private $_location_url;
     
     function __construct(){
     
         // Check for FM files location. Throw error if not found. Create files and images folder if not sub folders.
         if(!is_dir(MEDIA_LOCATION)){
-            echo 'Media folder could not be found. Please check your configuration.';
+            echo 'Uploads folder could not be found. Please check your configuration.';
         }
         
         $this->_location = dirname(__FILE__);
         
-        $fileType = htmlentities($_GET['file_type']);
+        $fileType = $_SESSION['file_type'];
         
         switch ($fileType) {
             case "images":
                 $this->_file_type = '/images';
                 break;
-            default:
+            case "files":
                 $this->_file_type = '/files';
+                break;
+            default:
+                $this->_file_type = '';
         }
+        
+        $this->_doc_root = MEDIA_LOCATION.$this->_file_type;
+        $this->_location_url = MEDIA_LOCATION_URL.$this->_file_type;
         
         if(isset($_POST['path'])){
             $this->_path = htmlentities($_POST['path']);
@@ -62,24 +70,24 @@ private $_path;
         
         $files = array();
         
-        if ($handle = opendir(MEDIA_LOCATION.$this->_path)) {
+        if ($handle = opendir($this->_doc_root.$this->_path)) {
         
             $blacklist = array('.', '..', '.DS_Store', '_thumbs', '_sizes', '_crops', '.svn', '.git');
             $i=0;
             while (false !== ($file = readdir($handle))) {
-                if (!in_array($file, $blacklist) &&  ( ($folders_only && is_dir(MEDIA_LOCATION.$this->_path.'/'.$file) ) || (!$folders_only) )  ) {
+                if (!in_array($file, $blacklist) &&  ( ($folders_only && is_dir($this->_doc_root.$this->_path.'/'.$file) ) || (!$folders_only) )  ) {
                     
-                    $pathinfo = pathinfo(MEDIA_LOCATION.'/'.$this->_path.'/'.$file);
+                    $pathinfo = pathinfo($this->_doc_root.'/'.$this->_path.'/'.$file);
                     
                     $files[$i]['name'] = $file;
-                    $files[$i]['url_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",MEDIA_LOCATION.$this->_path.'/'.$file);
-                    $files[$i]['thumb_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",MEDIA_LOCATION.$this->_path.'/_thumbs/'.$file);
-                    $files[$i]['abs_path'] = MEDIA_LOCATION.$this->_path.'/'.$file;
+                    $files[$i]['url_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",$this->_doc_root.$this->_path.'/'.$file);
+                    $files[$i]['thumb_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",$this->_doc_root.$this->_path.'/_thumbs/'.$file);
+                    $files[$i]['abs_path'] = $this->_doc_root.$this->_path.'/'.$file;
                     $files[$i]['ext'] = strtolower($pathinfo['extension']);
-                    $files[$i]['file_type'] = filetype(MEDIA_LOCATION.$this->_path.'/'.$file);
-                    $files[$i]['base_path'] = str_replace(MEDIA_LOCATION, "", MEDIA_LOCATION.$this->_path.'/'.$file);
-                    $files[$i]['base_path_thumb'] = str_replace(MEDIA_LOCATION, "", MEDIA_LOCATION.$this->_path.'/_thumbs/'.$file);
-                    $files[$i]['base_name'] = basename(MEDIA_LOCATION.$this->_path.'/'.$file);
+                    $files[$i]['file_type'] = filetype($this->_doc_root.$this->_path.'/'.$file);
+                    $files[$i]['base_path'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/'.$file);
+                    $files[$i]['base_path_thumb'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/_thumbs/'.$file);
+                    $files[$i]['base_name'] = basename($this->_doc_root.$this->_path.'/'.$file);
                     $i++;
                 }
             }
@@ -201,16 +209,16 @@ private $_path;
         $new_folder_name = $this->clean_foldername($_POST['new_folder']);
         
         // Check if folder name already exists
-        if(is_dir(MEDIA_LOCATION.'/'.$new_folder_name)){
+        if(is_dir($this->_doc_root.'/'.$new_folder_name)){
             $this->return_header('ERROR', "Folder already exists");
             return false;
         }
         
         // Need to prevent creating thumbs and sizes folders and need to clean folder names
-        mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name, 0775, false);
-        /*mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_thumbs', 0775, false);
-        mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_sizes', 0775, false);
-        mkdir(MEDIA_LOCATION.$this->_path.'/'.$new_folder_name.'/_crops', 0775, false);*/
+        mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name, 0775, false);
+        /*mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name.'/_thumbs', 0775, false);
+        mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name.'/_sizes', 0775, false);
+        mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name.'/_crops', 0775, false);*/
         
     }
     
@@ -228,13 +236,13 @@ private $_path;
         $clean_name = $this->clean_foldername($_POST['folder_name']);
         
         // Check if folder name already exists
-        if(is_dir(MEDIA_LOCATION.'/'.$clean_name)){
+        if(is_dir($this->_doc_root.'/'.$clean_name)){
             $this->return_header('ERROR', "Folder already exists");
             return false;
         }
         
         // Rename folder new folder
-        rename(MEDIA_LOCATION.$this->_path, MEDIA_LOCATION.'/'.$clean_name); 
+        rename($this->_doc_root.$this->_path, $this->_doc_root.'/'.$clean_name); 
         
     }
     
@@ -365,11 +373,11 @@ private $_path;
         $path = str_replace($filename, "", $file);
         
         // If crops folder does not exist create it
-        if(!is_dir(MEDIA_LOCATION.$path.'_crops')){
-            mkdir(MEDIA_LOCATION.$path.'_crops', 0775, false);
+        if(!is_dir($this->_doc_root.$path.'_crops')){
+            mkdir($this->_doc_root.$path.'_crops', 0775, false);
         }
         
-        $cleaned_path = str_replace("/_crops","",MEDIA_LOCATION.$path);
+        $cleaned_path = str_replace("/_crops","",$this->_doc_root.$path);
         $cleaned_path = str_replace("/_sizes","",$cleaned_path);
         $output_filename = $cleaned_path.'_crops/'.$name.'_'.$ran.'.'.$ext;
         
@@ -387,7 +395,7 @@ private $_path;
         $targ_w = $targ_h = 150;
         $jpeg_quality = 90;
         
-        $src = MEDIA_LOCATION.$this->_path;
+        $src = $this->_doc_root.$this->_path;
         
         //echo $src;
         
@@ -398,12 +406,12 @@ private $_path;
         
         imagejpeg($dst_r, $output_filename, $jpeg_quality);
         
-        $cleaned_urlpath = str_replace("/_crops","",MEDIA_LOCATION_URL.$path);
+        $cleaned_urlpath = str_replace("/_crops","",$this->_location_url.$path);
         $cleaned_urlpath = str_replace("/_sizes","",$cleaned_urlpath);
         
         $cropped = array();
         $cropped['url_path'] = $cleaned_urlpath.'_crops/'.$name.'_'.$ran.'.'.$ext;
-        $cropped['path'] = str_replace(MEDIA_LOCATION_URL,"",$cleaned_urlpath.'_crops/'.$name.'_'.$ran.'.'.$ext);
+        $cropped['path'] = str_replace($this->_location_url,"",$cleaned_urlpath.'_crops/'.$name.'_'.$ran.'.'.$ext);
         
         return $cropped;
         
@@ -432,30 +440,30 @@ private $_path;
         
         $arr = array();
         
-        $arr['thumb']['path'] = MEDIA_LOCATION.$path.'_thumbs/'.$name.'.'.$ext;
-        $arr['thumb']['url'] = MEDIA_LOCATION_URL.$path.'_thumbs/'.$name.'.'.$ext;
-        $arr['orig']['path'] = MEDIA_LOCATION.$file;
+        $arr['thumb']['path'] = $this->_doc_root.$path.'_thumbs/'.$name.'.'.$ext;
+        $arr['thumb']['url'] = $this->_location_url.$path.'_thumbs/'.$name.'.'.$ext;
+        $arr['orig']['path'] = $this->_doc_root.$file;
         $arr['orig']['local_path'] = $file;
-        $arr['orig']['url'] = MEDIA_LOCATION_URL.$file; 
+        $arr['orig']['url'] = $this->_location_url.$file; 
         
-        $possibleSizes = glob(MEDIA_LOCATION.$path.'_sizes/'.$name.'_*.'.$ext);
+        $possibleSizes = glob($this->_doc_root.$path.'_sizes/'.$name.'_*.'.$ext);
             $i=0;
             foreach ($possibleSizes as $file) {
                 if (file_exists($file)) {
                     $arr['sizes'][$i]['path'] = $file;
-                    $arr['sizes'][$i]['local_path'] = str_replace(MEDIA_LOCATION, '', $file);
-                    $arr['sizes'][$i]['url'] = MEDIA_LOCATION_URL.str_replace(MEDIA_LOCATION, '', $file);
+                    $arr['sizes'][$i]['local_path'] = str_replace($this->_doc_root, '', $file);
+                    $arr['sizes'][$i]['url'] = $this->_location_url.str_replace($this->_doc_root, '', $file);
                     $i++;
                 }
             }
             
-        $possibleCrops = glob(MEDIA_LOCATION.$path.'_crops/'.$name.'_*.'.$ext);
+        $possibleCrops = glob($this->_doc_root.$path.'_crops/'.$name.'_*.'.$ext);
             $k=0;
             foreach ($possibleCrops as $file) {
                 if (file_exists($file)) {
                     $arr['crops'][$k]['path'] = $file;
-                    $arr['crops'][$k]['local_path'] = str_replace(MEDIA_LOCATION, '', $file);
-                    $arr['crops'][$k]['url'] = MEDIA_LOCATION_URL.str_replace(MEDIA_LOCATION, '', $file);
+                    $arr['crops'][$k]['local_path'] = str_replace($this->_doc_root, '', $file);
+                    $arr['crops'][$k]['url'] = $this->_location_url.str_replace($this->_doc_root, '', $file);
                     $k++;
                 }
             }    
@@ -514,12 +522,12 @@ private $_path;
     			//return false;
 			}
 
-			if(file_exists(MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName)){
+			if(file_exists($this->_doc_root.'/'.$this->_path.'/'.$cleanName)){
     			$this->error[] = $cleanName." already exists. Please delete current file or rename the file your are trying to upload and try again.";
     			return false;
 			}
 			
-			$urlandname = MEDIA_LOCATION.'/'.$this->_path.'/'.$cleanName;
+			$urlandname = $this->_doc_root.'/'.$this->_path.'/'.$cleanName;
 			
 			move_uploaded_file($tempFile, $urlandname);	
 			
@@ -543,16 +551,16 @@ private $_path;
                     imagegif ($image,$urlandname);
                 }
 			     
-                if(!is_dir(MEDIA_LOCATION.'/'.$this->_path.'/_thumbs')){			     
-    			     mkdir(MEDIA_LOCATION.'/'.$this->_path.'/_thumbs', 0775, false);
+                if(!is_dir($this->_doc_root.'/'.$this->_path.'/_thumbs')){			     
+    			     mkdir($this->_doc_root.'/'.$this->_path.'/_thumbs', 0775, false);
     			}
-    			if(!is_dir(MEDIA_LOCATION.'/'.$this->_path.'/_sizes')){
-    			     mkdir(MEDIA_LOCATION.'/'.$this->_path.'/_sizes', 0775, false);
+    			if(!is_dir($this->_doc_root.'/'.$this->_path.'/_sizes')){
+    			     mkdir($this->_doc_root.'/'.$this->_path.'/_sizes', 0775, false);
     			}
     
     			// Create thumbs
     			if($width > THUMB_MAX_WIDTH || $height > THUMB_MAX_HEIGHT){
-    			     $this->make_thumb($image, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT, $mime);
+    			     $this->make_thumb($image, $this->_doc_root.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT, $mime);
     			} else {
         			//copy($urlandname, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName);
     			}
@@ -565,7 +573,7 @@ private $_path;
         			$newName = $coreName.'_'.$i.'.'.$ext;
         			
         			if($width > $size['width'] || $height > $size['height']){
-        			     $this->make_thumb($image, MEDIA_LOCATION.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height'], $mime);
+        			     $this->make_thumb($image, $this->_doc_root.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height'], $mime);
         			     $i++;
         			}
         			
@@ -725,7 +733,7 @@ private $_path;
 	 */
 	public function rotate_image(){
     	
-    	$filename = MEDIA_LOCATION.$this->_path;
+    	$filename = $this->_doc_root.$this->_path;
     	//echo $filename;
     	$rotang = 90;
     	

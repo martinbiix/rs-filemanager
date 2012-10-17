@@ -4,10 +4,29 @@ class FileManagerView{
 public $results = '';
 
 private $FileManager;
+private $_doc_root;
+private $_file_type;
+private $_location_url;
     
     function __construct($FileManager){
         
        $this->FileManager = $FileManager;
+        
+       $fileType = $_SESSION['file_type'];
+        
+        switch ($fileType) {
+            case "images":
+                $this->_file_type = '/images';
+                break;
+            case "files":
+                $this->_file_type = '/files';
+                break;
+            default:
+                $this->_file_type = '';
+        }
+        
+        $this->_doc_root = MEDIA_LOCATION.$this->_file_type; 
+        $this->_location_url = MEDIA_LOCATION_URL.$this->_file_type;
         
        $action = htmlentities($_REQUEST['action']);
         
@@ -43,6 +62,7 @@ private $FileManager;
                 $this->upload_file();
                 break;                        
         }
+        
              
     }
     
@@ -199,10 +219,8 @@ private $FileManager;
                         
                         $html .=  '<div class="grid-item '.$class_item.'">';
                         
-                        //echo MEDIA_LOCATION.$file["base_path"];
-                        
-                        if(file_exists(MEDIA_LOCATION.$file["base_path_thumb"])){
-                            $attr = getimagesize(MEDIA_LOCATION.$file["base_path_thumb"]);
+                        if(file_exists($this->_doc_root.$file["base_path_thumb"])){
+                            $attr = getimagesize($this->_doc_root.$file["base_path_thumb"]);
                         }
                         $mime = $attr['mime'];
                         
@@ -213,7 +231,7 @@ private $FileManager;
                             
                         
                             $html .=  '      <a class="'.$class_link.'" href="#" data-path="'.$file["base_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">
-                                            <img src="'.MEDIA_LOCATION_URL.$file["base_path_thumb"].'" '.$attr[3].' class="max-width">
+                                            <img src="'.$this->_location_url.$file["base_path_thumb"].'" '.$attr[3].' class="max-width">
                                             <br>
                                             <span class="file-name">'.$file["name"].'</span>
                                         </a>';
@@ -227,7 +245,7 @@ private $FileManager;
                         } else {
     
                             
-                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.MEDIA_LOCATION_URL.$file["url_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">';
+                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.$this->_location_url.$file["url_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">';
                                     
                                     $path_info = pathinfo($file['abs_path']);
                                     $icon_types = $this->icon_types();
@@ -281,11 +299,11 @@ private $FileManager;
         $path = htmlentities($_POST['path']);
         
         // Get image size
-        list($width, $height, $type, $attr) = getimagesize(MEDIA_LOCATION_URL.$path);
+        list($width, $height, $type, $attr) = getimagesize($this->_location_url.$path);
         
         $html .= '
         <div id="edit-image-wrap">
-            <img src="'.MEDIA_LOCATION_URL.$path.'?t='.microtime().'" width="'.$width.'" height="'.$height.'" alt="" id="edit-image">
+            <img src="'.$this->_location_url.$path.'?t='.microtime().'" width="'.$width.'" height="'.$height.'" alt="" id="edit-image">
             <input type="hidden" id="crop-path"  value="'.$path.'">
         </div>';
         
@@ -443,7 +461,7 @@ private $FileManager;
     private function delete_folder(){
         
         $path = htmlentities($_POST['path']);
-        $this->FileManager->delete_folder(MEDIA_LOCATION.$path);
+        $this->FileManager->delete_folder($this->_doc_root.$path);
         
         $this->results = '';
         
@@ -461,7 +479,7 @@ private $FileManager;
     private function delete_custom_image(){
         
         $path = htmlentities($_POST['path']);
-        $this->FileManager->delete_custom_image(MEDIA_LOCATION.$path);
+        $this->FileManager->delete_custom_image($this->_doc_root.$path);
         $this->results = '';
         
     }
