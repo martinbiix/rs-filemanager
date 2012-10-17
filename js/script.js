@@ -54,6 +54,7 @@ function image_crop(){
                  
     jcrop_api.setOptions({ onChange: showCoords,
         onSelect: showCoords,
+        setSelect:   [ 100, 100, 20, 20 ],
         minSize: [ crop_minWidth, crop_minHeight ],
         maxSize: [ crop_maxWidth, crop_maxHeight ]
     });
@@ -448,9 +449,10 @@ $(document).ready(function() {
 
             return false;
         }
+        
+        $('#'+file.id).remove();
 
-
-        $("#upload-progress").css("width", '5px');
+        $("#upload-progress").css("width", '0');
 
         $(".upload-error").hide();
         $(".upload-error .notify-inner").html('');
