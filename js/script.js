@@ -25,6 +25,25 @@ function load_files(path){
 
 }
 
+function change_list_view(path, type){
+
+    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
+
+    $.post("index.php?action=LOAD_FILES&list_view="+type, { path: path }, function(data){
+
+        $("#files-container").html(data);
+
+    }).success(function(){
+    })
+    .error(function(){
+
+    })
+    .complete(function() {
+
+    });
+
+}
+
 function reload_edit_image(path){
 
     $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
@@ -114,6 +133,28 @@ $(document).ready(function() {
         $(".new-folder-modal").modal('show');
         $("#new-folder-name").focus();
 
+    });
+    
+    
+    $("body").on("click", '.list-view-button', function(e){
+        e.preventDefault();
+        if ( $(this).children().hasClass('icon-th-list') ) {
+          $(this).children().removeClass('icon-th-list');
+          $(this).children().addClass('icon-th');
+          
+          var curr_location = $("#current-location").val();
+          path = '/' + curr_location;
+          change_list_view(path, 'folder');
+          
+        } else if ( $(this).children().hasClass('icon-th') ) {
+          $(this).children().removeClass('icon-th');
+          $(this).children().addClass('icon-th-list');
+          
+          var curr_location = $("#current-location").val();
+          path = '/' + curr_location;
+          change_list_view(path, 'list');
+          
+        }    
     });
     
     

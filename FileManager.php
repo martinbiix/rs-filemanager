@@ -88,6 +88,7 @@ private $_location_url;
                     $files[$i]['base_path'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['base_path_thumb'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/_thumbs/'.$file);
                     $files[$i]['base_name'] = basename($this->_doc_root.$this->_path.'/'.$file);
+                    $files[$i]['size'] = filesize($this->_doc_root.$this->_path.'/'.$file);
                     $i++;
                 }
             }

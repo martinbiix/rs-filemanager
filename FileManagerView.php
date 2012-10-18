@@ -141,6 +141,19 @@ private $_location_url;
         $current_folder = $this->FileManager->current_folder();
         $bread_crumb = $this->FileManager->bread_crumb();
         
+        foreach ($files as $key => $row) {
+            $types[$key] = $row['file_type'];
+            $names[$key] = $row['name'];
+            $size[$key] = $row['size'];
+        }
+        
+        array_multisort((array) $types, SORT_ASC, (array) $names, SORT_ASC, $files);
+        //array_multisort($types, SORT_ASC, $size, SORT_ASC, $files);
+        
+        $list = ($_SESSION['list'] === true)? 'list' : '';
+        $list_icon = ($_SESSION['list'] === true)? 'icon-th-list' : 'icon-th';
+        
+        // BREADCRUMBS
         $html =  '<div id="bread-wrap">
                     <div class="bread-wrap-inner">';
         
@@ -150,6 +163,8 @@ private $_location_url;
             $html .=  'Home';
         }
         
+                    $html .= '<button class="button small list-view-button"><i class="'.$list_icon.'"></i></button>';
+        
         $html .=  '</div>
                 </div>';
         
@@ -157,31 +172,8 @@ private $_location_url;
         $html .=  '<input type="hidden" name="current_location" id="current-location" value="'.$path.'">';
         
         if(count($files)>0){
-        
-                function array_sort($a, $subkey, $order=SORT_ASC) {
-                	foreach($a as $k=>$v) {
-                		$b[$k] = strtolower($v[$subkey]);
-                	}
                 
-                	switch ($order) {
-                            case SORT_ASC:
-                                asort($b);
-                            break;
-                            case SORT_DESC:
-                                arsort($b);
-                            break;
-                    }
-                	
-                	foreach($b as $key=>$val) {
-                		$c[] = $a[$key];
-                	}
-                	return $c;
-                }
-                
-                
-                $files = array_sort($files, 'name');
-            
-                
+                    
                 // List folders
                 foreach($files as $file){
                         
@@ -192,7 +184,7 @@ private $_location_url;
                         $class_edit = "edit-dir"; 
             
                         
-                        $html .=  '<div class="grid-item '.$class_item.'">
+                        $html .=  '<div class="grid-item '.$list.' '.$class_item.'">
                                     <a class="folder" href="#" data-path="'.$file["base_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">
                                         <img src="images/folder.png" width="64" height="64" alt="folder">
                                         <br>
@@ -204,10 +196,9 @@ private $_location_url;
                                     </div>
                             </div>';
                     }
-                }
+               // }
                 
                 // List Files
-                foreach($files as $file){
                    
                    if($file['file_type'] == 'file'){
                         
@@ -217,7 +208,7 @@ private $_location_url;
                         
                         $allowed_img = array("image/jpg"=>"jpg", "image/jpeg"=>"jpeg", "image/png"=>"png", "image/gif"=>"gif");
                         
-                        $html .=  '<div class="grid-item '.$class_item.'">';
+                        $html .=  '<div class="grid-item '.$list.' '.$class_item.'">';
                         
                         if(file_exists($this->_doc_root.$file["base_path_thumb"])){
                             $attr = getimagesize($this->_doc_root.$file["base_path_thumb"]);
@@ -267,7 +258,7 @@ private $_location_url;
                         }
                         
                         
-                     }   
+                     } // END if file_type  
                 }
         
             } else {
@@ -284,6 +275,30 @@ private $_location_url;
         
     }
     
+    
+    
+    
+    private function array_sort($a, $subkey, $order=SORT_ASC) {
+        
+        foreach($a as $k=>$v) {
+            $b[$k] = strtolower($v[$subkey]);
+        }
+                
+        switch ($order) {
+            case SORT_ASC:
+                asort($b);
+                break;
+            case SORT_DESC:
+                arsort($b);
+                break;
+        }
+                	
+        foreach($b as $key=>$val) {
+            $c[] = $a[$key];
+        }
+        return $c;
+        
+    }
     
     
     
