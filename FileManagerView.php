@@ -196,7 +196,6 @@ private $_location_url;
                                     </div>
                             </div>';
                     }
-               // }
                 
                 // List Files
                    
