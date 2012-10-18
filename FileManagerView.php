@@ -163,7 +163,7 @@ private $_location_url;
             $html .=  'Home';
         }
         
-                    $html .= '<button class="button small list-view-button"><i class="'.$list_icon.'"></i></button>';
+                    $html .= '<a class="button small list-view-button"><i class="'.$list_icon.'"></i></a>';
         
         $html .=  '</div>
                 </div>';
