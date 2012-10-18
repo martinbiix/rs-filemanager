@@ -29,6 +29,53 @@ a, a img{
     overflow: hidden;
 }
 
+#pagination-options-wrap{
+    width: 170px;
+    float: right;
+}
+
+.paginate{
+    display: inline;
+    height: 15px;
+    font-size: .75em;
+    color: #666;
+    float: right;
+}
+.paginate a{
+    color: #666;
+}
+
+.paginate span, .paginate a{
+    display: block;
+    float: left;
+    padding: 1px 4px;
+    border: 1px solid #DDD;
+    .border-radius(3px);
+    margin: 0 3px 0 0;
+}
+.paginate a:hover{
+    background: #CCC;
+    color: #FFF;
+}
+
+.paginate span.current{
+    color: #FFF;
+    background: #555;
+    border: 1px solid #333;
+}
+.paginate span.disabled{
+    color: #999;
+    border: none;
+    .border-radius(none);
+}
+.paginate a.prev, .paginate a.next, .paginate span.adj{
+    border: none;
+    .border-radius(none);
+}
+.paginate a.prev, .paginate a.next{
+    padding-bottom: 3px;
+}
+
 .grid-item{
     width: 120px;
     text-align: center;

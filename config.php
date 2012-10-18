@@ -8,6 +8,10 @@ define("MEDIA_LOCATION_URL", "media"); // No trailing slashes
 // MAX file upload size in MB
 define("MAX_UPLOAD_SIZE","10");
 
+// Pagination limit. Files listed on each page.
+define("PAGINATE", "OFF"); // ON/OFF
+define("PAGINATE_LIMIT", "1");
+
 // file manager's thumbnail size. Prob best to leave alone unless you are changing the file manger UI.
 define("THUMB_MAX_WIDTH", "80");
 define("THUMB_MAX_HEIGHT", "100");

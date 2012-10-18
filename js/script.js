@@ -44,6 +44,25 @@ function change_list_view(path, type){
 
 }
 
+function change_order_view(path, order_by, order_type){
+
+    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
+
+    $.post("index.php?action=LOAD_FILES&order_by="+order_by+'&order_type='+order_type, { path: path }, function(data){
+
+        $("#files-container").html(data);
+
+    }).success(function(){
+    })
+    .error(function(){
+
+    })
+    .complete(function() {
+
+    });
+
+}
+
 function reload_edit_image(path){
 
     $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path } );
@@ -124,6 +143,47 @@ $(document).ready(function() {
         load_files(path);
 
     });
+    
+    $("body").on("change", '#rs-order-by, #rs-order-type', function(e){
+
+        e.preventDefault();
+
+        var order_by = $("#rs-order-by").val();
+        var order_type = $("#rs-order-type").val();
+
+        var curr_location = $("#current-location").val();
+        path = '/' + curr_location;
+        
+        change_order_view(path, order_by, order_type);
+
+    });
+    
+    
+    $("body").on("click", '.paginate a', function(e){
+
+        e.preventDefault();
+
+        var page = $(this).attr("data-page");
+
+        var curr_location = $("#current-location").val();
+        path = '/' + curr_location;
+        
+        $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
+        
+        $.post("index.php?action=LOAD_FILES&page="+page, { path: path }, function(data){
+
+            $("#files-container").html(data);
+    
+        }).success(function(){
+        })
+        .error(function(){
+    
+        })
+        .complete(function() {
+    
+        });
+
+    });
 
 
     $("#new-folder-button").click(function(e){
@@ -138,20 +198,21 @@ $(document).ready(function() {
     
     $("body").on("click", '.list-view-button', function(e){
         e.preventDefault();
+        
+        var curr_location = $("#current-location").val();
+        path = '/' + curr_location;
+        
         if ( $(this).children().hasClass('icon-th-list') ) {
           $(this).children().removeClass('icon-th-list');
           $(this).children().addClass('icon-th');
-          
-          var curr_location = $("#current-location").val();
-          path = '/' + curr_location;
+
           change_list_view(path, 'folder');
           
         } else if ( $(this).children().hasClass('icon-th') ) {
           $(this).children().removeClass('icon-th');
           $(this).children().addClass('icon-th-list');
           
-          var curr_location = $("#current-location").val();
-          path = '/' + curr_location;
+          
           change_list_view(path, 'list');
           
         }    

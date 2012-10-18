@@ -147,8 +147,59 @@ private $_location_url;
             $size[$key] = $row['size'];
         }
         
-        array_multisort((array) $types, SORT_ASC, (array) $names, SORT_ASC, $files);
+        $order_by = $_SESSION['order_by'];
+        $order_type = ($_SESSION['order_type'])? $_SESSION['order_type'] : false ;
+                
+        if($order_by){
+        
+            if($order_by == "name" && $order_type == 'asc'){
+            
+                array_multisort((array) $names, SORT_ASC, (array) $types, SORT_ASC, $files);
+            }
+            
+            if($order_by == "type" && $order_type == 'asc'){
+                
+                array_multisort((array) $types, SORT_ASC, (array) $names, SORT_ASC, $files);
+            }
+            
+            if($order_by == "filesize" && $order_type == 'asc'){
+                array_multisort((array) $size, SORT_ASC, (array) $types, SORT_ASC, $files);
+            }
+            
+            //// DESC ////////
+            if($order_by == "name" && $order_type == 'desc'){
+            
+                array_multisort((array) $names, SORT_DESC, (array) $types, SORT_DESC, $files);
+            }
+            
+            if($order_by == "type" && $order_type == 'desc'){
+                
+                array_multisort((array) $types, SORT_DESC, (array) $names, SORT_DESC, $files);
+            }
+            
+            if($order_by == "filesize" && $order_type == 'desc'){
+                array_multisort((array) $size, SORT_DESC, (array) $types, SORT_DESC, $files);
+            }
+            
+            
         //array_multisort($types, SORT_ASC, $size, SORT_ASC, $files);
+        } else {
+            
+            array_multisort((array) $types, SORT_ASC, (array) $names, SORT_ASC, $files);
+        
+        }
+        
+        
+        // Pagnation setup
+        $limit = PAGINATE_LIMIT;
+	
+    	$page = (int) $_GET['page'];
+    	if($page){
+    		$start = ($page - 1) * $limit;
+    	}else{
+    		$start = 0;
+    	}
+    	
         
         $list = ($_SESSION['list'] === true)? 'list' : '';
         $list_icon = ($_SESSION['list'] === true)? 'icon-th-list' : 'icon-th';
@@ -162,8 +213,41 @@ private $_location_url;
         } else {
             $html .=  'Home';
         }
-        
+                  
+                  $html .= '<div id="pagination-options-wrap">'; 
+                
+                     $sel1 = ($order_by == 'type')? 'selected="selected"' : '';
+                     $sel2 = ($order_by == 'name')? 'selected="selected"' : '';
+                     $sel3 = ($order_by == 'filesize')? 'selected="selected"' : '';
+                     $sel4 = ($order_type == 'asc')? 'selected="selected"' : '';
+                     $sel5 = ($order_type == 'desc')? 'selected="selected"' : '';
+                     
+                     if(!$order_by){
+                         $sel1 = 'selected="selected"';
+                     }
+                    
+                    $html .= '<select id="rs-order-by">';
+                        $html .= '<option value="type" '.$sel1.'>Type</option>';
+                        $html .= '<option value="name" '.$sel2.'>Name</option>';
+                        $html .= '<option value="filesize" '.$sel3.'>Filesize</option>';
+                    $html .= '</select> ';
+                    
+                    $html .= '<select id="rs-order-type">';
+                        $html .= '<option value="asc" '.$sel4.'>Asc</option>';
+                        $html .= '<option value="desc" '.$sel5.'>Desc</option>';
+                    $html .= '</select>';
+                    
                     $html .= '<a class="button small list-view-button"><i class="'.$list_icon.'"></i></a>';
+                
+                $html .= '</div>';
+                
+                // Pagination
+                if(PAGINATE == "ON"){
+                    $total_pages = count($files);
+                    $files = array_slice($files, $start, PAGINATE_LIMIT);
+                    $pagination = $this->paginate("/", $total_pages, PAGINATE_LIMIT);
+                    $html .= '<div class="paginate">'.$pagination.'</div>';
+                }
         
         $html .=  '</div>
                 </div>';
@@ -277,6 +361,121 @@ private $_location_url;
     
     
     
+    private function paginate($targetpage, $total_pages, $limit = 25){
+	
+    	$stages = 1;
+    	
+    	$page = (int) htmlentities($_GET['page']);
+    	if($page){
+    		$start = ($page - 1) * $limit;
+    	}else{
+    		$start = 0;
+    	}
+    	
+    	// Initial page num setup
+    	if ($page == 0){$page = 1;}
+    	$prev = $page - 1;
+    	$next = $page + 1;
+    	$lastpage = ceil($total_pages/$limit);
+    	$LastPagem1 = $lastpage - 1;					
+    
+    	$paginate = '';
+    	if($lastpage > 1)
+    	{	
+    
+    		//$paginate .= "<div class='paginate'>";
+    		// Previous
+    		if ($page > 1){
+    			$paginate.= "<a class='prev' href='$targetpage?page=$prev' data-page='$prev'>&laquo;</a>";
+    		}else{
+    			$paginate.= "<span class='disabled'>&laquo;</span>";	}
+    
+    		// Pages
+    		if ($lastpage < 7 + ($stages * 2))	// Not enough pages to breaking it up
+    		{
+    			for ($counter = 1; $counter <= $lastpage; $counter++)
+    			{
+    				if ($counter == $page){
+    					$paginate.= "<span class='current'>$counter</span>";
+    				}else{
+    					$paginate.= "<a href='$targetpage?page=$counter' data-page='$counter'>$counter</a>";}
+    			}
+    		}
+    		elseif($lastpage > 5 + ($stages * 2))	// Enough pages to hide a few?
+    		{
+    			// Beginning only hide later pages
+    			if($page < 1 + ($stages * 2))
+    			{
+    				for ($counter = 1; $counter < 4 + ($stages * 2); $counter++)
+    				{
+    					if ($counter == $page){
+    						$paginate.= "<span class='current'>$counter</span>";
+    					}else{
+    						$paginate.= "<a href='$targetpage?page=$counter' data-page='$counter'>$counter</a>";}
+    				}
+    				$paginate.= "<span class='adj'>...</span>";
+    				$paginate.= "<a href='$targetpage?page=$LastPagem1' data-page='$LastPagem1'>$LastPagem1</a>";
+    				$paginate.= "<a href='$targetpage?page=$lastpage' data-page='$lastpage'>$lastpage</a>";
+    			}
+    			// Middle hide some front and some back
+    			elseif($lastpage - ($stages * 2) > $page && $page > ($stages * 2))
+    			{
+    				$paginate.= "<a href='$targetpage?page=1' data-page='1'>1</a>";
+    				$paginate.= "<a href='$targetpage?page=2' data-page='2'>2</a>";
+    				$paginate.= "<span class='adj'>...</span>";
+    				for ($counter = $page - $stages; $counter <= $page + $stages; $counter++)
+    				{
+    					if ($counter == $page){
+    						$paginate.= "<span class='current'>$counter</span>";
+    					}else{
+    						$paginate.= "<a href='$targetpage?page=$counter' data-page='$counter'>$counter</a>";}
+    				}
+    				$paginate.= "<span class='adj'>...</span>";
+    				$paginate.= "<a href='$targetpage?page=$LastPagem1' data-page='$LastPagem1'>$LastPagem1</a>";
+    				$paginate.= "<a href='$targetpage?page=$lastpage' data-page='$lastpage'>$lastpage</a>";
+    			}
+    			// End only hide early pages
+    			else
+    			{
+    				$paginate.= "<a href='$targetpage?page=1' data-page='1'>1</a>";
+    				$paginate.= "<a href='$targetpage?page=2' data-page='2'>2</a>";
+    				$paginate.= "<span class='adj'>...</span>";
+    				for ($counter = $lastpage - (2 + ($stages * 2)); $counter <= $lastpage; $counter++)
+    				{
+    					if ($counter == $page){
+    						$paginate.= "<span class='current'>$counter</span>";
+    					}else{
+    						$paginate.= "<a href='$targetpage?page=$counter' data-page='$counter'>$counter</a>";}
+    				}
+    			}
+    		}
+    
+    				// Next
+    		if ($page < $counter - 1){
+    			$paginate.= "<a class='next' href='$targetpage?page=$next' data-page='$next'>&raquo;</a>";
+    		}else{
+    			$paginate.= "<span class='disabled'>&raquo;</span>";
+    			}
+    
+    		//$paginate.= "</div>";
+    	}
+    		
+    	return $paginate;	
+    	
+    } // END pagination
+    
+    
+    
+    
+    /**
+     * array_sort function.
+     * 
+     * @access private
+     * @param mixed $a
+     * @param mixed $subkey
+     * @param mixed $order (default: SORT_ASC)
+     * @return array
+     */
     private function array_sort($a, $subkey, $order=SORT_ASC) {
         
         foreach($a as $k=>$v) {

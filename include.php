@@ -16,6 +16,11 @@ if(strtolower($_GET['list_view']) == 'folder'){
     $_SESSION['list'] = false;
 }
 
+if(isset($_GET['order_by'])){
+    $_SESSION['order_by'] = strtolower(htmlentities($_GET['order_by']));
+    $_SESSION['order_type'] = strtolower(htmlentities($_GET['order_type']));
+}
+
 if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || ($_REQUEST['action'] == "UPLOAD_FILE")) {
     
     $FileManager = new FileManager();
@@ -34,5 +39,9 @@ if(!isset($_GET['file_type'])){
 }
 if(!isset($_GET['list_view'])){
     $_SESSION['list'] = false;
+}
+if(!isset($_GET['order_by'])){
+    $_SESSION['order_by'] = false;
+    $_SESSION['order_type'] = false;
 }
 ?>
