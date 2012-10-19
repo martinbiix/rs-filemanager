@@ -18,7 +18,7 @@ define("MAX_UPLOAD_SIZE","10");
 define("PAGINATE", "ON"); // ON/OFF
 define("PAGINATE_LIMIT", "18");
 
-// file manager's thumbnail size. Prob best to leave alone unless you are changing the file manger UI.
+// File manager's thumbnail size. Prob best to leave alone unless you are changing the file manger UI.
 define("THUMB_MAX_WIDTH", "80");
 define("THUMB_MAX_HEIGHT", "100");
 
