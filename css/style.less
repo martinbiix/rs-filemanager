@@ -327,10 +327,6 @@ a, a img{
     font-size: .75em;
 }
 
-#filelist-wrap{
-    font-size: .75em;
-}
-
 .upload-error{
     margin: 0 0 5px 0;
 }
@@ -383,10 +379,19 @@ a, a img{
 #filedrop.hover{
     background: #e4e4e4;
 }
+
 #filelist{
-    margin: 5px 0;
-    overflow: hidden;
+    width: 525px;
+    max-height: 130px;
+    overflow: auto;
+    clear: both;
+    margin: 0 auto;
 }
+
+#filelist-wrap{
+    font-size: .75em;
+}
+
 #filelist div{
     width: 100%;
     float: left;

@@ -15,14 +15,12 @@
 
     <div id="sticky-filemenu">
         <div class="sticky-inner">
-            <a href="#" id="upload-modal-button"><i class="icon-upload"></i> Add File(s)</a>
+            <a href="#" id="upload-modal-button"><i class="icon-upload"></i> Add Files</a>
             <div id="create-folder-wrap">
                 <button type="submit" id="new-folder-button" class="button primary small">New Folder</button>
             </div>
         </div>
     </div>
-    
-    <?php include('uploader.php'); ?>
     
     <div id="error"></div> 
     

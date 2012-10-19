@@ -6,61 +6,60 @@ var crop_y2 = "";
 var crop_width = "";
 var crop_height = "";
 
+
+function loader(){
+    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
+}
+
+function show_error(error){
+    alert(error);   
+}
+
 function load_files(path){
 
-    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
-
-    $.post("index.php?action=LOAD_FILES", { path: path }, function(data){
-
+    loader();
+    $.post("index.php?action=LOAD_FILES", { path: path }, function(){
+    }).success(function(data){
         $("#files-container").html(data);
-
-    }).success(function(){
-    })
-    .error(function(){
-
-    })
-    .complete(function() {
-
+    }).error(function(xhr, ajaxOptions, thrownError){
+        show_error(thrownError);
+    }).complete(function() {
+        $.unblockUI();
     });
 
 }
 
 function change_list_view(path, type){
 
-    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
-
-    $.post("index.php?action=LOAD_FILES&list_view="+type, { path: path }, function(data){
-
+    loader();
+    $.post("index.php?action=LOAD_FILES&list_view="+type, { path: path }, function(){
+    }).success(function(data){
         $("#files-container").html(data);
-
-    }).success(function(){
-    })
-    .error(function(){
-
-    })
-    .complete(function() {
-
+    }).error(function(xhr, ajaxOptions, thrownError){
+        show_error(thrownError);
+    }).complete(function() {
+        $.unblockUI();
     });
 
 }
 
 function change_order_view(path, order_by, order_type){
 
-    $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
-
-    $.post("index.php?action=LOAD_FILES&order_by="+order_by+'&order_type='+order_type, { path: path }, function(data){
-
+    loader();
+    $.post("index.php?action=LOAD_FILES&order_by="+order_by+'&order_type='+order_type, { path: path }, function(){
+    }).success(function(data){
         $("#files-container").html(data);
-
-    }).success(function(){
-    })
-    .error(function(){
-
-    })
-    .complete(function() {
-
+    }).error(function(xhr, ajaxOptions, thrownError){
+        show_error(thrownError);
+    }).complete(function() {
+        $.unblockUI();
     });
 
+}
+
+function get_path(){
+    var path = '/' + $("#current-location").val();
+    return path;
 }
 
 function reload_edit_image(path){
@@ -129,7 +128,7 @@ function image_crop(){
     
 }
 
-$(document).ajaxStop($.unblockUI);
+//$(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
 
     var path = '';
@@ -150,8 +149,7 @@ $(document).ready(function() {
 
         var order_by = $(this).attr("data-order");
 
-        var curr_location = $("#current-location").val();
-        path = '/' + curr_location;
+        path = get_path();
         
         change_order_view(path, order_by, 'ASC');
 
@@ -164,22 +162,16 @@ $(document).ready(function() {
 
         var page = $(this).attr("data-page");
 
-        var curr_location = $("#current-location").val();
-        path = '/' + curr_location;
+        path = get_path();
         
-        $.blockUI({ css: { backgroundColor: 'none', border: 'none', color: '#fff' }, message: 'Loading...', timeout: 1000, fadeIn:  100, fadeOut:  100 });
-        
-        $.post("index.php?action=LOAD_FILES&page="+page, { path: path }, function(data){
-
+        loader();
+        $.post("index.php?action=LOAD_FILES&page="+page, { path: path }, function(){
+        }).success(function(data){
             $("#files-container").html(data);
-    
-        }).success(function(){
-        })
-        .error(function(){
-    
-        })
-        .complete(function() {
-    
+        }).error(function(xhr, ajaxOptions, thrownError){
+            show_error(thrownError);
+        }).complete(function() {
+            $.unblockUI();
         });
 
     });
@@ -198,8 +190,7 @@ $(document).ready(function() {
     $("body").on("click", '.list-view-button', function(e){
         e.preventDefault();
         
-        var curr_location = $("#current-location").val();
-        path = '/' + curr_location;
+        path = get_path();
         
         if ( $(this).children().hasClass('icon-th-list') ) {
           $(this).children().removeClass('icon-th-list');
@@ -223,8 +214,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var new_folder_name = $("#new-folder-name").val();
-        var curr_location = $("#current-location").val();
-        path = '/' + curr_location;
+        path = get_path();
 
         if(new_folder_name.length < 1){ return false; }
 
@@ -383,9 +373,8 @@ $(document).ready(function() {
            }).success(function(){
 
                 $("#folder-name").val('');
-                var curr_location = $("#current-location").val();
-                curr_path = '/' + curr_location;
-                load_files(curr_path);
+                path = get_path();
+                load_files(path);
 
                 $( ".folder-name-modal" ).modal("hide");
 
@@ -549,7 +538,12 @@ $(document).ready(function() {
             
             $(".upload-error").show();
             $(".upload-error .notify-inner").html("<p><span class='bold'>Error:</span> "  + obj.error.message + "</p>");
+            
             $("#upload-progress").css("width", '0');
+            
+            path = get_path();
+            
+            load_files(path);
             
             up.refresh();
             up.stop();
@@ -574,8 +568,7 @@ $(document).ready(function() {
     // UPLOADS COMPLETE
     uploader.bind('UploadComplete', function(up, files) {
 
-        var curr_location = $("#current-location").val();
-        var path = '/' + curr_location;
+        path = get_path();
 
         $("#custom-width").val('');
         $("#custom-height").val('');
@@ -588,7 +581,7 @@ $(document).ready(function() {
 
         uploader.refresh();
 
-        $('#filelist').html('<strong>Upload complete.</strong>');
+        $('.no-files-selected').html('<strong>Upload complete.</strong>');
         $("#upload-progress").css("width","0px");
         $(".upload-error").hide();
         $(".upload-error .notify-inner").html('');

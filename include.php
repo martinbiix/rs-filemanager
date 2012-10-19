@@ -27,7 +27,6 @@ if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
     $FileManager->img_sizes = $img_sizes;
     $FileManager->img_types = $img_types;
     $FileManager->doc_types = $doc_types;
-    
     $FileManagerView = new FileManagerView($FileManager);
     echo $FileManagerView->view();
 	die();
