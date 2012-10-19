@@ -6,7 +6,16 @@ class FileManagerView extends FileManager {
        
        if(!is_dir(MEDIA_LOCATION)){
             echo 'Uploads folder could not be found. Please check your configuration.';
+            die();
         }
+        
+        if(!is_dir(MEDIA_LOCATION.'/files')){
+            mkdir(MEDIA_LOCATION.'/files', 0775, false);
+        }
+        if(!is_dir(MEDIA_LOCATION.'/iamges')){
+            mkdir(MEDIA_LOCATION.'/images', 0775, false);
+        }
+        
         
         $this->_location = dirname(__FILE__);
         

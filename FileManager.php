@@ -184,12 +184,8 @@ protected $_location_url;
             $this->return_header('ERROR', "Folder already exists");
             return false;
         }
-        
-        // Need to prevent creating thumbs and sizes folders and need to clean folder names
+
         mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name, 0775, false);
-        /*mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name.'/_thumbs', 0775, false);
-        mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name.'/_sizes', 0775, false);
-        mkdir($this->_doc_root.$this->_path.'/'.$new_folder_name.'/_crops', 0775, false);*/
         
     }
     
