@@ -216,28 +216,30 @@ private $_location_url;
                   
                   $html .= '<div id="pagination-options-wrap">'; 
                 
-                     $sel1 = ($order_by == 'type')? 'selected="selected"' : '';
-                     $sel2 = ($order_by == 'name')? 'selected="selected"' : '';
-                     $sel3 = ($order_by == 'filesize')? 'selected="selected"' : '';
-                     $sel4 = ($order_type == 'asc')? 'selected="selected"' : '';
-                     $sel5 = ($order_type == 'desc')? 'selected="selected"' : '';
+                     $sel1 = ($order_by == 'type')? '<i class="icon-ok"></i>' : '';
+                     $sel2 = ($order_by == 'name')? '<i class="icon-ok"></i>' : '';
+                     $sel3 = ($order_by == 'filesize')? '<i class="icon-ok"></i>' : '';
                      
                      if(!$order_by){
-                         $sel1 = 'selected="selected"';
+                         $sel1 = '<i class="icon-ok"></i>';
                      }
                     
-                    $html .= '<select id="rs-order-by">';
-                        $html .= '<option value="type" '.$sel1.'>Type</option>';
-                        $html .= '<option value="name" '.$sel2.'>Name</option>';
-                        $html .= '<option value="filesize" '.$sel3.'>Filesize</option>';
-                    $html .= '</select> ';
+                    $html .= '<div class="dropdown">';
+                        
+                        $html .= '<a class="button small order-by-button dropdown-toggle tooltip1" href="#" rel="tooltip" title="Order by"><i class="icon-reorder"></i></a>';
+                        $html .= '<ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a href="#" class="rs-order-by" data-order="type" tabindex="-1">'.$sel1.' Type</a></li>
+                                    <li><a href="#" class="rs-order-by" data-order="name" tabindex="-1">'.$sel2.' Name</a></li>
+                                    <li><a href="#" class="rs-order-by" data-order="filesize" tabindex="-1">'.$sel3.' File size</a></li>
+                                  </ul>';
+                        
+                    $html .= '</div>';
                     
-                    $html .= '<select id="rs-order-type">';
-                        $html .= '<option value="asc" '.$sel4.'>Asc</option>';
-                        $html .= '<option value="desc" '.$sel5.'>Desc</option>';
-                    $html .= '</select>';
+                    
                     
                     $html .= '<a class="button small list-view-button"><i class="'.$list_icon.'"></i></a>';
+                    
+                    $html .= '<script>$(".dropdown-toggle").dropdown(); $(".tooltip1").tooltip({placement: "bottom"});</script>';
                 
                 $html .= '</div>';
                 
@@ -330,7 +332,7 @@ private $_location_url;
                                     $html .= '<img src="images/'.$icon_type.'" width="64" height="64" alt="'.$path_info["filename"].'.'.$path_info["extension"].'">';
                             
                             $html .=  '       <br>
-                                            <span class="file-name">'.$file["name"].'</span>
+                                            <span class="file-name">'.$file["name"].'<br><span class="file-size">('.$this->format_bytes($file['size']).')</span></span>
                                         </a>';
                                         
                             $html .=  '      <div class="file-actions">
@@ -361,6 +363,15 @@ private $_location_url;
     
     
     
+    /**
+     * paginate function.
+     * 
+     * @access private
+     * @param mixed $targetpage
+     * @param mixed $total_pages
+     * @param int $limit (default: 25)
+     * @return string
+     */
     private function paginate($targetpage, $total_pages, $limit = 25){
 	
     	$stages = 1;
@@ -498,6 +509,22 @@ private $_location_url;
         
     }
     
+    
+    
+    
+    /**
+     * format_bytes function.
+     * 
+     * @access private
+     * @param mixed $file
+     * @param mixed $type
+     * @return string
+     */
+    private function format_bytes($size) {
+        $units = array(' B', ' KB', ' MB', ' GB', ' TB');
+        for ($i = 0; $size >= 1024 && $i < 4; $i++) $size /= 1024;
+        return round($size, 2).$units[$i];
+    }
     
     
     

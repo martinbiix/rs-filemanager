@@ -1,4 +1,10 @@
 <?php
+/*
+
+Suggested modal or popup dimensions: 915px x 650px with no scrollbars
+
+*/
+
 // absolute server path Location of the file manager files
 define("MEDIA_LOCATION", $_SERVER['DOCUMENT_ROOT']."/filemanager/media"); // No trailing slashes
 
@@ -9,8 +15,8 @@ define("MEDIA_LOCATION_URL", "media"); // No trailing slashes
 define("MAX_UPLOAD_SIZE","10");
 
 // Pagination limit. Files listed on each page.
-define("PAGINATE", "OFF"); // ON/OFF
-define("PAGINATE_LIMIT", "1");
+define("PAGINATE", "ON"); // ON/OFF
+define("PAGINATE_LIMIT", "18");
 
 // file manager's thumbnail size. Prob best to leave alone unless you are changing the file manger UI.
 define("THUMB_MAX_WIDTH", "80");

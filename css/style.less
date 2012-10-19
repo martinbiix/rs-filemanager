@@ -21,6 +21,7 @@ a, a img{
 }
 .sticky-inner{
     padding: 10px 10px 15px 10px;
+    overflow: hidden;
 }
 
 #files-container{
@@ -30,8 +31,9 @@ a, a img{
 }
 
 #pagination-options-wrap{
-    width: 170px;
+    width: 60px;
     float: right;
+    margin-left: 10px;
 }
 
 .paginate{
@@ -49,7 +51,7 @@ a, a img{
     display: block;
     float: left;
     padding: 1px 4px;
-    border: 1px solid #DDD;
+    border: 1px solid #CCC;
     .border-radius(3px);
     margin: 0 3px 0 0;
 }
@@ -168,6 +170,15 @@ a, a img{
     white-space: nowrap;
     overflow: hidden;
     color: #333;
+    clear: both;
+}
+
+.file-size{
+    font-size: .6em;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #333;
+    clear: both;
 }
 
 .folder-thumb{
@@ -263,25 +274,30 @@ a, a img{
     padding: 0 10px;
 }
 
-#bread-wrap a{
+#bread-wrap a.bread-path{
     color: #404cf5;
 }
-#bread-wrap a:hover{
+#bread-wrap a.bread-path:hover{
     color: #888;
 }
 
-.button.small.list-view-button{
+.button.small.list-view-button, .button.small.order-by-button{
     float: right;
     font-size: .8em;
     padding: 2px 6px;
     line-height: 12px;
     .box-shadow(none);
-    border: 1px solid #CCC;
+    border: 1px solid #999;
     text-align: center;
     color: #444;
     cursor: pointer;
 }
-.button.small.list-view-button i{
+
+.button.small.order-by-button{
+    float: left;
+}
+
+.button.small.list-view-button i, .button.small.order-by-button i{
     margin-right: 0;
 }
 
@@ -421,6 +437,10 @@ a, a img{
     max-width: 870px;
     max-height: 450px;
     overflow: hidden;
+}
+
+.modal-footer button{
+    margin-left: 5px;
 }
 
 #file-options{

@@ -144,17 +144,16 @@ $(document).ready(function() {
 
     });
     
-    $("body").on("change", '#rs-order-by, #rs-order-type', function(e){
+    $("body").on("click", '.rs-order-by', function(e){
 
         e.preventDefault();
 
-        var order_by = $("#rs-order-by").val();
-        var order_type = $("#rs-order-type").val();
+        var order_by = $(this).attr("data-order");
 
         var curr_location = $("#current-location").val();
         path = '/' + curr_location;
         
-        change_order_view(path, order_by, order_type);
+        change_order_view(path, order_by, 'ASC');
 
     });
     
@@ -469,7 +468,7 @@ $(document).ready(function() {
        $("#uploadfiles").hide();
        $("#custom-sizes").hide();
        $('#filelist').html('<span class="no-files-selected">No file selected</span>');
-
+       $("#upload-progress").css("width", '0');
        $(".upload-error").hide();
        $(".upload-error .notify-inner").html('');
 
@@ -522,8 +521,12 @@ $(document).ready(function() {
                 (err.file ? ", File: " + err.file.name : "") +
                 "</p>"
             );
-
+            
+            $("#upload-progress").css("width", '0');
+            $("#uploadfiles").show();
+            
             up.refresh();
+            
     });
 
     uploader.bind('UploadProgress', function(up, file) {
@@ -546,22 +549,25 @@ $(document).ready(function() {
             
             $(".upload-error").show();
             $(".upload-error .notify-inner").html("<p><span class='bold'>Error:</span> "  + obj.error.message + "</p>");
-
+            $("#upload-progress").css("width", '0');
+            
             up.refresh();
+            up.stop();
 
-            return false;
+        } else {
+        
+            $('#'+file.id).remove();
+    
+            $("#upload-progress").css("width", '0');
+    
+            $(".upload-error").hide();
+            $(".upload-error .notify-inner").html('');
+            $("#uploadfiles").hide();
+            $("#custom-sizes").hide();
+        
         }
         
-        $('#'+file.id).remove();
-
-        $("#upload-progress").css("width", '0');
-
-        $(".upload-error").hide();
-        $(".upload-error .notify-inner").html('');
-        $("#uploadfiles").hide();
-        $("#custom-sizes").hide();
-
-        uploader.refresh();
+        up.refresh();
 
     });
 
@@ -604,7 +610,7 @@ $(document).ready(function() {
         $(".upload-error").hide();
         $(".upload-error .notify-inner").html('');
         $("#custom-sizes").hide();
-
+        $("#upload-progress").css("width", '0');
         $(".uploader-modal").modal('hide');
 
         $.each(uploader.files, function(i, file) {
