@@ -23,11 +23,10 @@ if(isset($_GET['order_by'])){
 
 if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || ($_REQUEST['action'] == "UPLOAD_FILE")) {
     
-    $FileManager = new FileManager();
-    $FileManager->img_sizes = $img_sizes;
-    $FileManager->img_types = $img_types;
-    $FileManager->doc_types = $doc_types;
-    $FileManagerView = new FileManagerView($FileManager);
+    $FileManagerView = new FileManagerView();
+    $FileManagerView->img_sizes = $img_sizes;
+    $FileManagerView->img_types = $img_types;
+    $FileManagerView->doc_types = $doc_types;
     echo $FileManagerView->view();
 	die();
 

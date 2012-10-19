@@ -1,18 +1,16 @@
 <?php
-class FileManagerView{
+class FileManagerView extends FileManager {
 
-public $results = '';
-
-private $FileManager;
-private $_doc_root;
-private $_file_type;
-private $_location_url;
-    
-    function __construct($FileManager){
+   
+    function __construct(){
+       
+       if(!is_dir(MEDIA_LOCATION)){
+            echo 'Uploads folder could not be found. Please check your configuration.';
+        }
         
-       $this->FileManager = $FileManager;
+        $this->_location = dirname(__FILE__);
         
-       $fileType = $_SESSION['file_type'];
+        $fileType = $_SESSION['file_type'];
         
         switch ($fileType) {
             case "images":
@@ -25,52 +23,63 @@ private $_location_url;
                 $this->_file_type = '';
         }
         
-        $this->_doc_root = MEDIA_LOCATION.$this->_file_type; 
+        $this->_doc_root = MEDIA_LOCATION.$this->_file_type;
         $this->_location_url = MEDIA_LOCATION_URL.$this->_file_type;
         
-       $action = htmlentities($_REQUEST['action']);
-        
-        switch ($action) {
-            case "LOAD_FILES":
-                $this->load_files();
-                break;
-            case "EDIT_IMAGE":
-                $this->edit_image();
-                break;
-            case "CROP_IMAGE":
-                $this->crop_image();
-                break;
-            case "IMAGE_OPTIONS":
-                $this->image_options();
-                break;
-            case "ROTATE_IMAGE":
-                $this->rotate_image();
-                break;    
-            case "CREATE_FOLDER":
-                $this->create_folder();
-                break;
-            case "EDIT_FOLDER":
-                $this->edit_folder();
-                break;
-            case "DELETE_FOLDER":
-                $this->delete_folder();
-                break;
-            case "DELETE_CUSTOM_IMAGE":
-                $this->delete_custom_image();
-                break;
-            case "UPLOAD_FILE":
-                $this->upload_file();
-                break;                        
+        if(isset($_POST['path'])){
+            $this->_path = htmlentities($_POST['path']);
         }
-        
+         
              
     }
     
     
     
     
+    
+    /**
+     * view function.
+     * 
+     * @access public
+     * @return html
+     */
     public function view(){
-        return $this->results;
+        
+        $action = htmlentities($_REQUEST['action']);
+        
+        switch ($action) {
+            case "LOAD_FILES":
+                return $this->load_files_view();
+                break;
+            case "EDIT_IMAGE":
+                return $this->edit_image_view();
+                break;
+            case "CROP_IMAGE":
+                return $this->crop_image_view();
+                break;
+            case "IMAGE_OPTIONS":
+                return $this->image_options_view();
+                break;
+            case "ROTATE_IMAGE":
+                return $this->rotate_image_view();
+                break;    
+            case "CREATE_FOLDER":
+                return $this->create_folder_view();
+                break;
+            case "EDIT_FOLDER":
+                return $this->edit_folder_view();
+                break;
+            case "DELETE_FOLDER":
+                return $this->delete_folder_view();
+                break;
+            case "DELETE_CUSTOM_IMAGE":
+                return $this->delete_custom_image_view();
+                break;
+            case "UPLOAD_FILE":
+                return $this->upload_file_view();
+                break;                        
+        }
+        
     }
     
     
@@ -133,13 +142,13 @@ private $_location_url;
      * @access private
      * @return html
      */
-    private function load_files(){
+    private function load_files_view(){
         
-        $files = $this->FileManager->dir_list();
-        $bread_path = $this->FileManager->bread_path();
-        $path = $this->FileManager->path();
-        $current_folder = $this->FileManager->current_folder();
-        $bread_crumb = $this->FileManager->bread_crumb();
+        $files = $this->dir_list();
+        $bread_path = $this->bread_path();
+        $path = $this->path();
+        $current_folder = $this->current_folder();
+        $bread_crumb = $this->bread_crumb();
         
         foreach ($files as $key => $row) {
             $types[$key] = $row['file_type'];
@@ -356,7 +365,7 @@ private $_location_url;
                 
             }
             
-            $this->results = $html;
+            return $html;
         
     }
     
@@ -534,7 +543,7 @@ private $_location_url;
      * @access private
      * @return html
      */
-    private function edit_image(){
+    private function edit_image_view(){
         
         $path = htmlentities($_POST['path']);
         
@@ -547,7 +556,7 @@ private $_location_url;
             <input type="hidden" id="crop-path"  value="'.$path.'">
         </div>';
         
-        $this->results = $html;
+        return $html;
         
     }
     
@@ -561,10 +570,10 @@ private $_location_url;
      * @access private
      * @return json
      */
-    private function crop_image(){
+    private function crop_image_view(){
         
-        $cropped_image = $this->FileManager->save_crop();
-        $this->results = '{"success":"success", "cropped_image":"'.$cropped_image['url_path'].'", "path":"'.$cropped_image['path'].'"}';
+        $cropped_image = $this->save_crop();
+        return '{"success":"success", "cropped_image":"'.$cropped_image['url_path'].'", "path":"'.$cropped_image['path'].'"}';
         
     }
     
@@ -577,9 +586,9 @@ private $_location_url;
      * @access private
      * @return void
      */
-    private function rotate_image(){
+    private function rotate_image_view(){
         
-        $this->FileManager->rotate_image();
+        $this->rotate_image();
         
     }
     
@@ -592,9 +601,9 @@ private $_location_url;
      * @access private
      * @return html
      */
-    private function image_options(){
+    private function image_options_view(){
         
-        $image_options = $this->FileManager->image_options();
+        $image_options = $this->image_options();
     
         //list($width, $height, $type, $attr) = getimagesize($image_options['thumb']['path']);
         //$html = '<p><img src="'.$image_options['thumb']['url'].'" width="'.$width.'" height="'.$hieght.'" alt=""></p>';
@@ -661,7 +670,7 @@ private $_location_url;
         $html .= '</tbody>';
         $html .= '</table>';
         
-        $this->results = $html;
+        return $html;
         
     }
     
@@ -674,19 +683,19 @@ private $_location_url;
      * @access private
      * @return void
      */
-    private function create_folder(){
+    private function create_folder_view(){
         
-        $this->FileManager->create_folder();
-        $this->results = '';
+        $this->create_folder();
+        return;
         
     }
     
     
     
-    public function edit_folder(){
+    public function edit_folder_view(){
         
-        $this->FileManager->edit_folder();
-        $this->results = '';
+        $this->edit_folder();
+        return;
         
     }
     
@@ -698,12 +707,12 @@ private $_location_url;
      * @access private
      * @return void
      */
-    private function delete_folder(){
+    private function delete_folder_view(){
         
         $path = htmlentities($_POST['path']);
-        $this->FileManager->delete_folder($this->_doc_root.$path);
+        $this->delete_folder($this->_doc_root.$path);
         
-        $this->results = '';
+        return;
         
     }
     
@@ -716,11 +725,12 @@ private $_location_url;
      * @access private
      * @return void
      */
-    private function delete_custom_image(){
+    private function delete_custom_image_view(){
         
         $path = htmlentities($_POST['path']);
-        $this->FileManager->delete_custom_image($this->_doc_root.$path);
-        $this->results = '';
+        $this->delete_custom_image($this->_doc_root.$path);
+        
+        return;
         
     }
     
@@ -733,12 +743,12 @@ private $_location_url;
      * @access private
      * @return void
      */
-    private function upload_file(){
+    private function upload_file_view(){
         
-        if($this->FileManager->upload_file()){
-            $this->results = '{"success":"success"}';
+        if($this->upload_file()){
+            return '{"success":"success"}';
         } else {
-            $this->results = '{"error": {"message": "'.$this->FileManager->error[0].'"} }';
+            return '{"error": {"message": "'.$this->error[0].'"} }';
         }
         
     }

@@ -1,10 +1,10 @@
 var jcrop_api;
-var crop_x = "";
-var crop_y = "";
-var crop_x2 = "";
-var crop_y2 = "";
-var crop_width = "";
-var crop_height = "";
+var crop_x;
+var crop_y;
+var crop_x2;
+var crop_y2;
+var crop_width;
+var crop_height;
 
 
 function loader(){

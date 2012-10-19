@@ -6,47 +6,17 @@ public $doc_types = array();
 public $img_sizes = array();
 public $img_types = array();
 
-private $_location;
-private $_file_type;
-private $_path;
-private $_doc_root;
-private $_location_url;
-    
-    function __construct(){
-    
-        // Check for FM files location. Throw error if not found. Create files and images folder if not sub folders.
-        if(!is_dir(MEDIA_LOCATION)){
-            echo 'Uploads folder could not be found. Please check your configuration.';
-        }
-        
-        $this->_location = dirname(__FILE__);
-        
-        $fileType = $_SESSION['file_type'];
-        
-        switch ($fileType) {
-            case "images":
-                $this->_file_type = '/images';
-                break;
-            case "files":
-                $this->_file_type = '/files';
-                break;
-            default:
-                $this->_file_type = '';
-        }
-        
-        $this->_doc_root = MEDIA_LOCATION.$this->_file_type;
-        $this->_location_url = MEDIA_LOCATION_URL.$this->_file_type;
-        
-        if(isset($_POST['path'])){
-            $this->_path = htmlentities($_POST['path']);
-        }
-             
-    }
+protected $_location;
+protected $_file_type;
+protected $_path;
+protected $_doc_root;
+protected $_location_url;
     
     
+    function __construct(){}
     
     
-    private function return_header($type, $mess="Error"){
+    protected function return_header($type, $mess="Error"){
         
         if($type == "ERROR" ){
             header("HTTP/1.0 409 ".$mess);
@@ -66,10 +36,10 @@ private $_location_url;
      * @param bool $path (default: false)
      * @return array
      */
-    public function dir_list($folders_only = false){
+    protected function dir_list($folders_only = false){
         
         $files = array();
-        
+
         if ($handle = opendir($this->_doc_root.$this->_path)) {
         
             $blacklist = array('.', '..', '.DS_Store', '_thumbs', '_sizes', '_crops', '.svn', '.git');
@@ -109,7 +79,7 @@ private $_location_url;
      * @access public
      * @return string
      */
-    public function bread_path(){
+    protected function bread_path(){
         
         $path = ltrim($this->_path, "/");
         $path_pieces = explode("/",$path);
@@ -139,7 +109,7 @@ private $_location_url;
      * @access public
      * @return string
      */
-    public function path(){
+    protected function path(){
         
          $path = ltrim($this->_path, "/");
          
@@ -155,7 +125,7 @@ private $_location_url;
      * @access public
      * @return string
      */
-    public function current_folder(){
+    protected function current_folder(){
         
         $path = ltrim($this->_path, "/");
         $path_pieces = explode("/",$path);
@@ -173,7 +143,7 @@ private $_location_url;
      * @access public
      * @return string
      */
-    public function bread_crumb(){
+    protected function bread_crumb(){
         
         $path = ltrim($this->_path, "/");
         $path_pieces = explode("/",$path);
@@ -205,7 +175,7 @@ private $_location_url;
      * @access public
      * @return void
      */
-    public function create_folder(){
+    protected function create_folder(){
         
         $new_folder_name = $this->clean_foldername($_POST['new_folder']);
         
@@ -232,7 +202,7 @@ private $_location_url;
      * @access public
      * @return void
      */
-    public function edit_folder(){
+    protected function edit_folder(){
         
         $clean_name = $this->clean_foldername($_POST['folder_name']);
         
@@ -255,7 +225,7 @@ private $_location_url;
      * @access public
      * @return void
      */
-    public function delete_folder($directory, $empty=FALSE){
+    protected function delete_folder($directory, $empty=FALSE){
         
         $file_type = htmlentities($_POST['file_type']);
         
@@ -343,7 +313,7 @@ private $_location_url;
      * @param mixed $file
      * @return void
      */
-    public function delete_custom_image($file){
+    protected function delete_custom_image($file){
         
         unlink($file);
         
@@ -358,7 +328,7 @@ private $_location_url;
      * @access public
      * @return string
      */
-    public function save_crop(){
+    protected function save_crop(){
         
         $file = $this->_path;
         
@@ -426,7 +396,7 @@ private $_location_url;
      * @access public
      * @return array
      */
-    public function image_options(){
+    protected function image_options(){
         
         $file = $this->_path;
         
@@ -481,7 +451,7 @@ private $_location_url;
      * @access public
      * @return void
      */
-    public function upload_file(){
+    protected function upload_file(){
         
         $allowed = array("image/jpg"=>"jpg", "image/jpeg"=>"jpeg", "image/png"=>"png", "image/gif"=>"gif");
         
@@ -597,14 +567,14 @@ private $_location_url;
     /**
      * make_thumb function.
      * 
-     * @access private
+     * @access protected
      * @param mixed $img_name
      * @param mixed $filename
      * @param mixed $new_w
      * @param mixed $new_h
      * @return void
      */
-    private function make_thumb($im,$urlandname,$maxwidth,$maxheight, $imagetype){
+    protected function make_thumb($im,$urlandname,$maxwidth,$maxheight, $imagetype){
         
         $width=imageSX($im);
 		$height=imageSY($im);
@@ -698,10 +668,10 @@ private $_location_url;
 	/**
 	 * convert_image function.
 	 * 
-	 * @access private
+	 * @access protected
 	 * @return image
 	 */
-	private function convert_image($imagetemp, $imagetype){
+	protected function convert_image($imagetemp, $imagetype){
     	
     	if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg'){
         
@@ -729,10 +699,10 @@ private $_location_url;
 	/**
 	 * rotate_image function.
 	 * 
-	 * @access private
+	 * @access protected
 	 * @return void
 	 */
-	public function rotate_image(){
+	protected function rotate_image(){
     	
     	$filename = $this->_doc_root.$this->_path;
     	//echo $filename;
@@ -802,11 +772,11 @@ private $_location_url;
 	/**
 	 * getExtension function.
 	 * 
-	 * @access private
+	 * @access protected
 	 * @param mixed $str
 	 * @return string
 	 */
-	private function getExtension($str) {
+	protected function getExtension($str) {
 		
 		$i = strrpos($str,".");
 		
@@ -824,11 +794,11 @@ private $_location_url;
     /**
      * clean_filename function.
      * 
-     * @access private
+     * @access protected
      * @param mixed $filename
      * @return string
      */
-    private function clean_filename($filename){
+    protected function clean_filename($filename){
         
         $filename = preg_replace('/^\W+|\W+$/', '', $filename);
         $filename = preg_replace('/\s+/', '-', $filename);
@@ -844,11 +814,11 @@ private $_location_url;
     /**
      * clean_foldername function.
      * 
-     * @access private
+     * @access protected
      * @param mixed $foldername
      * @return string
      */
-    private function clean_foldername($filename){
+    protected function clean_foldername($filename){
         
         $filename = preg_replace('/^\W+|\W+$/', '', $filename);
         $filename = preg_replace('/\s+/', '_', $filename);
@@ -862,11 +832,11 @@ private $_location_url;
     /**
      * randString function.
      * 
-     * @access private
+     * @access protected
      * @param mixed $length
      * @return string
      */
-    private function randString($length = 8){
+    protected function randString($length = 8){
         
         $charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $str = '';
