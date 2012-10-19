@@ -481,7 +481,7 @@ $(document).ready(function() {
 
         $.each(files, function(i, file) {
 
-                $(".no-files-selected").remove();
+                $(".no-files-selected").hide();
 
                 $('#filelist').append(
                     '<div id="' + file.id + '">' +
@@ -539,7 +539,7 @@ $(document).ready(function() {
             $(".upload-error").show();
             $(".upload-error .notify-inner").html("<p><span class='bold'>Error:</span> "  + obj.error.message + "</p>");
             
-            $("#upload-progress").css("width", '0');
+            $("#upload-progress").css("width", '0px');
             
             path = get_path();
             
@@ -552,7 +552,7 @@ $(document).ready(function() {
         
             $('#'+file.id).remove();
     
-            $("#upload-progress").css("width", '0');
+            $("#upload-progress").css("width", '0px');
     
             $(".upload-error").hide();
             $(".upload-error .notify-inner").html('');
@@ -581,7 +581,7 @@ $(document).ready(function() {
 
         uploader.refresh();
 
-        $('.no-files-selected').html('<strong>Upload complete.</strong>');
+        $('.no-files-selected').show().html('<strong>Upload complete</strong>');
         $("#upload-progress").css("width","0px");
         $(".upload-error").hide();
         $(".upload-error .notify-inner").html('');
