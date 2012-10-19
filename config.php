@@ -6,10 +6,10 @@ Suggested modal or popup dimensions: 915px x 650px with no scrollbars
 */
 
 // absolute server path Location of the file manager files
-define("MEDIA_LOCATION", $_SERVER['DOCUMENT_ROOT']."/filemanager/media"); // No trailing slashes
+define("MEDIA_LOCATION", $_SERVER['DOCUMENT_ROOT']."/filemanager/uploads"); // No trailing slashes
 
 // URL path to the media folder
-define("MEDIA_LOCATION_URL", "media"); // No trailing slashes
+define("MEDIA_LOCATION_URL", "uploads"); // No trailing slashes
 
 // MAX file upload size in MB
 define("MAX_UPLOAD_SIZE","10");
