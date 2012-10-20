@@ -1,6 +1,7 @@
 <?php
 class FileManagerView extends FileManager {
 
+private $files;
    
     function __construct(){
        
@@ -60,6 +61,9 @@ class FileManagerView extends FileManager {
             case "LOAD_FILES":
                 return $this->load_files_view();
                 break;
+            case "FILE_TREE":
+                return $this->file_tree();
+                break;    
             case "EDIT_IMAGE":
                 return $this->edit_image_view();
                 break;
@@ -154,6 +158,7 @@ class FileManagerView extends FileManager {
     private function load_files_view(){
         
         $files = $this->dir_list();
+        $this->files = $files;
         $bread_path = $this->bread_path();
         $path = $this->path();
         $current_folder = $this->current_folder();
@@ -376,6 +381,23 @@ class FileManagerView extends FileManager {
             
             return $html;
         
+    }
+    
+    
+    
+    
+    private function file_tree(){
+        
+        $files = $this->dir_list(true);
+        
+        $html = '<ul class="jqueryFileTree" style="display: none;">';
+		foreach( $files as $file ) {
+    		$html .= '<li class="directory collapsed"><a href="#" rel="'.$file["base_path"].'"><i class="icon-folder-close"></i>'.htmlentities($file['name']).'</a></li>';
+		}
+		$html .= '</ul>';       
+		
+		return $html;
+
     }
     
     

@@ -52,15 +52,17 @@ protected $_location_url;
                     $files[$i]['name'] = $file;
                     $files[$i]['url_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",$this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['thumb_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",$this->_doc_root.$this->_path.'/_thumbs/'.$file);
-                    $files[$i]['abs_path'] = $this->_doc_root.$this->_path.'/'.$file;
+                    $files[$i]['abs_path'] = $this->_doc_root.$this->_path.$file;
                     $files[$i]['ext'] = strtolower($pathinfo['extension']);
                     $files[$i]['file_type'] = filetype($this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['base_path'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['base_path_thumb'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/_thumbs/'.$file);
                     $files[$i]['base_name'] = basename($this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['size'] = filesize($this->_doc_root.$this->_path.'/'.$file);
-                    $i++;
+                    $i++;   
+                    
                 }
+                
             }
         
             closedir($handle);

@@ -24,6 +24,8 @@
     
     <div id="error"></div> 
     
+    <div id="file-tree"></div>
+    
     <!-- CAN'T TOUCH THIS -->
     <div id="files-container"></div>
     <!-- // -->

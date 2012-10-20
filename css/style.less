@@ -25,9 +25,19 @@ a, a img{
 }
 
 #files-container{
+    /*display: inline-block;*/
     padding-top: 35px;
     padding-bottom: 50px;
     overflow: hidden;
+    
+}
+
+#file-tree{
+    position: fixed;
+    top: 40px;
+    left: 0;
+    width: 100px;
+    z-index: 500
 }
 
 #pagination-options-wrap{
@@ -480,6 +490,39 @@ a, a img{
 .table tr td{
     font-size: .9em;
 }
+
+
+ul.jqueryFileTree {
+	font-size: 11px;
+	line-height: 18px;
+	padding: 0px;
+	padding-left: 10px;
+	margin: 0px;
+}
+
+ul.jqueryFileTree li {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	white-space: nowrap;
+}
+
+ul.jqueryFileTree a {
+	color: #333;
+	text-decoration: none;
+	display: block;
+	padding: 0px 2px;
+}
+
+ul.jqueryFileTree a:hover {
+	color: #999;
+}
+
+/* Core Styles */
+.jqueryFileTree li.directory a { /*background: url('images/directory.png') left top no-repeat;*/ }
+.jqueryFileTree li.expanded a { /*background: url('images/folder_open.png') left top no-repeat;*/ }
+.jqueryFileTree li.file { background: url('images/file.png') left top no-repeat; }
+.jqueryFileTree li.wait a { background: url('images/spinner.gif') left top no-repeat; }
 
 
 .jcrop-holder{direction:ltr;text-align:left;}
