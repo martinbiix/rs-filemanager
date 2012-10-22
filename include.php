@@ -21,15 +21,13 @@ if(isset($_GET['order_by'])){
     $_SESSION['order_type'] = strtolower(htmlentities($_GET['order_type']));
 }
 
-if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || ($_REQUEST['action'] == "UPLOAD_FILE")) {
-    
+if((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || ($_REQUEST['action'] == "UPLOAD_FILE")) { 
     $FileManagerView = new FileManagerView();
     $FileManagerView->img_sizes = $img_sizes;
     $FileManagerView->img_types = $img_types;
     $FileManagerView->doc_types = $doc_types;
     echo $FileManagerView->view();
 	die();
-
 }
 
 if(!isset($_GET['file_type'])){
