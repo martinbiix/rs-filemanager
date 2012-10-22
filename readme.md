@@ -8,10 +8,11 @@ CKEDITOR.replace( 'editor1',
 {
 	filebrowserBrowseUrl : '/location/of/rs_file_manager/?file_type=files',
 	filebrowserImageBrowseUrl : '/location/of/rs_file_manager/?file_type=images',
-	filebrowserWindowWidth : '940', (highly recommended)
- 	filebrowserWindowHeight : '640' (highly recommended)
+	filebrowserWindowWidth : '940',
+ 	filebrowserWindowHeight : '640'
 });
 
+The width and height suggested values are higly recommended.
 
 Optional inital loading parameters
 
