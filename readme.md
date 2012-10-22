@@ -2,8 +2,9 @@
 
 Used with online content editors such as CKEditor
 
-CKEditor Integration
+### CKEditor Integration
 
+<script>
 CKEDITOR.replace( 'editor1',
 {
 	filebrowserBrowseUrl : '/location/of/rs_file_manager/?file_type=files',
@@ -11,34 +12,37 @@ CKEDITOR.replace( 'editor1',
 	filebrowserWindowWidth : '940',
  	filebrowserWindowHeight : '640'
 });
+</script>
 
 The width and height suggested values are higly recommended.
 
-Optional inital loading parameters:
+### Optional inital loading parameters:
 
 /location/of/rs_file_manager/?file_type=images&crop_minWidth=80&crop_minHeight=80
 
-Editor Type
+#### Editor Type
 
 editor (ckeditor)
 
-Cropping restrictions
+#### Cropping restrictions
 
 crop_minWidth (pixel value)
+
 crop_minHeight (pixel value)
 
 crop_maxWidth (pixel value)
+
 crop_maxHeight (pixel value)
 
-File type view
+#### File type view
 
 file_type (files | images)
 
-List view
+#### List view
 
 list_view (list | folder)
 
-Order by
+#### Order by
 
 order_by (type | name | filesize)
 
