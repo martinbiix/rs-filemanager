@@ -22,12 +22,10 @@
         </div>
     </div>
     
-    <div id="error"></div> 
-    
-    <div id="file-tree"></div>
     
     <!-- CAN'T TOUCH THIS -->
-    <div id="files-container"></div>
+        <div id="file-tree" class="hide-tree"><a href="#" id="file-tree-tab">open file tree</a></div>
+        <div id="files-container"></div>
     <!-- // -->
     
     <?php include('modals.php'); ?>

@@ -547,8 +547,11 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 a,a img{border-bottom:none;outline:none;}
 #sticky-filemenu{width:100%;height:50px;border-top:1px solid #CCC;background:#f5f5f5;position:fixed;left:0;bottom:0;z-index:999;}
 .sticky-inner{padding:10px 10px 15px 10px;overflow:hidden;}
-#files-container{padding-top:35px;padding-bottom:50px;overflow:hidden;}
-#file-tree{position:fixed;top:40px;left:0;width:100px;z-index:500;}
+#files-container{width:100%;padding-top:30px;padding-bottom:50px;float:left;overflow:auto;max-height:563px;}
+#file-tree{padding-top:35px;position:relative;float:left;}
+#file-tree-tab{display:block;font:a;color:transparent;text-shadow:none;background-color:transparent;border:0;width:16px;height:10px;background:#CCC;position:absolute;right:-15px;top:50px;z-index:500;}
+.hide-tree{width:0%;}
+.show-tree{width:17%;}
 #pagination-options-wrap{width:60px;float:right;margin-left:10px;}
 .paginate{display:inline;height:15px;font-size:.75em;color:#666;float:right;}
 .paginate a{color:#666;}
@@ -624,9 +627,6 @@ ul.jqueryFileTree{font-size:11px;line-height:18px;padding:0px;padding-left:10px;
 ul.jqueryFileTree li{list-style:none;padding:0px;margin:0px;white-space:nowrap;}
 ul.jqueryFileTree a{color:#333;text-decoration:none;display:block;padding:0px 2px;}
 ul.jqueryFileTree a:hover{color:#999;}
-.jqueryFileTree li.directory a{}
-.jqueryFileTree li.expanded a{}
-.jqueryFileTree li.file{background:url('images/file.png') left top no-repeat;}
 .jqueryFileTree li.wait a{background:url('images/spinner.gif') left top no-repeat;}
 .jcrop-holder{direction:ltr;text-align:left;}
 .jcrop-vline,.jcrop-hline{background:#ffffff url('images/Jcrop.gif') top left repeat;font-size:0;position:absolute;}

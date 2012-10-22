@@ -648,6 +648,27 @@ $(document).ready(function() {
     
     $('#file-tree').fileTree();
     
+    $("#file-tree-tab").click(function(e){
+        e.preventDefault();
+        //$("#file-tree").toggle();
+        
+        if($("#file-tree").hasClass("hide-tree")){
+            
+            $("#files-container").css("width", "83%");
+            $("#file-tree").css("width", "17%");
+            $("#file-tree").removeClass("hide-tree");
+            $("#file-tree").addClass("show-tree");
+            
+        } else {
+            
+            $("#files-container").css("width", "100%");
+            $("#file-tree").css("width", "0%");
+            $("#file-tree").removeClass("show-tree");
+            $("#file-tree").addClass("hide-tree");
+        }
+        
+    });
+    
     // Init load
     //load_files(path);
 
@@ -696,7 +717,7 @@ if(jQuery) (function($){
 
 				}
 				// Loading message
-				$(this).html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
+				$(this).append('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
 				// Get the initial file list
 				showTree( $(this), '' );
 			});
