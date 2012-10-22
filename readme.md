@@ -14,7 +14,7 @@ Used with online content editors such as CKEditor
 
 The width and height suggested values are higly recommended.
 
-### Optional inital loading parameters:
+## Optional inital loading parameters:
 
     /location/of/rs_file_manager/?file_type=images&crop_minWidth=80&crop_minHeight=80
 
