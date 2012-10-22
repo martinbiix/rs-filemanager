@@ -63,6 +63,11 @@ order_by (type | name | filesize)
 Credits
 ----
 PLUpload - For file upload capability.
+jCrop - Image cropping
+BlockUI - loading overlay
+Twitter Bootstrap
+
+Without these I could not have made this so quickly.
 
 License
 ----
