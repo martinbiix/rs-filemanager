@@ -25,7 +25,7 @@ Upload files to web server and edit the config.php file.
      	filebrowserWindowHeight : '640'
     });
 
-The width and height suggested values are higly recommended.
+The width and height suggested values are highly recommended.
 
 ## Optional inital loading parameters:
 
