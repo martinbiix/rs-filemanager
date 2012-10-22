@@ -60,3 +60,7 @@ order_by (type | name | filesize)
 Credits
 ----
 PLUpload - For file upload capability.
+
+License
+----
+Coming soon.
