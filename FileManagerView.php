@@ -5,16 +5,16 @@ private $files;
    
     function __construct(){
        
-       if(!is_dir(MEDIA_LOCATION)){
+       if(!is_dir(UPLOAD_LOCATION)){
             echo 'Uploads folder could not be found. Please check your configuration.';
             die();
         }
         
-        if(!is_dir(MEDIA_LOCATION.'/files')){
-            mkdir(MEDIA_LOCATION.'/files', 0775, false);
+        if(!is_dir(UPLOAD_LOCATION.'/files')){
+            mkdir(UPLOAD_LOCATION.'/files', 0775, false);
         }
-        if(!is_dir(MEDIA_LOCATION.'/images')){
-            mkdir(MEDIA_LOCATION.'/images', 0775, false);
+        if(!is_dir(UPLOAD_LOCATION.'/images')){
+            mkdir(UPLOAD_LOCATION.'/images', 0775, false);
         }
         
         
@@ -33,8 +33,8 @@ private $files;
                 $this->_file_type = '';
         }
         
-        $this->_doc_root = MEDIA_LOCATION.$this->_file_type;
-        $this->_location_url = MEDIA_LOCATION_URL.$this->_file_type;
+        $this->_doc_root = UPLOAD_LOCATION.$this->_file_type;
+        $this->_location_url = UPLOAD_LOCATION_URL.$this->_file_type;
         
         if(isset($_POST['path'])){
             $this->_path = htmlentities($_POST['path']);

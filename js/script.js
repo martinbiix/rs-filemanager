@@ -613,8 +613,6 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    uploader.init();
-
 
     $("#filedrop").hover(
       function () {
@@ -646,84 +644,96 @@ $(document).ready(function() {
         $(".upload-or").hide();
     }
     
-    $('#file-tree').fileTree();
     
     $("#file-tree-tab").click(function(e){
         e.preventDefault();
-        //$("#file-tree").toggle();
+        
         
         if($("#file-tree").hasClass("hide-tree")){
-            
-            $("#files-container").css("width", "83%");
-            $("#file-tree").css("width", "17%");
+             $('#file-tree').animate({
+                    left: 0
+                }, 300);
+             
+             $('#files-container').animate({
+                    width: '83%',
+                    'margin-left': '17%'
+                }, 300);
+                
             $("#file-tree").removeClass("hide-tree");
             $("#file-tree").addClass("show-tree");
             
         } else {
+        
+            $('#file-tree').animate({
+                    left: '-151px'
+                }, 300);
             
-            $("#files-container").css("width", "100%");
-            $("#file-tree").css("width", "0%");
+            $('#files-container').animate({
+                    width: '100%',
+                    'margin-left': '0'
+                }, 300);
+                
             $("#file-tree").removeClass("show-tree");
             $("#file-tree").addClass("hide-tree");
+            
         }
         
     });
     
-    // Init load
-    //load_files(path);
+    
+    $('#file-tree').fileTree();
+    uploader.init();
 
 });
 
 
-if(jQuery) (function($){
-	
-	$.extend($.fn, {
-		fileTree: function(o, h) {
-			
-			$(this).each( function() {
-				
-				function showTree(c, t) {
-					$(c).addClass('wait');
-					$(".jqueryFileTree.start").remove();
-					$.post('index.php?action=FILE_TREE', { path: t }, function(data) {
-					   load_files(t);
-						$(c).find('.start').html('');
-						$(c).removeClass('wait').append(data);
-						$(c).find('ul:hidden').slideDown({ duration: 100 });
-						bindTree(c);
-					});
-				}
-				
-				function bindTree(t) {
-					$(t).find('li a').bind('click', function(e) {
-						e.preventDefault();
-							
-							if( $(this).parent().hasClass('collapsed') ) {
-								// Expand								
-								$(this).parent().find('ul').remove(); // cleanup
-								showTree( $(this).parent(), $(this).attr('rel') );
-								$(this).parent().removeClass('collapsed').addClass('expanded');
-								$(this).children("i").removeClass('icon-folder-closed').addClass('icon-folder-open');
-							} else {
-								// Collapse
-								$(this).parent().find('ul').slideUp({ duration: 100 });
-								//$(this).parent().find('ul').remove(); // ADDED Hack
-								$(this).parent().removeClass('expanded').addClass('collapsed');
-								$(this).children("i").removeClass('icon-folder-open').addClass('icon-folder-closed');
-								//showTree( $(this).parent(), $(this).attr('rel') ); // ADDED Hack
-							}
+(function($){
+    
+    $.extend($.fn, {
+        fileTree: function(o, h) {
+            
+            $(this).each( function() {
+                
+                function showTree(c, t) {
+                    $(c).addClass('wait');
+                    $(".jqueryFileTree.start").remove();
+                        $.post('index.php?action=FILE_TREE', { path: t }, function(data) {
+                        load_files(t);
+                        $(c).find('.start').html('');
+                        $(c).removeClass('wait').append(data);
+                        $(c).find('ul:hidden').slideDown({ duration: 100 });
+                        bindTree(c);
+                    });
+                }
+                
+                function bindTree(t) {
+                    $(t).find('li a').bind('click', function(e) {
+                        e.preventDefault();
+                            
+                            if( $(this).parent().hasClass('collapsed') ) {
+                                // Expand                               
+                                $(this).parent().find('ul').remove(); // cleanup
+                                showTree( $(this).parent(), $(this).attr('rel') );
+                                $(this).parent().removeClass('collapsed').addClass('expanded');
+                                $(this).children("i").removeClass('icon-folder-closed').addClass('icon-folder-open');
+                            } else {
+                                // Collapse
+                                $(this).parent().find('ul').slideUp({ duration: 100 });
+                                $(this).parent().removeClass('expanded').addClass('collapsed');
+                                $(this).children("i").removeClass('icon-folder-open').addClass('icon-folder-closed');
+                            }
 
-					});
+                    });
 
-				}
-				// Loading message
-				$(this).append('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
-				// Get the initial file list
-				showTree( $(this), '' );
-			});
-		}
-	});
-	
+                }
+                // Loading message
+                $(this).append('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
+                // Get the initial file list
+                showTree( $(this), '' );
+            });
+        }
+    });
+    
 })(jQuery);
 
 

@@ -24,7 +24,7 @@
     
     
     <!-- CAN'T TOUCH THIS -->
-        <div id="file-tree" class="hide-tree"><a href="#" id="file-tree-tab">open file tree</a></div>
+        <div id="file-tree" class="hide-tree"><a href="#" id="file-tree-tab"><i class="icon-folder-close"></i></a></div>
         <div id="files-container"></div>
     <!-- // -->
     

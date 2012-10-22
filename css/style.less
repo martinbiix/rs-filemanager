@@ -34,28 +34,45 @@ a, a img{
 }
 
 #file-tree{
-    padding-top: 35px;
-    position: relative;
-    float: left;
+    width: 150px;
+    padding-top: 10px;
+    height:100%;
+    position: fixed;
+    top: 30px;
+    left: -151px;
+    z-index: 499;
+    background: #e0e0e0;
+    border-right: 1px solid #666;
 }
 
 #file-tree-tab{
     display: block;
-    .hide-text;
-    width: 16px;
-    height: 10px;
-    background: #CCC;
+    width: 18px;
+    height: 16px;
+    background: #e0e0e0;
     position: absolute;
-    right: -15px;
-    top: 50px;
+    right: -19px;
+    top: 14px;
     z-index: 500;
+    font-size: 11px;
+    text-align: center;
+    color: #111;
+    border-top: 1px solid #666;
+    border-right: 1px solid #666;
+    border-bottom: 1px solid #666;
+}
+#file-tree-tab i{
+    margin: 0;
+}
+#file-tree-tab:hover{
+    background: #F5F5F5;
 }
 
 .hide-tree{
-    width: 0%;
+   /* width: 0%;*/
 }
 .show-tree{
-    width: 17%;
+    /*width: 17%;*/
 }
 
 #pagination-options-wrap{
@@ -110,7 +127,7 @@ a, a img{
     width: 120px;
     text-align: center;
     height: 155px;
-    margin: 10px;
+    margin: 10px 0 10px 20px;
     background: #FFF;
     float: left;
     position: relative;
@@ -464,7 +481,7 @@ a, a img{
 .file-edit-modal{    
     width: 870px;
     margin-left: -435px;
-    margin-top: -320px;
+    margin-top: -305px;
 }
 .file-edit-modal .modal-body {
     max-width: 870px;

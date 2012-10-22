@@ -350,16 +350,12 @@ protected $_location_url;
         $cleaned_path = str_replace("/_sizes","",$cleaned_path);
         $output_filename = $cleaned_path.'_crops/'.$name.'_'.$ran.'.'.$ext;
         
-        //echo $output_filename;
-        
         $x = (int) $_POST['x'];
         $y = (int) $_POST['y'];
         $x2 = (int) $_POST['x2'];
         $y2 = (int) $_POST['y2'];
         $w = (int) $_POST['w'];
         $h = (int) $_POST['h'];
-        
-        //echo 'X:'.$x.' Y:'.$y.' X2:'.$x2.' Y2:'.$y2.' W:'.$w.' H:'.$h;
         
         $targ_w = $targ_h = 150;
         $jpeg_quality = 90;
@@ -530,8 +526,6 @@ protected $_location_url;
     			// Create thumbs
     			if($width > THUMB_MAX_WIDTH || $height > THUMB_MAX_HEIGHT){
     			     $this->make_thumb($image, $this->_doc_root.'/'.$this->_path.'/_thumbs/'.$cleanName, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT, $mime);
-    			} else {
-        			//copy($urlandname, MEDIA_LOCATION.'/'.$this->_path.'/_thumbs/'.$cleanName);
     			}
     			
     			$i=1;
