@@ -2,6 +2,8 @@
 
 Used with online content editors such as CKEditor
 
+<a href="http://tstdv.us/filemanager/">Download production version<a>
+
 ### Features
 
 - File uploading
@@ -10,6 +12,7 @@ Used with online content editors such as CKEditor
 - Image rotation
 - Image resizing
 - File view options
+- Create/edit folders
 
 ### Instructions
 
