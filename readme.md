@@ -2,6 +2,15 @@
 
 Used with online content editors such as CKEditor
 
+### Features
+
+- File uploading
+- Image cropping
+- Restict crop size
+- Image rotation
+- Image resizing
+- File view options
+
 ### Instructions
 
 Upload files to web server and edit the config.php file.
