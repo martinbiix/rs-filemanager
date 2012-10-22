@@ -1,10 +1,4 @@
 <?php
-/*
-
-Suggested modal or popup dimensions: 940px x 640px with no scrollbars
-
-*/
-
 // Absolute server path location to the uploads folder
 define("UPLOAD_LOCATION", $_SERVER['DOCUMENT_ROOT']."/filemanager/uploads"); // No trailing slashes
 
@@ -29,7 +23,7 @@ $img_types = array('jpg', 'jpeg', 'png', 'gif'); // Absolutely no BMP files
 $doc_types = array('doc', 'pdf', 'txt', 'rtf', 'xls', 'pages', 'docx', 'xlsx', 'ppt', 'pptx', 'psd', 'ai', 'mp3', 'mp4', 'avi', 'numbers', 'keynote', 'mpg', 'mpeg', 'ogg', 'ogv', 'html', 'css', 'flv', 'wav', 'webma', 'oga', 'm4a', 'zip', 'rar', 'tar', 'php');
 
 
-// Default max width and max height image sizes
+// Default additional max width and max height image sizes
 $img_sizes = array(
                 
                 array("width" => 150 , "height" => 200),

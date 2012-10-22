@@ -2,11 +2,15 @@
 
 Used with online content editors such as CKEditor
 
+### Instructions
+
+Upload files to web server and edit the config.php file.
+
 ### CKEditor Integration
 
     CKEDITOR.replace( 'editor1',
     {
-    	filebrowserBrowseUrl : '/location/of/rs_file_manager/?file_type=files',
+    	filebrowserBrowseUrl : '/location/of/rs_file_manager/',
     	filebrowserImageBrowseUrl : '/location/of/rs_file_manager/?file_type=images',
     	filebrowserWindowWidth : '940',
      	filebrowserWindowHeight : '640'
