@@ -22,8 +22,8 @@ Upload files to web server and edit the config.php file.
 
     CKEDITOR.replace( 'editor1',
     {
-    	filebrowserBrowseUrl : '/location/of/rs_file_manager/',
-    	filebrowserImageBrowseUrl : '/location/of/rs_file_manager/?file_type=images',
+    	filebrowserBrowseUrl : '/location/of/rs_file_manager/?editor=ckeditor',
+    	filebrowserImageBrowseUrl : '/location/of/rs_file_manager/?editor=ckeditor&file_type=images',
     	filebrowserWindowWidth : '940',
      	filebrowserWindowHeight : '640'
     });

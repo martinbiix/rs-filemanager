@@ -579,7 +579,7 @@ private $files;
         $path = htmlentities($_POST['path']);
         
         // Get image size
-        list($width, $height, $type, $attr) = getimagesize($this->_location_url.$path);
+        list($width, $height, $type, $attr) = getimagesize($this->_doc_root.$path);
         
         $html .= '
         <div id="edit-image-wrap">
