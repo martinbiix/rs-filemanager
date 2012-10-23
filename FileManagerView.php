@@ -390,6 +390,14 @@ private $files;
         
         $files = $this->dir_list(true);
         
+        foreach ($files as $key => $row) {
+            $types[$key] = $row['file_type'];
+            $names[$key] = $row['name'];
+            $size[$key] = $row['size'];
+        }
+        
+        array_multisort((array) $types, SORT_ASC, (array) $names, SORT_ASC, $files);
+        
         $html = '<ul class="jqueryFileTree" style="display: none;">';
 		foreach( $files as $file ) {
     		$html .= '<li class="directory collapsed"><a href="#" rel="'.$file["base_path"].'"><i class="icon-folder-close"></i>'.htmlentities($file['name']).'</a></li>';
