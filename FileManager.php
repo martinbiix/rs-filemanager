@@ -203,15 +203,16 @@ protected $_location_url;
     protected function edit_folder(){
         
         $clean_name = $this->clean_foldername($_POST['folder_name']);
+        $old_name = htmlentities($_POST['old_name']);
         
         // Check if folder name already exists
-        if(is_dir($this->_doc_root.'/'.$clean_name)){
+        if(is_dir($this->_doc_root.$this->_path.'/'.$clean_name)){
             $this->return_header('ERROR', "Folder already exists");
             return false;
         }
         
         // Rename folder new folder
-        rename($this->_doc_root.$this->_path, $this->_doc_root.'/'.$clean_name); 
+        rename($this->_doc_root.$old_name, $this->_doc_root.$this->_path.'/'.$clean_name); 
         
     }
     

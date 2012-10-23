@@ -128,6 +128,60 @@ function image_crop(){
     
 }
 
+var c = $('#file-tree');
+
+function showTree(c, t) {
+    
+    $(c).addClass('wait');
+    $(".jqueryFileTree.start").remove();
+    $.post('index.php?action=FILE_TREE', { path: t }, function(data) {
+                    
+        if(load_files) load_files(t);
+                        
+        $(c).find('.start').html('');
+        $(c).removeClass('wait').append(data);
+        $(c).find('ul:hidden').slideDown({ duration: 100 });
+        bindTree(c);
+    });
+}
+
+function refreshTree(c){
+    var t='';
+    $(c).html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
+    $(c).addClass('wait');
+    $(".jqueryFileTree.start").remove();
+    $.post('index.php?action=FILE_TREE', { path: t }, function(data) {                        
+        $(c).find('.start').html('');
+        $(c).removeClass('wait').append(data);
+        $(c).find('ul:hidden').slideDown({ duration: 100 });
+        bindTree(c);
+    });
+    
+}
+
+function bindTree(t) {
+    $(t).find('li a').bind('click', function(e) {
+        e.preventDefault();
+                            
+        if( $(this).parent().hasClass('collapsed') ) {
+            // Expand                               
+            $(this).parent().find('ul').remove(); // cleanup
+            showTree( $(this).parent(), $(this).attr('rel') );
+            $(this).parent().removeClass('collapsed').addClass('expanded');
+            $(this).children("i").removeClass('icon-folder-closed').addClass('icon-folder-open');
+        } else {
+            // Collapse
+            $(this).parent().find('ul').slideUp({ duration: 100 });
+            $(this).parent().removeClass('expanded').addClass('collapsed');
+            $(this).children("i").removeClass('icon-folder-open').addClass('icon-folder-closed');
+        }
+
+    });
+
+}
+
+
+
 //$(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
 
@@ -227,7 +281,7 @@ $(document).ready(function() {
             $("#new-folder-name").val("");
             $(".new-folder-modal").modal('hide');
             load_files(path);
-            $('#file-tree').fileTree();
+            refreshTree($('#file-tree'));
         })
         .error(function(){
             alert("Folder already exists in this location. Please try another name.");
@@ -269,7 +323,7 @@ $(document).ready(function() {
             }).success(function(){
 
                 $(e.target).parent().parent().parent().fadeOut('slow');
-                $('#file-tree').fileTree();
+                refreshTree($('#file-tree'));
 
             })
             .error(function(){
@@ -367,16 +421,19 @@ $(document).ready(function() {
        e.preventDefault();
        
        var folder_name = $("#folder-name").val();
+       var old_name = $("#old-path").val();
+       path = get_path();
        
        if(folder_name.length > 2){
 
-           $.post("index.php?action=EDIT_FOLDER", { path: path, folder_name: folder_name }, function(){
+           $.post("index.php?action=EDIT_FOLDER", { path: path, folder_name: folder_name, old_name: old_name }, function(){
            }).success(function(){
 
                 $("#folder-name").val('');
                 path = get_path();
                 load_files(path);
-                $('#file-tree').fileTree();
+                refreshTree($('#file-tree'));
+                $("#old-path").val("");
                 $( ".folder-name-modal" ).modal("hide");
 
             })
@@ -393,18 +450,21 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        path = $(this).attr('data-path');
+        var old_path = $(this).attr('data-path');
+        $("#old-path").val(old_path);
         $( ".folder-name-modal" ).modal("show");
 
     });
     $("#cancel-rename-folder").click(function(e){
         e.preventDefault();
         $("#folder-name").val("");
+        $("#old-path").val("");
         $(".folder-name-modal").modal('hide');
     });
     
     $('.folder-name-modal').on('hidden', function () {
         $("#folder-name").val("");
+        $("#old-path").val("");
     });
 
 
@@ -682,59 +742,10 @@ $(document).ready(function() {
     });
     
     
-    $('#file-tree').fileTree();
+    
+    // INITS
+    $('#file-tree').html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
+    showTree(c, '' );
     uploader.init();
 
 });
-
-
-(function($){
-    
-    $.extend($.fn, {
-        fileTree: function(o, h) {
-            
-            $(this).each( function() {
-                
-                function showTree(c, t) {
-                    $(c).addClass('wait');
-                    $(".jqueryFileTree.start").remove();
-                        $.post('index.php?action=FILE_TREE', { path: t }, function(data) {
-                        load_files(t);
-                        $(c).find('.start').html('');
-                        $(c).removeClass('wait').append(data);
-                        $(c).find('ul:hidden').slideDown({ duration: 100 });
-                        bindTree(c);
-                    });
-                }
-                
-                function bindTree(t) {
-                    $(t).find('li a').bind('click', function(e) {
-                        e.preventDefault();
-                            
-                            if( $(this).parent().hasClass('collapsed') ) {
-                                // Expand                               
-                                $(this).parent().find('ul').remove(); // cleanup
-                                showTree( $(this).parent(), $(this).attr('rel') );
-                                $(this).parent().removeClass('collapsed').addClass('expanded');
-                                $(this).children("i").removeClass('icon-folder-closed').addClass('icon-folder-open');
-                            } else {
-                                // Collapse
-                                $(this).parent().find('ul').slideUp({ duration: 100 });
-                                $(this).parent().removeClass('expanded').addClass('collapsed');
-                                $(this).children("i").removeClass('icon-folder-open').addClass('icon-folder-closed');
-                            }
-
-                    });
-
-                }
-                // Loading message
-                $(this).html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
-                // Get the initial file list
-                showTree( $(this), '' );
-            });
-        }
-    });
-    
-})(jQuery);
-
-

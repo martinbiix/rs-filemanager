@@ -41,6 +41,7 @@
         <div id="folder-rename-wrap">
             Rename Folder: <input type="text" id="folder-name">
         </div>
+        <input type="hidden" id="old-path">
       
       </div>
       <div class="modal-footer">
