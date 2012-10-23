@@ -24,7 +24,10 @@
     
     
     <!-- CAN'T TOUCH THIS -->
-        <div id="file-tree" class="hide-tree"><a href="#" id="file-tree-tab"><i class="icon-folder-close"></i></a></div>
+        <div id="file-tree-wrap" class="hide-tree">
+            <div id="file-tree" class="hide-tree"></div>
+            <a href="#" id="file-tree-tab"><i class="icon-folder-close"></i></a>
+        </div>
         <div id="files-container"></div>
     <!-- // -->
     

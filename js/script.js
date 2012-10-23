@@ -227,7 +227,7 @@ $(document).ready(function() {
             $("#new-folder-name").val("");
             $(".new-folder-modal").modal('hide');
             load_files(path);
-
+            $('#file-tree').fileTree();
         })
         .error(function(){
             alert("Folder already exists in this location. Please try another name.");
@@ -269,6 +269,7 @@ $(document).ready(function() {
             }).success(function(){
 
                 $(e.target).parent().parent().parent().fadeOut('slow');
+                $('#file-tree').fileTree();
 
             })
             .error(function(){
@@ -375,7 +376,7 @@ $(document).ready(function() {
                 $("#folder-name").val('');
                 path = get_path();
                 load_files(path);
-
+                $('#file-tree').fileTree();
                 $( ".folder-name-modal" ).modal("hide");
 
             })
@@ -649,8 +650,8 @@ $(document).ready(function() {
         e.preventDefault();
         
         
-        if($("#file-tree").hasClass("hide-tree")){
-             $('#file-tree').animate({
+        if($("#file-tree-wrap").hasClass("hide-tree")){
+             $('#file-tree-wrap').animate({
                     left: 0
                 }, 300);
              
@@ -659,12 +660,12 @@ $(document).ready(function() {
                     'margin-left': '17%'
                 }, 300);
                 
-            $("#file-tree").removeClass("hide-tree");
-            $("#file-tree").addClass("show-tree");
+            $("#file-tree-wrap").removeClass("hide-tree");
+            $("#file-tree-wrap").addClass("show-tree");
             
         } else {
         
-            $('#file-tree').animate({
+            $('#file-tree-wrap').animate({
                     left: '-151px'
                 }, 300);
             
@@ -673,8 +674,8 @@ $(document).ready(function() {
                     'margin-left': '0'
                 }, 300);
                 
-            $("#file-tree").removeClass("show-tree");
-            $("#file-tree").addClass("hide-tree");
+            $("#file-tree-wrap").removeClass("show-tree");
+            $("#file-tree-wrap").addClass("hide-tree");
             
         }
         
@@ -727,7 +728,7 @@ $(document).ready(function() {
 
                 }
                 // Loading message
-                $(this).append('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
+                $(this).html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
                 // Get the initial file list
                 showTree( $(this), '' );
             });
