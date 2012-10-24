@@ -62,7 +62,8 @@ protected $_location_url;
                     if($filetype == "file"){
                         $files[$i]['size'] = filesize($this->_doc_root.$this->_path.'/'.$file);
                     } else if($filetype == "dir"){
-                        $files[$i]['size'] = $this->get_dir_size($this->_doc_root.$this->_path.'/'.$file.'/');
+                        $dir_size = $this->get_dir_size($this->_doc_root.$this->_path.'/'.$file.'/');
+                        $files[$i]['size'] = $dir_size;
                     }
                     $i++;   
                     
@@ -88,7 +89,13 @@ protected $_location_url;
      * @return integer
      */
     private function get_dir_size($directory){
-
+        
+        $size = 0;
+        
+        if(!file_exists($directory) || !is_dir($directory) || !is_readable($directory)){
+            return -1;
+        }
+        
         if ($handle = opendir($directory)){
  
             while (false !== ($file = readdir($handle))){
@@ -97,10 +104,20 @@ protected $_location_url;
                 
                        if(is_dir($directory.$file)){
                             
-                            $this->get_dir_size($directory.$file.'/');
+                           $handlesize = $this->get_dir_size($directory.$file.'/');
+
+                            if($handlesize >= 0){
+
+                                $size += $handlesize;
+
+                            }else{
+                            
+                                return -1;
+                            
+                            }
                        
-                       } else {
-                       
+                       } else if(is_file($directory.$file)){
+                            
                            $size += filesize($directory.$file);
                        
                        }
@@ -111,7 +128,7 @@ protected $_location_url;
              closedir($handle);
          
          }
-        
+
         return $size;
 
     }
