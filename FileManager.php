@@ -363,9 +363,19 @@ protected $_location_url;
         
         $src = $this->_doc_root.$this->_path;
         
-        //echo $src;
+        $path_info = $this->path_info($src);
+        $ext = $path_info['extension'];
         
-        $img_r = imagecreatefromjpeg($src);
+        if($ext == 'jpg' || $ext == 'jpeg'){
+            $img_r = imagecreatefromjpeg($src);
+        }
+        if($ext == 'png'){
+            $img_r = imagecreatefrompng($src);
+        }
+        if($ext == 'gif'){
+            $img_r = imagecreatefromgif($src);
+        }
+
         $dst_r = ImageCreateTrueColor( $w, $h );
         
         imagecopyresampled($dst_r, $img_r, 0, 0, $x, $y, $w, $h, $w, $h);
@@ -380,6 +390,23 @@ protected $_location_url;
         $cropped['path'] = str_replace($this->_location_url,"",$cleaned_urlpath.'_crops/'.$name.'_'.$ran.'.'.$ext);
         
         return $cropped;
+        
+    }
+    
+    
+    
+    /**
+     * path_info function.
+     * 
+     * @access private
+     * @param mixed $path
+     * @return void
+     */
+    private function path_info($path){
+        
+        $info = pathinfo($this->_doc_root.$this->_path);
+        
+        return $info;
         
     }
     
@@ -795,6 +822,7 @@ protected $_location_url;
         
         $filename = preg_replace('/^\W+|\W+$/', '', $filename);
         $filename = preg_replace('/\s+/', '-', $filename);
+        $filename = str_replace('.', '-', $filename);
         $filename = str_replace('_', '-', $filename);
     
         return strtolower(preg_replace('/\W-/', '', $filename));
@@ -815,6 +843,7 @@ protected $_location_url;
         
         $filename = preg_replace('/^\W+|\W+$/', '', $filename);
         $filename = preg_replace('/\s+/', '_', $filename);
+        $filename = str_replace('.', '-', $filename);
     
         return strtolower(preg_replace('/\W-/', '', $filename));
         
