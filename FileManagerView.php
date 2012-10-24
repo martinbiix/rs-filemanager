@@ -225,7 +225,7 @@ private $files;
     	
         
         $list = ($_SESSION['list'] === true)? 'list' : '';
-        $list_icon = ($_SESSION['list'] === true)? 'icon-th-list' : 'icon-th';
+        $list_icon = ($_SESSION['list'] === true)? 'icon-th' : 'icon-th-list';
         
         // BREADCRUMBS
         $html =  '<div id="bread-wrap">

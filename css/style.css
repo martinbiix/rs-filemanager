@@ -610,6 +610,7 @@ a,a img{border-bottom:none;outline:none;}
 #filelist{width:525px;max-height:130px;overflow:auto;clear:both;margin:0 auto;}
 #filelist-wrap{font-size:.75em;}
 #filelist div{width:100%;float:left;padding:3px;border-bottom:1px dotted #f1ddf1;background:#faf3fa;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');}
+#filelist div.upload-complete{background:#d3fdf0;}
 .upload-delete{float:right;}
 #filelist div:last-child{border-bottom:none;}
 #custom-sizes{font-size:.75em;margin:10px 0 0 0;display:none;}

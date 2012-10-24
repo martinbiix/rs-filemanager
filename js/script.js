@@ -191,7 +191,7 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        path = $(this).attr("data-path");
+        path = $(this).data("path");
 
         load_files(path);
 
@@ -201,7 +201,7 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        var order_by = $(this).attr("data-order");
+        var order_by = $(this).data("order");
 
         path = get_path();
         
@@ -214,7 +214,7 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        var page = $(this).attr("data-page");
+        var page = $(this).data("page");
 
         path = get_path();
         
@@ -246,15 +246,15 @@ $(document).ready(function() {
         
         path = get_path();
         
-        if ( $(this).children().hasClass('icon-th-list') ) {
-          $(this).children().removeClass('icon-th-list');
-          $(this).children().addClass('icon-th');
+        if ( $(this).children().hasClass('icon-th') ) {
+          $(this).children().removeClass('icon-th');
+          $(this).children().addClass('icon-th-list');
 
           change_list_view(path, 'folder');
           
-        } else if ( $(this).children().hasClass('icon-th') ) {
-          $(this).children().removeClass('icon-th');
-          $(this).children().addClass('icon-th-list');
+        } else if ( $(this).children().hasClass('icon-th-list') ) {
+          $(this).children().removeClass('icon-th-list');
+          $(this).children().addClass('icon-th');
           
           
           change_list_view(path, 'list');
@@ -307,8 +307,8 @@ $(document).ready(function() {
     $("#files-container").on("click", '.delete-folder, .delete-file', function(e){
         e.preventDefault();
 
-        path = $(this).attr("data-path");
-        var file_type = $(this).attr("data-type");
+        path = $(this).data("path");
+        var file_type = $(this).data("type");
         var ok;
 
         if(file_type === 'dir'){
@@ -342,7 +342,7 @@ $(document).ready(function() {
     $("body").on("click", '.delete-custom-image', function(e){
         e.preventDefault();
         
-        path = $(this).attr("data-path");
+        path = $(this).data("path");
 
         var ok = confirm("Are you sure you want to delete this image?");
         
@@ -373,7 +373,7 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        var path = $(this).attr('data-path');
+        var path = $(this).data('path');
         
         $( "#image-options" ).load('index.php?action=IMAGE_OPTIONS', { path: path } );
         $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path });
@@ -403,7 +403,7 @@ $(document).ready(function() {
         
         $( "#file-to-edit" ).html("Loading image...");
         
-        var path = $(this).attr('data-path');
+        var path = $(this).data('path');
 
         $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path });
 
@@ -450,7 +450,7 @@ $(document).ready(function() {
 
         e.preventDefault();
 
-        var old_path = $(this).attr('data-path');
+        var old_path = $(this).data('path');
         $("#old-path").val(old_path);
         $( ".folder-name-modal" ).modal("show");
 
@@ -606,7 +606,9 @@ $(document).ready(function() {
 
         } else {
         
-            $('#'+file.id).remove();
+            
+            $('#'+file.id).html(file.name+" <strong>-uploaded</strong>").addClass("upload-complete");
+            
     
             $("#upload-progress").css("width", '0px');
     

@@ -863,12 +863,16 @@ protected $_location_url;
      */
     protected function clean_filename($filename){
         
+        $path_info = pathinfo($filename);
+        $ext = $path_info['extension'];
+        $filename = $path_info['filename'];
+        
         $filename = preg_replace('/^\W+|\W+$/', '', $filename);
         $filename = preg_replace('/\s+/', '-', $filename);
-        $filename = str_replace('.', '-', $filename);
         $filename = str_replace('_', '-', $filename);
+        $filename = str_replace('.', '-', $filename);
     
-        return strtolower(preg_replace('/\W-/', '', $filename));
+        return strtolower(preg_replace('/\W-/', '', $filename.'.'.$ext));
 
     }
     
