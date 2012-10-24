@@ -96,8 +96,6 @@
     		
     		return;
     		<?php } ?>
-    		$( ".file-edit-modal" ).modal("hide");
-    		alert('This option will normally load the image or file into your content editor, such as CKEditor.');
     		/////////////////////////////////////////////////////
     		
         });

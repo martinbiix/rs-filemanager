@@ -128,39 +128,39 @@ function image_crop(){
     
 }
 
-var c = $('#file-tree');
+var ft = $('#file-tree');
 
-function showTree(c, t) {
+function showTree(ft, t) {
     
-    $(c).addClass('wait');
+    $(ft).addClass('wait');
     $(".jqueryFileTree.start").remove();
     $.post('index.php?action=FILE_TREE', { path: t }, function(data) {
                     
         if(load_files) load_files(t);
                         
-        $(c).find('.start').html('');
-        $(c).removeClass('wait').append(data);
-        $(c).find('ul:hidden').slideDown({ duration: 100 });
-        bindTree(c);
+        $(ft).find('.start').html('');
+        $(ft).removeClass('wait').append(data);
+        $(ft).find('ul:hidden').slideDown({ duration: 100 });
+        bindTree(ft);
     });
 }
 
-function refreshTree(c){
+function refreshTree(ft){
     var t='';
-    $(c).html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
-    $(c).addClass('wait');
+    $(ft).html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
+    $(ft).addClass('wait');
     $(".jqueryFileTree.start").remove();
     $.post('index.php?action=FILE_TREE', { path: t }, function(data) {                        
-        $(c).find('.start').html('');
-        $(c).removeClass('wait').append(data);
-        $(c).find('ul:hidden').slideDown({ duration: 100 });
-        bindTree(c);
+        $(ft).find('.start').html('');
+        $(ft).removeClass('wait').append(data);
+        $(ft).find('ul:hidden').slideDown({ duration: 100 });
+        bindTree(ft);
     });
     
 }
 
-function bindTree(t) {
-    $(t).find('li a').bind('click', function(e) {
+function bindTree(tt) {
+    $(tt).find('li a').bind('click', function(e) {
         e.preventDefault();
                             
         if( $(this).parent().hasClass('collapsed') ) {
