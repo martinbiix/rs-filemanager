@@ -2,7 +2,7 @@
 
 Used with online content editors such as CKEditor
 
-<a href="http://tstdv.us/filemanager/">Download production version<a>
+<a href="http://tstdv.us/ckeditor4/rs_filemanager.zip">Download production version<a>
 
 ### Features
 
