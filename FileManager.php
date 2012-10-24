@@ -48,17 +48,22 @@ protected $_location_url;
                 if (!in_array($file, $blacklist) &&  ( ($folders_only && is_dir($this->_doc_root.$this->_path.'/'.$file) ) || (!$folders_only) )  ) {
                     
                     $pathinfo = pathinfo($this->_doc_root.'/'.$this->_path.'/'.$file);
+                    $filetype = filetype($this->_doc_root.$this->_path.'/'.$file);
                     
                     $files[$i]['name'] = $file;
                     $files[$i]['url_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",$this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['thumb_path'] = str_replace($_SERVER['DOCUMENT_ROOT'],"",$this->_doc_root.$this->_path.'/_thumbs/'.$file);
                     $files[$i]['abs_path'] = $this->_doc_root.$this->_path.$file;
                     $files[$i]['ext'] = strtolower($pathinfo['extension']);
-                    $files[$i]['file_type'] = filetype($this->_doc_root.$this->_path.'/'.$file);
+                    $files[$i]['file_type'] = $filetype;
                     $files[$i]['base_path'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/'.$file);
                     $files[$i]['base_path_thumb'] = str_replace($this->_doc_root, "", $this->_doc_root.$this->_path.'/_thumbs/'.$file);
                     $files[$i]['base_name'] = basename($this->_doc_root.$this->_path.'/'.$file);
-                    $files[$i]['size'] = filesize($this->_doc_root.$this->_path.'/'.$file);
+                    if($filetype == "file"){
+                        $files[$i]['size'] = filesize($this->_doc_root.$this->_path.'/'.$file);
+                    } else if($filetype == "dir"){
+                        $files[$i]['size'] = $this->get_dir_size($this->_doc_root.$this->_path.'/'.$file.'/');
+                    }
                     $i++;   
                     
                 }
@@ -71,6 +76,44 @@ protected $_location_url;
         
         return $files;
         
+    }
+    
+    
+    
+    /**
+     * get_dir_size function.
+     * 
+     * @access private
+     * @param mixed $directory
+     * @return integer
+     */
+    private function get_dir_size($directory){
+
+        if ($handle = opendir($directory)){
+ 
+            while (false !== ($file = readdir($handle))){
+            
+                if($file != "." && $file != ".."){
+                
+                       if(is_dir($directory.$file)){
+                            
+                            $this->get_dir_size($directory.$file.'/');
+                       
+                       } else {
+                       
+                           $size += filesize($directory.$file);
+                       
+                       }
+                }
+                
+             }
+         
+             closedir($handle);
+         
+         }
+        
+        return $size;
+
     }
     
     

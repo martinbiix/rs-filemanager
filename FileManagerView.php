@@ -297,7 +297,7 @@ private $files;
                                     <a class="folder" href="#" data-path="'.$file["base_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">
                                         <img src="images/folder.png" width="64" height="64" alt="folder">
                                         <br>
-                                        <span class="file-name">'.$file["name"].'</span>
+                                        <span class="file-name">'.$file["name"].'<br><span class="file-size">('.$this->format_bytes($file['size']).')</span></span>
                                     </a>
                                     <div class="file-actions">
                                         <a class="'.$class_edit.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-pencil"></i></a>
