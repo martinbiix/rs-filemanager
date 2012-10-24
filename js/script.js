@@ -130,13 +130,34 @@ function image_crop(){
 
 var ft = $('#file-tree');
 
+function bindTree(tt) {
+    $(tt).find('li a').bind('click', function(e) {
+        e.preventDefault();
+                            
+        if( $(this).parent().hasClass('collapsed') ) {
+            // Expand                               
+            $(this).parent().find('ul').remove(); // cleanup
+            showTree( $(this).parent(), $(this).attr('rel') );
+            $(this).parent().removeClass('collapsed').addClass('expanded');
+            $(this).children("i").removeClass('icon-folder-closed').addClass('icon-folder-open');
+        } else {
+            // Collapse
+            $(this).parent().find('ul').slideUp({ duration: 100 });
+            $(this).parent().removeClass('expanded').addClass('collapsed');
+            $(this).children("i").removeClass('icon-folder-open').addClass('icon-folder-closed');
+        }
+
+    });
+
+}
+
 function showTree(ft, t) {
     
     $(ft).addClass('wait');
     $(".jqueryFileTree.start").remove();
     $.post('index.php?action=FILE_TREE', { path: t }, function(data) {
                     
-        if(load_files) load_files(t);
+        if(load_files){ load_files(t); }
                         
         $(ft).find('.start').html('');
         $(ft).removeClass('wait').append(data);
@@ -157,27 +178,6 @@ function refreshTree(ft){
         bindTree(ft);
     });
     
-}
-
-function bindTree(tt) {
-    $(tt).find('li a').bind('click', function(e) {
-        e.preventDefault();
-                            
-        if( $(this).parent().hasClass('collapsed') ) {
-            // Expand                               
-            $(this).parent().find('ul').remove(); // cleanup
-            showTree( $(this).parent(), $(this).attr('rel') );
-            $(this).parent().removeClass('collapsed').addClass('expanded');
-            $(this).children("i").removeClass('icon-folder-closed').addClass('icon-folder-open');
-        } else {
-            // Collapse
-            $(this).parent().find('ul').slideUp({ duration: 100 });
-            $(this).parent().removeClass('expanded').addClass('collapsed');
-            $(this).children("i").removeClass('icon-folder-open').addClass('icon-folder-closed');
-        }
-
-    });
-
 }
 
 
@@ -745,7 +745,7 @@ $(document).ready(function() {
     
     // INITS
     $('#file-tree').html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
-    showTree(c, '' );
+    showTree(ft, '' );
     uploader.init();
 
 });
