@@ -84,18 +84,14 @@ function showCoords(c){
 }
 
 function image_crop(){
-                
-    var jcrop_api = $.Jcrop("#edit-image");
-                 
-    jcrop_api.setOptions({ onChange: showCoords,
+              
+    $('#edit-image').Jcrop({ onChange: showCoords,
         onSelect: showCoords,
         setSelect:   [ 100, 100, 20, 20 ],
         bgColor: 'transparent',
         minSize: [ crop_minWidth, crop_minHeight ],
         maxSize: [ crop_maxWidth, crop_maxHeight ]
     });
-                
-    jcrop_api.enable();
  
 }
 
