@@ -1,4 +1,3 @@
-//var jcrop_api;
 var crop_x;
 var crop_y;
 var crop_x2;
@@ -170,11 +169,7 @@ $(document).ready(function() {
         .error(function(){  
         })
         .complete(function() { 
-            //var curr_location = $("#current-location").val();
-            //path = "/" + curr_location;
             $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
-            
-            
         });
            
     }); // END #save-crop-image-button
@@ -487,10 +482,6 @@ $(document).ready(function() {
 
 
    // FILE UPLOADS -----------------------------------
-   //
-   //
-   //---------------------------------------------------
-
 
    $(".uploader-modal").modal('hide');
 
@@ -738,8 +729,7 @@ $(document).ready(function() {
         
     });
     
-    
-    
+     
     // INITS
     showTree(ft, '' );
     uploader.init();
