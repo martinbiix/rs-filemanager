@@ -591,7 +591,7 @@ private $files;
         
         $html .= '
         <div id="edit-image-wrap">
-            <img src="'.$this->_location_url.$path.'?t='.microtime().'" width="'.$width.'" height="'.$height.'" alt="" id="edit-image">
+            <img src="'.$this->_location_url.$path.'?t='.microtime().'" width="'.$width.'" height="'.$height.'" alt="" id="edit-image" data-edit-image-url="'.$this->_location_url.$path.'">
             <input type="hidden" id="crop-path"  value="'.$path.'">
         </div>';
         
@@ -649,7 +649,7 @@ private $files;
         
         $html = '<table class="table images-options-list condensed">';
             $html .= '<thead>
-                    <tr><th>Size Type</th><th></th><th>Width</th><th>Height</th><th></th></tr>
+                    <tr><th>Size Type</th><th>Width</th><th>Height</th><th></th></tr>
                 </thead>
                 <tbody>';
             
@@ -658,7 +658,6 @@ private $files;
                 list($width, $height, $type, $attr) = getimagesize($image_options['orig']['path']);
                 $html .= '<tr>
                         <td><a href="#" class="edit-file-option" data-path="'.$image_options['orig']['local_path'].'"><i class="icon-eye-open"></i> Original</a></td>
-                        <td><a class="image-option-item" href="#" data-url="'.$image_options['orig']['url'].'"><i class="icon-external-link"></i></a></td>
                         <td>'.$width.'px</td>
                         <td>'.$height.'px</td>
                     <td></td>
@@ -675,7 +674,6 @@ private $files;
                         list($width, $height, $type, $attr) = getimagesize($size['path']);
                         $html .= '<tr>
                                     <td><a href="#" class="edit-file-option" data-path="'.$size['local_path'].'"><i class="icon-eye-open"></i> Custom Size</a></td>
-                                    <td><a class="image-option-item" href="#" data-url="'.$size['url'].'"><i class="icon-external-link"></i></a></td>
                                     <td>'.$width.'px</td>
                                     <td>'.$height.'px</td>
                                     <td><a class="delete-custom-image" href="#" data-path="'.$size['local_path'].'"><i class="icon-trash"></i></a></td>
@@ -696,7 +694,6 @@ private $files;
                         list($width, $height, $type, $attr) = getimagesize($crop['path']);
                         $html .= '<tr>
                                     <td><a href="#" class="edit-file-option" data-path="'.$crop['local_path'].'"><i class="icon-eye-open"></i> Cropped</a></td>
-                                    <td><a class="image-option-item" href="#" data-url="'.$crop['url'].'"><i class="icon-external-link"></i></a></td>
                                     <td>'.$width.'px</td>
                                     <td>'.$height.'px</td>
                                     <td><a class="delete-custom-image" href="#" data-path="'.$crop['local_path'].'"><i class="icon-trash"></i></a></td>

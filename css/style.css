@@ -577,14 +577,14 @@ a,a img{border-bottom:none;outline:none;}
 .grid-item.list .file-name{display:inline;margin:0;line-height:1;}
 .grid-item.list .edit-file,.grid-item.list .edit-dir{display:block;float:left;width:12px;margin:0 0 0 10px;}
 .file-name{display:block;font-size:.7em;white-space:nowrap;overflow:hidden;color:#333;clear:both;}
-.file-size{font-size:.6em;white-space:nowrap;overflow:hidden;color:#333;clear:both;}
+.file-size{font-size:.9em;white-space:nowrap;overflow:hidden;color:#333;clear:both;}
 .folder-thumb{font-size:5em;line-height:1;margin:0;padding:0;}
 .file-actions{width:100%;height:19px;font-size:.8125em;position:absolute;left:0;bottom:0;color:#444;background:#e2e2e2;line-height:20px;-webkit-opacity:0.7;-moz-opacity:0.7;opacity:0.7;border-top:1px solid #cacaca;}
 .file-actions a{display:block;width:13px;color:#444;}
 .file-actions a:hover{color:#888;}
 .delete-file,.delete-folder{display:block;float:right;width:12px;margin:0 10px 0 0;}
 .edit-file,.edit-dir{display:block;float:left;width:12px;margin:0 0 0 10px;}
-#create-folder-wrap{width:89px;float:right;}
+#create-folder-wrap{width:89px;float:left;}
 #new-folder-button{width:89px;margin:0;}
 #new-folder-name,#folder-name{width:220px;height:15px;padding:4px;border:1px solid #CCC;-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;vertical-align:middle;margin:10px;font-size:.75em;}
 #edit-image-message{color:#00F;margin:0 0 0 30px;}
@@ -595,7 +595,7 @@ a,a img{border-bottom:none;outline:none;}
 .button.small.list-view-button,.button.small.order-by-button{float:right;font-size:.8em;padding:2px 6px;line-height:12px;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;border:1px solid #999;text-align:center;color:#444;cursor:pointer;}
 .button.small.order-by-button{float:left;}
 .button.small.list-view-button i,.button.small.order-by-button i{margin-right:0;}
-#upload-modal-button{display:block;font-size:1.3em;margin:0;float:left;width:125px;line-height:1.4;}
+#upload-modal-button{display:block;font-size:1.3em;margin:0;float:right;width:120px;line-height:1.4;}
 #upload-modal-button:hover{color:#888;}
 .modal-header h3{display:inline-block;zoom:1;*display:inline;}
 .modal-header .close{margin-top:10px;}
@@ -626,6 +626,8 @@ a,a img{border-bottom:none;outline:none;}
 #folder-name-dialog,#file-edit-dialog{display:none;}
 #image-options{width:225px;height:450px;float:left;margin-right:5px;background:#e4e4e4;}
 .edit-file-option:hover{color:#999;}
+#edit-image-button-options{width:400px;float:left;}
+.float-left{float:left;}
 .table tr td{font-size:.9em;}
 ul.jqueryFileTree{font-size:11px;line-height:18px;padding:0px;padding-left:10px;margin:0px;}
 ul.jqueryFileTree li{list-style:none;padding:0px;margin:0px;white-space:nowrap;}

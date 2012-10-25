@@ -73,9 +73,13 @@
       
       </div>
       <div class="modal-footer">
-        <button id="rotate-image" class="button primary2"><i class="icon-refresh"></i> Rotate</button>
-        <button id="crop-image-button" class="button success">Start Crop</button> 
-        <button id="save-crop-image-button" class="button primary">Save Crop</button>
+        <div id="edit-image-button-options">
+        <button id="rotate-image" class="button float-left"><i class="icon-refresh"></i> Rotate</button>
+        <button id="crop-image-button" class="button float-left">Start Crop</button> 
+        <button id="save-crop-image-button" class="button float-left">Save Crop</button>
+        </div>
+        
+        <button id="select-image-button" class="button primary2">Select Image</button>
         <button id="cancel-crop" class="button">Close</button> 
       </div>
     </div>

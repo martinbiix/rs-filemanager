@@ -808,6 +808,14 @@ protected $_location_url;
         }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
            	
            	$source = imagecreatefrompng($filename);
+            // Rotate
+            $rotate = imagerotate($source, $rotang, 0);
+            //imagealphablending($source, false);
+            imagesavealpha($source, true);
+            imagepng($rotate, $filename);
+           	
+           	/*
+           	$source = imagecreatefrompng($filename);
             imagealphablending($source, false);
             imagesavealpha($source, true);
         
@@ -815,6 +823,7 @@ protected $_location_url;
             imagealphablending($rotation, false);
             imagesavealpha($rotation, true);
             imagepng($rotation, $filename, 100);
+           	*/
            	
         }elseif($imagetype == 'image/gif'){
            	/*
@@ -832,7 +841,7 @@ protected $_location_url;
             imagefill($timage, 0, 0, $bg); 
             imagecopy($timage, $source, 0, 0, 0, 0, $w, $h); 
             
-            $rotation = imagerotate($timage, 45, $bg); 
+            $rotation = imagerotate($timage, $rotang, $bg); 
             imagecolortransparent($rotation, $bg);
             
             imagegif($rotation, $filename, 100);

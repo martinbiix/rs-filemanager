@@ -110,7 +110,7 @@ function image_crop(){
                     
             var obj = jQuery.parseJSON(data);
                         
-            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="crop-path"  value="'+obj.path+'">');
+            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="edit-image"  value="'+obj.path+'" data-edit-image-url="'+obj.cropped_image+'">');
             $("#edit-image-message").html("Cropped Saved");
                         
                                                                  
@@ -379,13 +379,13 @@ $(document).ready(function() {
         $( "#file-to-edit" ).load('index.php?action=EDIT_IMAGE', { path: path });
         $( ".file-edit-modal" ).modal("show");
         
-        
     });
 
     $('.file-edit-modal').on('hidden', function () {
         $("#file-to-edit").html('');
         $( "#image-options" ).html('');
         $("#edit-image-message").html('');
+        $("#select-image-button").data('url', '');
     });
 
 
@@ -395,6 +395,7 @@ $(document).ready(function() {
         $( "#image-options" ).html('');
         $( ".file-edit-modal" ).modal("hide");
         $("#edit-image-message").html('');
+        $("#select-image-button").data('url', '');
     });
 
     $("body").on("click", '.edit-file-option', function(e){
