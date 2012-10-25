@@ -25,7 +25,7 @@
     
     <!-- CAN'T TOUCH THIS -->
         <div id="file-tree-wrap" class="hide-tree">
-            <div id="file-tree" class="hide-tree"></div>
+            <div id="file-tree" class="hide-tree"><ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul></div>
             <a href="#" id="file-tree-tab"><i class="icon-folder-close"></i></a>
         </div>
         <div id="files-container"></div>

@@ -741,7 +741,6 @@ $(document).ready(function() {
     
     
     // INITS
-    $('#file-tree').html('<ul class="jqueryFileTree start"><li class="wait">Loading...<li></ul>');
     showTree(ft, '' );
     uploader.init();
 
