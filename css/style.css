@@ -633,9 +633,9 @@ ul.jqueryFileTree{font-size:11px;line-height:18px;padding:0px;padding-left:10px;
 ul.jqueryFileTree li{list-style:none;padding:0px;margin:0px;white-space:nowrap;}
 ul.jqueryFileTree a{color:#333;text-decoration:none;display:block;padding:0px 2px;}
 ul.jqueryFileTree a:hover{color:#999;}
-.jqueryFileTree li.wait a{background:url('images/spinner.gif') left top no-repeat;}
+.jqueryFileTree li.wait a{background:url('../images/spinner.gif') left top no-repeat;}
 .jcrop-holder{direction:ltr;text-align:left;}
-.jcrop-vline,.jcrop-hline{background:#ffffff url('images/Jcrop.gif') top left repeat;font-size:0;position:absolute;}
+.jcrop-vline,.jcrop-hline{background:#ffffff url('../images/Jcrop.gif') top left repeat;font-size:0;position:absolute;}
 .jcrop-vline{height:100%;width:1px!important;}
 .jcrop-hline{height:1px!important;width:100%;}
 .jcrop-vline.right{right:0;}
