@@ -1,4 +1,4 @@
-var jcrop_api;
+//var jcrop_api;
 var crop_x;
 var crop_y;
 var crop_x2;
@@ -84,48 +84,19 @@ function showCoords(c){
 }
 
 function image_crop(){
-                            
-    jcrop_api=null;
                 
-    jcrop_api = $.Jcrop("#edit-image");
+    var jcrop_api = $.Jcrop("#edit-image");
                  
     jcrop_api.setOptions({ onChange: showCoords,
         onSelect: showCoords,
         setSelect:   [ 100, 100, 20, 20 ],
+        bgColor: 'transparent',
         minSize: [ crop_minWidth, crop_minHeight ],
         maxSize: [ crop_maxWidth, crop_maxHeight ]
     });
                 
     jcrop_api.enable();
-                
-                
-    $("#save-crop-image-button").click(function(e){
-        e.preventDefault();
-                    
-        var crop_path = $("#crop-path").val();
-        $( "#image-options" ).html("Reloading images...");
-                    
-        $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
-        }).success(function(data){
-                    
-            var obj = jQuery.parseJSON(data);
-                        
-            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="edit-image"  value="'+obj.path+'" data-edit-image-url="'+obj.cropped_image+'">');
-            $("#edit-image-message").html("Cropped Saved");
-                        
-                                                                 
-        })
-        .error(function(){  
-        })
-        .complete(function() { 
-            //var curr_location = $("#current-location").val();
-            //path = "/" + curr_location;
-            $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
-        });
-                 
-    }); // END #save-crop-image-button
-                
-    
+ 
 }
 
 var ft = $('#file-tree');
@@ -185,13 +156,39 @@ function refreshTree(ft){
 //$(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
 
-    var path = '';
+    $("body").on("click", '#save-crop-image-button', function(e){
+        e.preventDefault();
+                    
+        var crop_path = $("#crop-path").val();
+        $( "#image-options" ).html("Reloading images...");
+      
+        $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
+        }).success(function(data){
+                    
+            var obj = jQuery.parseJSON(data);
+                        
+            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="edit-image"  value="'+obj.path+'" data-edit-image-url="'+obj.cropped_image+'"><br><input type="hidden" id="crop-path" value="'+obj.path+'">');
+            $("#edit-image-message").html("Cropped Saved");
+                                       
+        })
+        .error(function(){  
+        })
+        .complete(function() { 
+            //var curr_location = $("#current-location").val();
+            //path = "/" + curr_location;
+            $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
+            
+            
+        });
+           
+    }); // END #save-crop-image-button
+    
 
     $("#files-container").on("click", '.folder, .bread-path', function(e){
 
         e.preventDefault();
 
-        path = $(this).data("path");
+        var path = $(this).data("path");
 
         load_files(path);
 
@@ -216,7 +213,7 @@ $(document).ready(function() {
 
         var page = $(this).data("page");
 
-        path = get_path();
+        var path = get_path();
         
         loader();
         $.post("index.php?action=LOAD_FILES&page="+page, { path: path }, function(){
@@ -244,7 +241,7 @@ $(document).ready(function() {
     $("body").on("click", '.list-view-button', function(e){
         e.preventDefault();
         
-        path = get_path();
+        var path = get_path();
         
         if ( $(this).children().hasClass('icon-th') ) {
           $(this).children().removeClass('icon-th');
@@ -268,7 +265,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var new_folder_name = $("#new-folder-name").val();
-        path = get_path();
+        var path = get_path();
 
         if(new_folder_name.length < 1){ return false; }
 
@@ -307,7 +304,7 @@ $(document).ready(function() {
     $("#files-container").on("click", '.delete-folder, .delete-file', function(e){
         e.preventDefault();
 
-        path = $(this).data("path");
+        var path = $(this).data("path");
         var file_type = $(this).data("type");
         var ok;
 
@@ -342,7 +339,7 @@ $(document).ready(function() {
     $("body").on("click", '.delete-custom-image', function(e){
         e.preventDefault();
         
-        path = $(this).data("path");
+        var path = $(this).data("path");
 
         var ok = confirm("Are you sure you want to delete this image?");
         
@@ -412,8 +409,9 @@ $(document).ready(function() {
     
     
    $("body").on("click", '#crop-image-button', function(e){
-        e.preventDefault();
         image_crop();
+        e.preventDefault();
+        return false;
    }); 
 
 
@@ -423,7 +421,7 @@ $(document).ready(function() {
        
        var folder_name = $("#folder-name").val();
        var old_name = $("#old-path").val();
-       path = get_path();
+       var path = get_path();
        
        if(folder_name.length > 2){
 
@@ -598,7 +596,7 @@ $(document).ready(function() {
             
             $("#upload-progress").css("width", '0px');
             
-            path = get_path();
+            var path = get_path();
             
             load_files(path);
             
@@ -627,7 +625,7 @@ $(document).ready(function() {
     // UPLOADS COMPLETE
     uploader.bind('UploadComplete', function(up, files) {
 
-        path = get_path();
+        var path = get_path();
 
         $("#custom-width").val('');
         $("#custom-height").val('');

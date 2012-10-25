@@ -427,20 +427,49 @@ protected $_location_url;
         $ext = $path_info['extension'];
         
         if($ext == 'jpg' || $ext == 'jpeg'){
+            
             $img_r = imagecreatefromjpeg($src);
+            $dst_r = imagecreatetruecolor( $w, $h );
+            imagecopyresampled($dst_r, $img_r, 0, 0, $x, $y, $w, $h, $w, $h);
+            imagejpeg($dst_r, $output_filename, $jpeg_quality);
+            imagedestroy ($dst_r);
+            imagedestroy ($img_r);
         }
         if($ext == 'png'){
-            $img_r = imagecreatefrompng($src);
+        
+            $source = imagecreatefrompng($src);
+            imagealphablending($source, false);
+            imagesavealpha($source, true);
+            
+            $dst_r = imagecreatetruecolor( $w, $h );
+            imagealphablending($dst_r, false);
+            imagesavealpha($dst_r, true);
+            
+            imagecopyresampled($dst_r, $source, 0, 0, $x, $y, $w, $h, $w, $h);
+            imagepng($dst_r, $output_filename);
+            imagedestroy ($dst_r);
+            imagedestroy ($source);
+            
         }
         if($ext == 'gif'){
+            
             $img_r = imagecreatefromgif($src);
+            $newim = imagecreate($w, $h);
+            $originaltransparentcolor = imagecolortransparent( $img_r );
+        		if($originaltransparentcolor >= 0 && $originaltransparentcolor < imagecolorstotal( $img_r ))
+        			{
+        			$transparentcolor = imagecolorsforindex( $img_r, $originaltransparentcolor );
+        			$newtransparentcolor = imagecolorallocate($newim,$transparentcolor['red'],$transparentcolor['green'],$transparentcolor['blue']);
+        			imagefill( $newim, 0, 0, $newtransparentcolor );
+        			imagecolortransparent( $newim, $newtransparentcolor );
+        			}
+    
+           imagecopyresampled($newim, $img_r, 0, 0, $x, $y, $w, $h, $w, $h);
+           imagegif ($newim,$output_filename);
+           imagedestroy ($newim);
+           imagedestroy ($img_r);
         }
 
-        $dst_r = ImageCreateTrueColor( $w, $h );
-        
-        imagecopyresampled($dst_r, $img_r, 0, 0, $x, $y, $w, $h, $w, $h);
-        
-        imagejpeg($dst_r, $output_filename, $jpeg_quality);
         
         $cleaned_urlpath = str_replace("/_crops","",$this->_location_url.$path);
         $cleaned_urlpath = str_replace("/_sizes","",$cleaned_urlpath);
@@ -806,15 +835,14 @@ protected $_location_url;
 
             
         }elseif($imagetype == 'image/x-png' || $imagetype == 'image/png'){
-           	
+           	/*
            	$source = imagecreatefrompng($filename);
-            // Rotate
             $rotate = imagerotate($source, $rotang, 0);
-            //imagealphablending($source, false);
+            imagealphablending($source, false);
             imagesavealpha($source, true);
             imagepng($rotate, $filename);
+           	*/
            	
-           	/*
            	$source = imagecreatefrompng($filename);
             imagealphablending($source, false);
             imagesavealpha($source, true);
@@ -822,8 +850,8 @@ protected $_location_url;
             $rotation = imagerotate($source, $rotang, imageColorAllocateAlpha($source, 0, 0, 0, 127));
             imagealphablending($rotation, false);
             imagesavealpha($rotation, true);
-            imagepng($rotation, $filename, 100);
-           	*/
+            imagepng($rotation, $filename);
+           	
            	
         }elseif($imagetype == 'image/gif'){
            	/*
