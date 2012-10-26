@@ -75,33 +75,13 @@
     <script src="js/script.js"></script>
     <script>
     $(document).ready(function() {
-        $("body").on("click", '.file-option-item', function(e){
+        $("body").on("click", '.file-option-item, #select-image-button', function(e){
             e.preventDefault();
-            var url = $(this).data("url");
-            
-            // CKEditor /////////////////////////////////////////
-            <?php if($_GET['editor']=="ckeditor"){ ?>
-            var funcNum = <?php echo $_GET['CKEditorFuncNum']; ?>
-    		// Call CKEditor function to insert the URL
-    		window.opener.CKEDITOR.tools.callFunction(funcNum, url);
-    		// Close Windows
-    		window.close();
-    		<?php } ?>
-    		// END CKEditor /////////////////////////////////////
-    		
-    		
-    		// Centrifuge CMS Standalone ////////////////////////
-    		<?php if($_GET['editor']=="standalone"){ ?>
-    		$( ".file-edit-modal" ).modal("hide");
-    		return;
-    		<?php } ?>
-    		/////////////////////////////////////////////////////
-    		
-        });
-        $("body").on("click", '#select-image-button', function(e){
-            e.preventDefault();
-            var url = $("#edit-image").data("edit-image-url");
-
+            if($(this).hasClass('file-option-item')){
+                var url = $(this).data("path");
+            } else {
+                var url = $("#edit-image").data("edit-image-url");
+            }
             // CKEditor /////////////////////////////////////////
             <?php if($_GET['editor']=="ckeditor"){ ?>
             var funcNum = <?php echo $_GET['CKEditorFuncNum']; ?>
