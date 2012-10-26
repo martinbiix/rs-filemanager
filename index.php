@@ -17,7 +17,7 @@
         <div class="sticky-inner">
             <a href="#" id="upload-modal-button"><i class="icon-upload"></i> Add Files</a>
             <div id="create-folder-wrap">
-                <button type="submit" id="new-folder-button" class="button primary small">New Folder</button>
+                <button type="submit" id="new-folder-button" class="button small">New Folder</button>
             </div>
         </div>
     </div>

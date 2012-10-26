@@ -272,7 +272,7 @@ ul.icons li .icon-large:before,ul.icons li .icon-large:before{vertical-align:ini
 .icon-umbrella:before{content:"\f0e9";}
 .icon-paste:before{content:"\f0ea";}
 .icon-user-md:before{content:"\f200";}
-body{background:#FFF;font-family:"OpenSansRegular",Helvetica,Arial,sans-serif;color:#444444;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;}
+body{background:#FFF;font-family:"OpenSansRegular",Helvetica,Arial,sans-serif;color:#333333;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;}
 h1,h2,h3,h4,h5,h6{color:#181818;font-family:"OpenSansBold",Helvetica,Arial,sans-serif;font-weight:normal;}
 p{margin:0 0 20px 0;line-height:1.4375;}
 em{font-style:italic;}
@@ -285,9 +285,9 @@ blockquote.blockquote{font:1.1em/22px normal "enriquetaregular",serif;color:#777
 blockquote.blockquote.right{float:right;margin:10px 0 10px 35px;padding:20px 10px 0 15px;}
 blockquote.blockquote.left{float:left;margin:10px 35px 10px 0;padding:20px 15px 0 10px;}
 .bold{font-family:"OpenSansBold",Helvetica,Arial,sans-serif;}
-a{color:#33335f;outline:0;text-decoration:none;}
-p a{color:#33335f;outline:0;border-bottom:1px dotted #33335f;text-decoration:none;}
-p a:hover,a:focus{color:#000000;border-bottom:1px dotted #000000;}
+a{color:#333333;outline:0;text-decoration:none;}
+p a{color:#333333;outline:0;border-bottom:1px dotted #33335f;text-decoration:none;}
+p a:hover,a:focus{color:#000000;border-bottom:1px dotted #555555;}
 a.border-none{border:none;}
 p a,p a:visited{line-height:inherit;}
 a img{border:none;}
