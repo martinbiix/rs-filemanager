@@ -204,8 +204,7 @@ private $files;
                 array_multisort((array) $size, SORT_DESC, (array) $types, SORT_DESC, $files);
             }
             
-            
-        //array_multisort($types, SORT_ASC, $size, SORT_ASC, $files);
+
         } else {
             
             array_multisort((array) $types, SORT_ASC, (array) $names, SORT_ASC, $files);
@@ -260,9 +259,9 @@ private $files;
                     
                     
                     
-                    $html .= '<a class="button small list-view-button"><i class="'.$list_icon.'"></i></a>';
+                    $html .= '<a class="button small list-view-button tooltip2" rel="tooltip" title="View type"><i class="'.$list_icon.'"></i></a>';
                     
-                    $html .= '<script>$(".dropdown-toggle").dropdown(); $(".tooltip1").tooltip({placement: "bottom"});</script>';
+                    $html .= '<script>$(".dropdown-toggle").dropdown(); $(".tooltip1").tooltip({placement: "bottom"}); $(".tooltip2").tooltip({placement: "bottom"});</script>';
                 
                 $html .= '</div>';
                 
@@ -297,7 +296,7 @@ private $files;
                                     <a class="folder" href="#" data-path="'.$file["base_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">
                                         <img src="images/folder.png" width="64" height="64" alt="folder">
                                         <br>
-                                        <span class="file-name">'.$file["name"].'<br><span class="file-size">('.$this->format_bytes($file['size']).')</span></span>
+                                        <span class="file-name">'.$file["name"].'<br><span class="file-size"> ('.$this->format_bytes($file['size']).')</span></span>
                                     </a>
                                     <div class="file-actions">
                                         <a class="'.$class_edit.'" href="#" data-path="'.$file["base_path"].'" data-type="'.$class_item.'"><i class="icon-pencil"></i></a>
@@ -355,7 +354,7 @@ private $files;
                                     $html .= '<img src="images/'.$icon_type.'" width="64" height="64" alt="'.$path_info["filename"].'.'.$path_info["extension"].'">';
                             
                             $html .=  '       <br>
-                                            <span class="file-name">'.$file["name"].'<br><span class="file-size">('.$this->format_bytes($file['size']).')</span></span>
+                                            <span class="file-name">'.$file["name"].'<br><span class="file-size"> ('.$this->format_bytes($file['size']).')</span></span>
                                         </a>';
                                         
                             $html .=  '      <div class="file-actions">
