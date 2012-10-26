@@ -239,17 +239,18 @@ $(document).ready(function() {
           $(this).children().addClass('icon-th-list');
 
           change_list_view(path, 'folder');
-          $('.tooltip2').tooltip('hide');
+          
           
         } else if ( $(this).children().hasClass('icon-th-list') ) {
           $(this).children().removeClass('icon-th-list');
           $(this).children().addClass('icon-th');
           
-          
           change_list_view(path, 'list');
-          $('.tooltip2').tooltip('hide');
           
-        }    
+        }   
+        
+        $('.tooltip2').tooltip('hide');
+         
     });
     
     
