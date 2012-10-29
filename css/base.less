@@ -1,17 +1,10 @@
 /* ----- Normalize ----- */
 @import "normalize";
 
-
 /* ----- Variables ----- */
 @import "variables";
 @import "lesshat";
 
-/* ----- Typography ----- */
-
-/* Open Sans */
-@import "open-sans";
-/* Enriqueta (serif) */
-@import "enriqueta";
 /* FontAwesome icon fonts */
 @import "font-awesome";
 
@@ -20,7 +13,7 @@
 
 body {
 	background: #FFF;
-	font-family: "OpenSansRegular", Helvetica, Arial, sans-serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: @body-text-color;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-size-adjust: 100%;
@@ -29,8 +22,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
 	color: @header-text-color;
-	font-family: "OpenSansBold", Helvetica, Arial, sans-serif;
-	font-weight: normal;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 700;
 }
 
 p { margin: 0 0 20px 0; line-height: 1.4375 }
@@ -48,28 +41,9 @@ code {
     background-color: @code-background-color;
     border: 1px solid @code-border-color;
 }
-blockquote.blockquote {
-  font: 1.1em/22px normal "enriquetaregular", serif;
-  color: @blockquote-text-color;
-  width: 35%;
-  margin: 10px 0 10px 35px;
-  padding: 20px 10px 0 15px;
-  border-left: 3px solid #ccc;
-  background: @blockquote-background-color;
-  .box-sizing;
-}
-blockquote.blockquote.right{
-    float: right;
-    margin: 10px 0 10px 35px;
-    padding: 20px 10px 0 15px;
-}
-blockquote.blockquote.left {
-    float: left;
-    margin: 10px 35px 10px 0;
-    padding: 20px 15px 0 10px;
-} 
+ 
 .bold{
-    font-family: "OpenSansBold", Helvetica, Arial, sans-serif;
+    font-weight: 700;
 }
 
 
@@ -1014,8 +988,8 @@ div.ui-dialog-buttonpane{
 .ui-dialog-titlebar span.ui-dialog-title{
     color: @header-text-color;
     font-size: 1.17em;
-	font-family: "OpenSansBold", Helvetica, Arial, sans-serif;
-	font-weight: normal;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 700;
 }
 a.ui-dialog-titlebar-close{
     border: none;
