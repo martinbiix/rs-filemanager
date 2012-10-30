@@ -498,9 +498,124 @@ a, a img{
     overflow: hidden;
 }
 
-.modal-footer button{
+.modal-footer .button{
     margin-left: 5px;
 }
+
+/* BUTTONS */
+.button b{
+    display: inline-block;
+    .ie7-inline-block;
+    width: 18px;
+    height: 16px;
+    vertical-align: middle;
+}
+#rotate-image b{
+    background: url('../images/rs-button-sprite.png') 0 0;
+}
+#rotate-image:hover b{
+    background: url('../images/rs-button-sprite.png') -18px 0;
+}
+#rotate-image:active b{
+    background: url('../images/rs-button-sprite.png') -36px 0;
+}
+
+#crop-image-button b{
+    background: url('../images/rs-button-sprite.png') 0 -48px;
+}
+#crop-image-button:hover b{
+    background: url('../images/rs-button-sprite.png') -18px -48px;
+}
+#crop-image-button:active b{
+    background: url('../images/rs-button-sprite.png') -36px -48px;
+}
+
+#save-crop-image-button b{
+    background: url('../images/rs-button-sprite.png') 0 -32px;
+}
+#save-crop-image-button:hover b{
+    background: url('../images/rs-button-sprite.png') -18px -32px;
+}
+#save-crop-image-button:active b{
+    background: url('../images/rs-button-sprite.png') -36px -32px;
+}
+
+#cancel-crop-image-button b{
+    background: url('../images/rs-button-sprite.png') 0 -16px;
+}
+#cancel-crop-image-button:hover b{
+    background: url('../images/rs-button-sprite.png') -18px -16px;
+}
+#cancel-crop-image-button:active b{
+    background: url('../images/rs-button-sprite.png') -36px -16px;
+}
+
+@media all and (-webkit-min-device-pixel-ratio: 1.5) {
+
+    .button b{
+        width: 17px;
+        height: 16px;
+        background-size: 56px 70px;
+    }
+
+    #rotate-image b{
+        background-image: url('../images/rs-button-sprite@2x.png');
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-size: 56px 70px;
+    }
+    #rotate-image:hover b{
+        background: url('../images/rs-button-sprite@2x.png');
+        background-position: -17px 0;
+        background-repeat: no-repeat;
+        background-size: 56px 70px;
+    }
+    #rotate-image:active b{
+        background: url('../images/rs-button-sprite@2x.png') -34px 0;
+        background-size: 56px 70px;
+    }
+    
+    #crop-image-button b{
+        background: url('../images/rs-button-sprite@2x.png') 0 -48px;
+        background-size: 56px 70px;
+    }
+    #crop-image-button:hover b{
+        background: url('../images/rs-button-sprite@2x.png') -17px -48px;
+        background-size: 56px 70px;
+    }
+    #crop-image-button:active b{
+        background: url('../images/rs-button-sprite@2x.png') -34px -48px;
+        background-size: 56px 70px;
+    }
+    
+    #save-crop-image-button b{
+        background: url('../images/rs-button-sprite@2x.png') 0 -32px;
+        background-size: 56px 70px;
+    }
+    #save-crop-image-button:hover b{
+        background: url('../images/rs-button-sprite@2x.png') -17px -32px;
+        background-size: 56px 70px;
+    }
+    #save-crop-image-button:active b{
+        background: url('../images/rs-button-sprite@2x.png') -34px -32px;
+        background-size: 56px 70px;
+    }
+    
+    #cancel-crop-image-button b{
+        background: url('../images/rs-button-sprite@2x.png') 0 -16px;
+        background-size: 56px 70px;
+    }
+    #cancel-crop-image-button:hover b{
+        background: url('../images/rs-button-sprite@2x.png') -17px -16px;
+        background-size: 56px 70px;
+    }
+    #cancel-crop-image-button:active b{
+        background: url('../images/rs-button-sprite@2x.png') -34px -16px;
+        background-size: 56px 70px;
+    }
+    
+}
+
 
 #file-options{
     width: 850px;

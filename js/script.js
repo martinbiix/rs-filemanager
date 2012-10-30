@@ -82,6 +82,8 @@ function showCoords(c){
 
 }
 
+var jcrop_api;
+
 function image_crop(){
               
     $('#edit-image').Jcrop({ onChange: showCoords,
@@ -90,7 +92,12 @@ function image_crop(){
         bgColor: 'transparent',
         minSize: [ crop_minWidth, crop_minHeight ],
         maxSize: [ crop_maxWidth, crop_maxHeight ]
-    });
+    }, function(){jcrop_api = this;});
+ 
+}
+function cancel_crop(){
+              
+    jcrop_api.release();
  
 }
 
@@ -150,30 +157,6 @@ function refreshTree(ft){
 
 //$(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
-
-    $("body").on("click", '#save-crop-image-button', function(e){
-        e.preventDefault();
-                    
-        var crop_path = $("#crop-path").val();
-        $( "#image-options" ).html("Reloading images...");
-      
-        $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
-        }).success(function(data){
-                    
-            var obj = jQuery.parseJSON(data);
-                        
-            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="edit-image"  value="'+obj.path+'" data-edit-image-url="'+obj.cropped_image+'"><br><input type="hidden" id="crop-path" value="'+obj.path+'">');
-            $("#edit-image-message").html("Cropped Saved");
-                                       
-        })
-        .error(function(){  
-        })
-        .complete(function() { 
-            $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
-        });
-           
-    }); // END #save-crop-image-button
-    
 
     $("#files-container").on("click", '.folder, .bread-path', function(e){
 
@@ -402,11 +385,50 @@ $(document).ready(function() {
     });
     
     
+  // CROPPING  
    $("body").on("click", '#crop-image-button', function(e){
         image_crop();
         e.preventDefault();
+        $("#save-crop-image-button").show();
+        $(this).hide();
+        $("#cancel-crop-image-button").show();
+        return false;
+   });
+   
+   $("body").on("click", '#cancel-crop-image-button', function(e){
+        cancel_crop();
+        e.preventDefault();
+        $("#save-crop-image-button").hide();
+        $(this).hide();
+        $("#crop-image-button").show();
         return false;
    }); 
+
+   $("body").on("click", '#save-crop-image-button', function(e){
+        e.preventDefault();
+                    
+        var crop_path = $("#crop-path").val();
+        $( "#image-options" ).html("Reloading images...");
+      
+        $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
+        }).success(function(data){
+                    
+            var obj = jQuery.parseJSON(data);
+                        
+            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="edit-image"  value="'+obj.path+'" data-edit-image-url="'+obj.cropped_image+'"><br><input type="hidden" id="crop-path" value="'+obj.path+'">');
+            $("#edit-image-message").html("Cropped Saved");
+                                       
+        })
+        .error(function(){  
+        })
+        .complete(function() { 
+            $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
+            $("#save-crop-image-button").hide();
+            $("#cancel-crop-image-button").hide();
+            $("#crop-image-button").show();
+        });
+           
+    }); // END #save-crop-image-button
 
 
    // RENAME FOLDERS
