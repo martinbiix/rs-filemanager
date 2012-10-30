@@ -82,7 +82,7 @@ function showCoords(c){
 
 }
 
-var jcrop_api;
+var jcrop_api=false;
 
 function image_crop(){
               
@@ -96,8 +96,10 @@ function image_crop(){
  
 }
 function cancel_crop(){
-              
-    jcrop_api.release();
+    
+    if(jcrop_api){          
+        jcrop_api.release();
+    }
     $("#save-crop-image-button").hide();
     $("#cancel-crop-image-button").hide();
     $("#crop-image-button").show();
