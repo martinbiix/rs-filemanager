@@ -100,6 +100,8 @@ function cancel_crop(){
     if(jcrop_api){          
         jcrop_api.release();
     }
+    $("#w").html('0');
+    $("#h").html('0');
     $("#save-crop-image-button").hide();
     $("#cancel-crop-image-button").hide();
     $("#crop-image-button").show();
