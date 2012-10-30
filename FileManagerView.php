@@ -213,7 +213,9 @@ private $files;
         
         
         // Pagnation setup
-        $limit = PAGINATE_LIMIT;
+        $extra_limit = ($_SESSION['list'] === true)? 5 : 0;
+        
+        $limit = ( PAGINATE_LIMIT + $extra_limit );
 	
     	$page = (int) $_GET['page'];
     	if($page){
@@ -225,6 +227,7 @@ private $files;
         
         $list = ($_SESSION['list'] === true)? 'list' : '';
         $list_icon = ($_SESSION['list'] === true)? 'icon-th' : 'icon-th-list';
+        
         
         // BREADCRUMBS
         $html =  '<div id="bread-wrap">
@@ -268,8 +271,8 @@ private $files;
                 // Pagination
                 if(PAGINATE == "ON"){
                     $total_pages = count($files);
-                    $files = array_slice($files, $start, PAGINATE_LIMIT);
-                    $pagination = $this->paginate("/", $total_pages, PAGINATE_LIMIT);
+                    $files = array_slice($files, $start, $limit);
+                    $pagination = $this->paginate("/", $total_pages, $limit);
                     $html .= '<div class="paginate">'.$pagination.'</div>';
                 }
         
