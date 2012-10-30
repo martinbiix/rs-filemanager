@@ -98,6 +98,9 @@ function image_crop(){
 function cancel_crop(){
               
     jcrop_api.release();
+    $("#save-crop-image-button").hide();
+    $("#cancel-crop-image-button").hide();
+    $("#crop-image-button").show();
  
 }
 
@@ -360,6 +363,7 @@ $(document).ready(function() {
         $( "#image-options" ).html('');
         $("#edit-image-message").html('');
         $("#select-image-button").data('url', '');
+        cancel_crop();
     });
 
 
@@ -370,6 +374,7 @@ $(document).ready(function() {
         $( ".file-edit-modal" ).modal("hide");
         $("#edit-image-message").html('');
         $("#select-image-button").data('url', '');
+        cancel_crop();
     });
 
     $("body").on("click", '.edit-file-option', function(e){
@@ -412,10 +417,11 @@ $(document).ready(function() {
       
         $.post("index.php?action=CROP_IMAGE", { w: crop_width, h: crop_height, x: crop_x, y: crop_y, x2: crop_x2, y2: crop_y2, path: crop_path }, function(){ 
         }).success(function(data){
-                    
+            
+            cancel_crop();        
             var obj = jQuery.parseJSON(data);
                         
-            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'"></p><input type="hidden" id="edit-image"  value="'+obj.path+'" data-edit-image-url="'+obj.cropped_image+'"><br><input type="hidden" id="crop-path" value="'+obj.path+'">');
+            $("#file-to-edit").html('<p><img src="'+obj.cropped_image+'" id="edit-image" data-edit-image-url="'+obj.cropped_image+'"></p><br><input type="hidden" id="crop-path" value="'+obj.path+'">');
             $("#edit-image-message").html("Cropped Saved");
                                        
         })
@@ -423,9 +429,7 @@ $(document).ready(function() {
         })
         .complete(function() { 
             $( "#image-options" ).load("index.php?action=IMAGE_OPTIONS", { path: crop_path } );
-            $("#save-crop-image-button").hide();
-            $("#cancel-crop-image-button").hide();
-            $("#crop-image-button").show();
+            
         });
            
     }); // END #save-crop-image-button
