@@ -2,7 +2,7 @@
 
 Used with online content editors such as CKEditor
 
-<a href="http://tstdv.us/ckeditor4/rs_filemanager.zip">Download production version<a>
+<a href="http://tstdv.us/ckeditor4/">Demo</a> | <a href="http://tstdv.us/ckeditor4/rs_filemanager.zip">Download production version<a>
 
 ### Features
 
@@ -25,7 +25,7 @@ Upload files to web server and edit the config.php file.
     	filebrowserBrowseUrl : '/location/of/rs_file_manager/?editor=ckeditor',
     	filebrowserImageBrowseUrl : '/location/of/rs_file_manager/?editor=ckeditor&file_type=images',
     	filebrowserWindowWidth : '940',
-     	filebrowserWindowHeight : '640'
+     	filebrowserWindowHeight : '675'
     });
 
 The width and height suggested values are highly recommended.
