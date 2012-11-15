@@ -675,7 +675,7 @@ private $files;
                     if(file_exists($size['path'])){
                         list($width, $height, $type, $attr) = getimagesize($size['path']);
                         $html .= '<tr>
-                                    <td><a href="#" class="edit-file-option" data-path="'.$size['local_path'].'"><i class="icon-eye-open"></i> Custom Size</a></td>
+                                    <td><a href="#" class="edit-file-option" data-path="'.$size['local_path'].'"><i class="icon-eye-open"></i> '.$size['label'].'</a></td>
                                     <td>'.$width.'px</td>
                                     <td>'.$height.'px</td>
                                     <td><a class="delete-custom-image" href="#" data-path="'.$size['local_path'].'"><i class="icon-trash"></i></a></td>
@@ -695,7 +695,7 @@ private $files;
                     if(file_exists($crop['path'])){
                         list($width, $height, $type, $attr) = getimagesize($crop['path']);
                         $html .= '<tr>
-                                    <td><a href="#" class="edit-file-option" data-path="'.$crop['local_path'].'"><i class="icon-eye-open"></i> Cropped</a></td>
+                                    <td><a href="#" class="edit-file-option" data-path="'.$crop['local_path'].'"><i class="icon-eye-open"></i> '.$crop['label'].'</a></td>
                                     <td>'.$width.'px</td>
                                     <td>'.$height.'px</td>
                                     <td><a class="delete-custom-image" href="#" data-path="'.$crop['local_path'].'"><i class="icon-trash"></i></a></td>

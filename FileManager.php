@@ -532,6 +532,14 @@ protected $_location_url;
             $i=0;
             foreach ($possibleSizes as $file) {
                 if (file_exists($file)) {
+                
+                    // Label
+                    $parts = pathinfo($file);
+                    $fname = $parts['filename'];
+                    $name_parts = explode("_", $fname);
+                    $label = $name_parts[count($name_parts)-2];
+                    
+                    $arr['sizes'][$i]['label'] = str_replace("_", " ", ucwords($label));
                     $arr['sizes'][$i]['path'] = $file;
                     $arr['sizes'][$i]['local_path'] = str_replace($this->_doc_root, '', $file);
                     $arr['sizes'][$i]['url'] = $this->_location_url.str_replace($this->_doc_root, '', $file);
@@ -543,6 +551,14 @@ protected $_location_url;
             $k=0;
             foreach ($possibleCrops as $file) {
                 if (file_exists($file)) {
+                    
+                    // Label
+                    $parts = pathinfo($file);
+                    $fname = $parts['filename'];
+                    $name_parts = explode("_", $fname);
+                    $label = $name_parts[count($name_parts)-3];
+                    
+                    $arr['crops'][$k]['label'] = str_replace("_", " ", ucwords($label)).' cropped';
                     $arr['crops'][$k]['path'] = $file;
                     $arr['crops'][$k]['local_path'] = str_replace($this->_doc_root, '', $file);
                     $arr['crops'][$k]['url'] = $this->_location_url.str_replace($this->_doc_root, '', $file);
@@ -648,9 +664,11 @@ protected $_location_url;
     			$i=1;
     			foreach($this->img_sizes as $size){
     			
+    			    $label = $this->clean_label($size['label']);
+    			
         			// Rename file with custom size suffix
         			$coreName = str_replace('.'.$ext, "", $cleanName);
-        			$newName = $coreName.'_'.$i.'.'.$ext;
+        			$newName = $coreName.'_'.$label.'_'.$i.'.'.$ext;
         			
         			if($width > $size['width'] || $height > $size['height']){
         			     $this->make_thumb($image, $this->_doc_root.'/'.$this->_path.'/_sizes/'.$newName, $size['width'], $size['height'], $mime);
@@ -928,6 +946,20 @@ protected $_location_url;
     
         return strtolower(preg_replace('/\W-/', '', $filename.'.'.$ext));
 
+    }
+    
+    
+    
+    protected function clean_label($label){
+        
+        $label = preg_replace('/^\W+|\W+$/', '', $label);
+        $label = preg_replace('/\s+/', '-', $label);
+        $label = str_replace('.', '', $label);
+        
+        $cleaned = (strlen($label))? strtolower(preg_replace('/\W-/', '', $label)) : 'custom_size';
+        
+        return $cleaned;
+        
     }
     
     

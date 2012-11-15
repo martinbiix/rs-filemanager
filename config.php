@@ -26,8 +26,9 @@ $doc_types = array('doc', 'pdf', 'txt', 'rtf', 'xls', 'pages', 'docx', 'xlsx', '
 // Default additional max width and max height image sizes
 $img_sizes = array(
                 
-                array("width" => 150 , "height" => 200),
-                array("width" => 300 , "height" => 350)
+                array("width" => 500 , "height" => 550, "label"=>"Larger"),
+                array("width" => 150 , "height" => 200, "label"=>"Smaller")
+                
                 
                 );
 ?>
