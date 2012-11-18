@@ -95,7 +95,9 @@
     		
     		// Centrifuge CMS Standalone ////////////////////////
     		<?php if($_GET['editor']=="standalone"){ ?>
-    		$( ".file-edit-modal" ).modal("hide");
+    		var el = '<?php echo filter_var($_GET['el'], FILTER_SANITIZE_STRING); ?>';
+    		window.opener.$.fn.rsFileInsert(el,url, <?php echo filter_var($_GET['show_image'], FILTER_SANITIZE_STRING) ?>);
+    		window.close();
     		return;
     		<?php } ?>
     		/////////////////////////////////////////////////////
