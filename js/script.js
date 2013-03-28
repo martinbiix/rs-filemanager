@@ -14,6 +14,14 @@ function show_error(error){
     alert(error);   
 }
 
+function overlay(){
+    $('body').append('<div id="overlay" class="overlay"></div>');
+}
+
+function remove_overlay(){
+    $("#overlay").remove();
+}
+
 function load_files(path){
 
     loader();
@@ -742,18 +750,20 @@ $(document).ready(function() {
     $("#upload-modal-button").click(function(e){
        e.preventDefault();
        
+       overlay();
+       
        $('.uploader-modal').animate({ 'top': '50%' }, 200);
        
-       /*var cur_location = $("#current-location").val();
+       var cur_location = $("#current-location").val();
        if(cur_location.length === 0){
            cur_location = 'home';
        }
-       */
-       //$("#uploading-location").html('Uploading to: '+cur_location);
-       
-       //$('.uploader-modal').modal('show');       
+
+       $("#uploading-location").html('&rarr; Uploading to: '+cur_location);
+            
        
    });
+   
    
    $('.uploader-modal').on('hidden', function () {
 
@@ -772,14 +782,30 @@ $(document).ready(function() {
           uploader.splice();
        }
    });
+
    
-   /* 
-   var cur_location = $("#current-location").val();
-       if(cur_location.length === 0){
-           cur_location = 'home';
-       } 
-   $("#uploading-location").html('Uploading to: '+cur_location);
-    */
+   $(".close-upload").click(function(e){
+       e.preventDefault();
+       
+       $('.uploader-modal').animate({ 'top': '-50%' }, 200);
+       remove_overlay();
+       
+       $("#uploadfiles").hide();
+       $("#custom-sizes").hide();
+       $('#filelist').html('<span class="no-files-selected">No file selected</span>');
+       $("#upload-progress").css("width", '0');
+       $(".upload-error").hide();
+       $(".upload-error .notify-inner").html('');
+
+       if(uploader){
+          $.each(uploader.files, function(i, file) {
+            uploader.removeFile(file.id);
+            });
+          uploader.refresh();
+          uploader.splice();
+       }
+       
+   });
     
     
     $("#file-tree-tab").click(function(e){

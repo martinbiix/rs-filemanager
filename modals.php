@@ -89,7 +89,7 @@
     <!-- UPLOADER -->
     <div class="uploader-modal">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="close close-upload" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Upload Files</h3> &nbsp;&nbsp; / &nbsp;&nbsp; <span id="uploading-location"></span>
       </div>
       <div class="modal-body">
@@ -121,6 +121,6 @@
       <div class="modal-footer">
          
         <button type="button" id="uploadfiles" class="button primary" style="display: none">Upload File</button>
-        <button type="button" id="cancelfile" class="button">Close</button> 
+        <button type="button" id="cancelfile" class="button close-upload">Close</button> 
       </div>
     </div>
