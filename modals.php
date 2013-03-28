@@ -87,7 +87,7 @@
     
     
     <!-- UPLOADER -->
-    <div class="uploader-modal modal hide">
+    <div class="uploader-modal">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Upload Files</h3> &nbsp;&nbsp; / &nbsp;&nbsp; <span id="uploading-location"></span>
@@ -107,9 +107,7 @@
             </div>
         </div>
         
-        <button type="button" id="pickfile" class="button success">Choose Files</button>
-        <div class="upload-or">or</div>
-        <div id="filedrop">Drag files here<span id="html5-fileupload"></span></div>
+        <a href="#" id="filedrop">Click here to choose files <br>or<br> Drag files here</a>
         <!-- / #filedrop -->
                                
         <div id="allowed-files">Allowed: <?php echo implode(', ',$img_types) ?>, <?php echo implode(', ',$doc_types) ?>

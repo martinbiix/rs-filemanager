@@ -32,11 +32,12 @@
     <!-- // -->
     
     <?php include('modals.php'); ?>
-
+    <?php 
+    echo '<span id="pl-settings" style="display: none">{ "max_upload" : "'.MAX_UPLOAD_SIZE.'", "file_type" : "'.$_GET['file_type'].'", "img_types" : "'.implode(",",$img_types).'", "doc_types" : "'.implode(",",$doc_types).'" }</span>';
+    ?>
     <script src="js/jquery-1.8.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/plupload.js"></script>
-    <script src="js/plupload.silverlight.js"></script>
     <script src="js/plupload.flash.js"></script>
     <script src="js/plupload.html4.js"></script>
     <script src="js/plupload.html5.js"></script>
@@ -49,28 +50,8 @@
 
         var crop_maxWidth = parseInt(<?php echo $_GET['crop_maxWidth']; ?>);
         var crop_maxHeight = parseInt(<?php echo $_GET['crop_maxHeight']; ?>);
-        
-        var uploader = new plupload.Uploader({
-    		runtimes : 'html5,flash,silverlight',
-    		browse_button : 'pickfile',
-    		multipart : true,
-    		drop_element : 'filedrop',
-    		max_file_size : '<?php echo MAX_UPLOAD_SIZE ?>mb',
-    		unique_names : true,
-    		url : 'index.php',
-    		flash_swf_url : 'js/plupload.flash.swf',
-    		silverlight_xap_url : 'js/plupload.silverlight.xap',
-    		filters : [
-    		  <?php if($_GET['file_type'] == "images"){ ?>
-    			{title : "Image files", extensions : "<?php echo implode(",",$img_types); ?>"}
-    			<?php } elseif ($_GET['file_type'] == "files"){ ?>
-    			{title : "Documents", extensions : "<?php echo implode(",",$doc_types); ?>"}
-    			<?php } else { ?>
-    			{title : "Image files", extensions : "<?php echo implode(",",$img_types); ?>"},
-    			{title : "Documents", extensions : "<?php echo implode(",",$doc_types); ?>"}
-    			<?php } ?>
-    		]
-    	});
+       
+     
     </script>
     <script src="js/script.js"></script>
     <script>

@@ -302,7 +302,7 @@ a img.align-center{display:block;margin:0 auto;}
 .clear{clear:both;display:block;overflow:hidden;visibility:hidden;width:0;height:0;}
 .clear-both{width:100%;clear:both;overflow:hidden;}
 .hide{display:none;}
-.hide-text{font:a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
+.hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
 .ie7-inline-block{zoom:1;*display:inline;}
 .container{width:940px;margin:0 auto;padding:0 10px;}
 .row-container{width:960px;margin:0 auto;padding:0;}
@@ -539,10 +539,7 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 .fade.in{opacity:1;}
 .collapse{position:relative;height:0;overflow:hidden;-webkit-transition:height 0.35s ease;-moz-transition:height 0.35s ease;-ms-transition:height 0.35s ease;-o-transition:height 0.35s ease;transition:height 0.35s ease;}
 .collapse.in{height:auto;}
-@media only screen and (max-width:959px){}@media only screen and (min-width:768px) and (max-width:959px){}@media only screen and (max-width:767px){}@media only screen and (min-width:480px) and (max-width:767px){}@media only screen and (max-width:479px){}a:focus,:focus,a:focus img{outline:none;}
-::-moz-focus-inner,::-moz-user-focus{border:0;outline:none;}
-a,a img{border-bottom:none;outline:none;}
-#sticky-filemenu{width:100%;height:50px;border-top:1px solid #CCC;background:#f5f5f5;position:fixed;left:0;bottom:0;z-index:999;}
+@media only screen and (max-width:959px){}@media only screen and (min-width:768px) and (max-width:959px){}@media only screen and (max-width:767px){}@media only screen and (min-width:480px) and (max-width:767px){}@media only screen and (max-width:479px){}#sticky-filemenu{width:100%;height:50px;border-top:1px solid #CCC;background:#f5f5f5;position:fixed;left:0;bottom:0;z-index:999;}
 .sticky-inner{padding:10px 10px 15px 10px;overflow:hidden;}
 #files-container{width:100%;padding-top:30px;padding-bottom:50px;float:left;overflow:auto;max-height:563px;}
 #file-tree-wrap{width:150px;padding-top:10px;height:100%;position:fixed;top:30px;left:-151px;z-index:499;background:#e0e0e0;border-right:1px solid #c1c1c1;}
@@ -602,8 +599,8 @@ a,a img{border-bottom:none;outline:none;}
 #upload-progress{height:7px;width:0;min-width:0;background:#bdbdbd;-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box;-webkit-border-radius:12px;-moz-border-radius:12px;border-radius:12px;overflow:hidden;}
 .upload-or{clear:both;text-align:center;width:100%;padding:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;}
 #pickfile{width:100%;margin:0 0 5px 0;}
-#filedrop{width:100%;height:40px;border:1px dashed #999;background:#FFF;text-align:center;color:#777;line-height:40px;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');margin:10px 0;}
-#filedrop.hover{background:#e4e4e4;}
+#filedrop{display:block;width:100%;padding:10px 0;border:1px dashed #999;background:#FFF;text-align:center;color:#777;line-height:1.2;margin:5px 0 10px 0;font-size:.8125em;}
+#filedrop.hover,#filedrop:hover{background:#e4e4e4;}
 #filelist{width:525px;max-height:130px;overflow:auto;clear:both;margin:0 auto;}
 #filelist-wrap{font-size:.75em;}
 #filelist div{width:100%;float:left;padding:3px;border-bottom:1px dotted #f1ddf1;background:#faf3fa;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;*behavior:url('/walker2013/css/boxsizing.htc');}
@@ -631,6 +628,10 @@ a,a img{border-bottom:none;outline:none;}
 #cancel-crop-image-button b{background:url('../images/rs-button-sprite.png') 0 -16px;}
 #cancel-crop-image-button:hover b{background:url('../images/rs-button-sprite.png') -18px -16px;}
 #cancel-crop-image-button:active b{background:url('../images/rs-button-sprite.png') -36px -16px;}
+.uploader-modal{position:fixed;top:-50%;left:50%;z-index:1050;overflow:auto;width:560px;margin:-250px 0 0 -280px;border:1px solid #999;border:1px solid rgba(0, 0, 0, 0.3);*border:1px solid #999;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-moz-box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);box-shadow:0 3px 7px rgba(0, 0, 0, 0.3);-webkit-background-clip:padding-box;-moz-background-clip:padding-box;background-clip:padding-box;}
+a:focus,:focus,a:focus img,a:active{outline:none;}
+::-moz-focus-inner,::-moz-user-focus{border:0;outline:none;}
+a,a img{border-bottom:none;outline:none;}
 @media all and (-webkit-min-device-pixel-ratio:1.5){.button b{width:17px;height:16px;background-size:56px 70px;} #rotate-image b{background-image:url('../images/rs-button-sprite@2x.png');background-position:0 0;background-repeat:no-repeat;background-size:56px 70px;} #rotate-image:hover b{background:url('../images/rs-button-sprite@2x.png');background-position:-17px 0;background-repeat:no-repeat;background-size:56px 70px;} #rotate-image:active b{background:url('../images/rs-button-sprite@2x.png') -34px 0;background-size:56px 70px;} #crop-image-button b{background:url('../images/rs-button-sprite@2x.png') 0 -48px;background-size:56px 70px;} #crop-image-button:hover b{background:url('../images/rs-button-sprite@2x.png') -17px -48px;background-size:56px 70px;} #crop-image-button:active b{background:url('../images/rs-button-sprite@2x.png') -34px -48px;background-size:56px 70px;} #save-crop-image-button b{background:url('../images/rs-button-sprite@2x.png') 0 -32px;background-size:56px 70px;} #save-crop-image-button:hover b{background:url('../images/rs-button-sprite@2x.png') -17px -32px;background-size:56px 70px;} #save-crop-image-button:active b{background:url('../images/rs-button-sprite@2x.png') -34px -32px;background-size:56px 70px;} #cancel-crop-image-button b{background:url('../images/rs-button-sprite@2x.png') 0 -16px;background-size:56px 70px;} #cancel-crop-image-button:hover b{background:url('../images/rs-button-sprite@2x.png') -17px -16px;background-size:56px 70px;} #cancel-crop-image-button:active b{background:url('../images/rs-button-sprite@2x.png') -34px -16px;background-size:56px 70px;}}#file-options{width:850px;height:450px;float:left;}
 #file-to-edit{width:615px;height:450px;float:left;overflow:auto;}
 #folder-name-dialog,#file-edit-dialog{display:none;}

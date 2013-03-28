@@ -162,6 +162,7 @@ function refreshTree(ft){
 
 
 
+
 //$(document).ajaxStop($.unblockUI);
 $(document).ready(function() {
 
@@ -516,38 +517,40 @@ $(document).ready(function() {
 
    // FILE UPLOADS -----------------------------------
 
-   $(".uploader-modal").modal('hide');
-
-   $("#upload-modal-button").click(function(e){
-       e.preventDefault();
-       var cur_location = $("#current-location").val();
-       if(cur_location.length === 0){
-           cur_location = 'home';
-       }
-       $("#uploading-location").html('Uploading to: '+cur_location);
-       $('.uploader-modal').modal('show');
-   });
-   $('.uploader-modal').on('hidden', function () {
-
-       $("#uploadfiles").hide();
-       $("#custom-sizes").hide();
-       $('#filelist').html('<span class="no-files-selected">No file selected</span>');
-       $("#upload-progress").css("width", '0');
-       $(".upload-error").hide();
-       $(".upload-error .notify-inner").html('');
-
-       if(uploader){
-          $.each(uploader.files, function(i, file) {
-            uploader.removeFile(file.id);
-            });
-          uploader.refresh();
-          uploader.splice();
-       }
-   });
-
-
+   //$(".uploader-modal").modal('hide');
+   
+   var pl_set_text = $("#pl-settings").text();
+   var pl = $.parseJSON(pl_set_text);
+   
+   var filter;
     
-
+   if( pl.file_type === "images"){
+                 
+       filter = [ {title : "Image files", extensions : pl.img_types} ];
+                 
+    } else if ( pl.file_type === "files"){
+                     
+        filter = [ {title : "Documents", extensions : pl.doc_types} ];
+                    
+    } else {
+                
+        filter = [ {title : "Image files", extensions : pl.img_types}, {title : "Documents", extensions : pl.doc_types} ];
+                
+    } 
+    
+   var uploader = new plupload.Uploader({
+            runtimes : 'html5,flash,html4',
+            browse_button : 'filedrop', //pickfile
+            multipart : true,
+            drop_element : 'filedrop',
+            max_file_size : pl.max_upload+'mb',
+            unique_names : true,
+            url : 'index.php',
+            flash_swf_url : 'js/plupload.flash.swf',
+            filters : filter
+            
+    });
+   
     uploader.bind('Init', function(up, params) {
         $('#filelist').html('<span class="no-files-selected">No file selected</span>');
     });
@@ -666,14 +669,11 @@ $(document).ready(function() {
         $("#custom-sizes").hide();
 
     });
-
-    $('#uploadfiles').click(function(e) {
-
-        uploader.start();
-        e.preventDefault();
-
-    });
-
+    
+    
+    uploader.init();
+    
+    
     $("body").on("click", '#cancelfile', function(e) {
 
         $("#uploadfiles").hide();
@@ -681,7 +681,8 @@ $(document).ready(function() {
         $(".upload-error .notify-inner").html('');
         $("#custom-sizes").hide();
         $("#upload-progress").css("width", '0');
-        $(".uploader-modal").modal('hide');
+        
+        //$(".uploader-modal").modal('hide');
 
         $.each(uploader.files, function(i, file) {
             uploader.removeFile(file.id);
@@ -721,10 +722,64 @@ $(document).ready(function() {
         event.preventDefault();  
     });
     
-    if(!Modernizr.draganddrop){
-        $("#filedrop").hide();
-        $(".upload-or").hide();
+    
+    if('draggable' in document.createElement('span')) {
+        $("#filedrop").html('Click here to choose files<br>or<br>Drag files here');
+    } else {
+        $("#filedrop").html('Click here to choose files');
     }
+    
+
+    $('#uploadfiles').click(function(e) {
+
+        uploader.start();
+        e.preventDefault();
+
+    });
+
+    
+    
+    $("#upload-modal-button").click(function(e){
+       e.preventDefault();
+       
+       $('.uploader-modal').animate({ 'top': '50%' }, 200);
+       
+       /*var cur_location = $("#current-location").val();
+       if(cur_location.length === 0){
+           cur_location = 'home';
+       }
+       */
+       //$("#uploading-location").html('Uploading to: '+cur_location);
+       
+       //$('.uploader-modal').modal('show');       
+       
+   });
+   
+   $('.uploader-modal').on('hidden', function () {
+
+       $("#uploadfiles").hide();
+       $("#custom-sizes").hide();
+       $('#filelist').html('<span class="no-files-selected">No file selected</span>');
+       $("#upload-progress").css("width", '0');
+       $(".upload-error").hide();
+       $(".upload-error .notify-inner").html('');
+
+       if(uploader){
+          $.each(uploader.files, function(i, file) {
+            uploader.removeFile(file.id);
+            });
+          uploader.refresh();
+          uploader.splice();
+       }
+   });
+   
+   /* 
+   var cur_location = $("#current-location").val();
+       if(cur_location.length === 0){
+           cur_location = 'home';
+       } 
+   $("#uploading-location").html('Uploading to: '+cur_location);
+    */
     
     
     $("#file-tree-tab").click(function(e){
@@ -765,6 +820,5 @@ $(document).ready(function() {
      
     // INITS
     showTree(ft, '' );
-    uploader.init();
 
 });

@@ -1,5 +1,5 @@
 (function($){  
-    	
+        
       var settings = {};
       
       $.fn.rsFileManager = function( options, method ) {
@@ -8,13 +8,13 @@
         
         
         return this.each(function () {
-          new rsfmClass($(this), opts);
+          var ops = new RsfmClass($(this), opts);
         });
              
       
-      }
+      };
       
-      var rsfmClass = function (elm, opts) {
+      var RsfmClass = function (elm, opts) {
        
        var settings = opts; 
            
@@ -26,30 +26,16 @@
         
         var showFileManager = function() {
           
-          var url = settings.location + '?el='+ settings.elementID 
-                                          + '&editor=standalone&file_type='
-                                          + settings.fileType 
-                                          + '&list_view=' + settings.listView
-                                          + '&order_by=' + settings.orderBy
-                                          + '&crop_minWidth=' + settings.cropMinWidth
-                                          + '&crop_minHeight=' + settings.cropMinHeight
-                                          + '&crop_maxWidth=' + settings.cropMaxWidth
-                                          + '&crop_maxHeight=' + settings.cropMaxHeight
-                                          + '&show_image=' + settings.showImage
-                                          ;    
+          var url = settings.location + '?el='+ settings.elementID + '&editor=standalone&file_type=' + settings.fileType + '&list_view=' + settings.listView + '&order_by=' + settings.orderBy + '&crop_minWidth=' + settings.cropMinWidth + '&crop_minHeight=' + settings.cropMinHeight + '&crop_maxWidth=' + settings.cropMaxWidth + '&crop_maxHeight=' + settings.cropMaxHeight + '&show_image=' + settings.showImage;    
           
           var top = (screen.height-(settings.height + 110))/2;
           var left = (screen.width-settings.width)/2;
-    		
-          var parameters = "location=0,menubar=0,height="+settings.height+",width="+settings.width+",toolbar=0,scrollbars=0,status=0,resizable=1,left=" 
-                        + left  + ",screenX=" 
-                        + left + ",top=" 
-                        + top  + ",screenY=" + top
-                        ;
+            
+          var parameters = "location=0,menubar=0,height="+settings.height+",width="+settings.width+",toolbar=0,scrollbars=0,status=0,resizable=1,left=" + left  + ",screenX=" + left + ",top=" + top  + ",screenY=" + top;
                         
-          window.open(url, 'File Manager', parameters);
+          window.open(url, 'FileManager', parameters);
           
-        }
+        };
       };
       
       $.fn.rsFileInsert = function( el, file, showImage ) {
@@ -62,8 +48,9 @@
                 $('#'+el).html(file);
             }
             
-            if(showImage)
-            $('#'+el).after('<img src="'+file+'" class="rs-image">'); 
+            if(showImage){
+                $('#'+el).after('<img src="'+file+'" class="rs-image">');
+            }
       };
       
       
