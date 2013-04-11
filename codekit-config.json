@@ -125,17 +125,6 @@
       "outputAbbreviatedPath" : "\/js\/jquery-1.8.2.min.min.js",
       "fileType" : 64
     },
-    "\/images\/html.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/images\/html.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/images\/html.png",
-      "initialSize" : 11477,
-      "fileType" : 8192
-    },
     "\/js\/script.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -146,6 +135,17 @@
       "syntaxCheckerStyle" : 1,
       "outputAbbreviatedPath" : "\/js\/script.min.js",
       "fileType" : 64
+    },
+    "\/images\/html.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/images\/html.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/images\/html.png",
+      "initialSize" : 11477,
+      "fileType" : 8192
     },
     "\/js\/plupload.gears.js" : {
       "ignoreWasSetByUser" : 0,
@@ -387,6 +387,15 @@
       "initialSize" : 11951,
       "fileType" : 8192
     },
+    "\/css\/normalize.css" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/normalize.css",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 16
+    },
     "\/images\/rs-button-sprite.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -410,15 +419,6 @@
       "strictImports" : 0,
       "fileType" : 1,
       "debugStyle" : 0
-    },
-    "\/index.php" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/index.php",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 2048
     },
     "\/images\/image.png" : {
       "ignoreWasSetByUser" : 0,
@@ -486,14 +486,14 @@
       "outputAbbreviatedPath" : "No Output Path",
       "fileType" : 2048
     },
-    "\/css\/normalize.css" : {
+    "\/index.php" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/normalize.css",
+      "inputAbbreviatedPath" : "\/index.php",
       "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
+      "fileType" : 2048
     },
     "\/images\/css.png" : {
       "ignoreWasSetByUser" : 0,
