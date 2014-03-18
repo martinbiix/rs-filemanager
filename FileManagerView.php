@@ -346,7 +346,7 @@ private $files;
                         } else {
     
                             
-                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.$this->_location_url.$file["url_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">';
+                            $html .=  '      <a class="file file-option-item" href="#" data-path="'.$file["url_path"].'" alt="'.$file["name"].'" title="'.$file["name"].'">';
                                     
                                     $path_info = pathinfo($file['abs_path']);
                                     $icon_types = $this->icon_types();
